@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-class Schedule extends Component {
+class MainSchedule extends Component {
   render() {
     return (
       <div>
@@ -17,4 +17,4 @@ class Schedule extends Component {
   }
 }
 
-export default Schedule
+export default MainSchedule

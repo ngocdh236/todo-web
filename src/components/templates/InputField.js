@@ -2,7 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
 
-const TextField = ({
+const InputField = ({
   name,
   placeholder,
   value,
@@ -31,7 +31,7 @@ const TextField = ({
   )
 }
 
-TextField.propTypes = {
+Input.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.string.isRequired,
@@ -42,9 +42,9 @@ TextField.propTypes = {
   disabled: PropTypes.string
 }
 
-TextField.defaultProps = {
+Input.defaultProps = {
   type: 'text'
 }
 
-export default TextField
+export default InputField
 
