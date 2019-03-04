@@ -25,6 +25,18 @@ class Nav extends Component {
                 Schedule
               </Link>
             </li>
+            <li className='nav-item'>
+              <Link className='nav-link' to='/login'>
+                {' '}
+                Login
+              </Link>
+            </li>
+            <li className='nav-item'>
+              <Link className='nav-link' to='/register'>
+                {' '}
+                Sign Up
+              </Link>
+            </li>
           </ul>
           {/* {isAuthenticated ? authLinks : guestLinks} */}
         </div>

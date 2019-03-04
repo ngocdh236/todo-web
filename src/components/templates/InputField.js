@@ -31,7 +31,7 @@ const InputField = ({
   )
 }
 
-Input.propTypes = {
+InputField.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.string.isRequired,
@@ -42,7 +42,7 @@ Input.propTypes = {
   disabled: PropTypes.string
 }
 
-Input.defaultProps = {
+InputField.defaultProps = {
   type: 'text'
 }
 

@@ -1,0 +1,52 @@
+.todo-template {
+  border-radius: 2mm;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #F3F9A7, #CAC531);
+  margin: 10px 0;
+  // overflow: auto;
+}
+
+.inputField {
+  border: none;
+  border-radius: 1mm;
+  margin-right: 10px;
+  background: transparent;
+  color: white;
+  width: auto;
+}
+
+#checkbox {
+  position: relative;
+  width: 25px;
+  height: 25px;
+  margin: 0 10px;
+}
+
+#checkbox-button {
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  background: whitesmoke;
+}
+
+#checkbox-checkmark {
+  position: absolute;
+  left: 9px;
+  top: 5px;
+  width: 7px;
+  height: 12px;
+  border: solid purple;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+
+  // top: 5px;
+  // left: 5px;
+  // width: 15px;
+  // height: 15px;
+  // border-radius: 100%;
+  // background: white;
+}

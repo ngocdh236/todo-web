@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import './MainTodo.scss'
+import { connect } from 'react-redux'
+import Todo from '../templates/Todo'
+import { getTodos } from '../../actions/todoActions'
+import { withRouter } from 'react-router-dom'
 
 class MainTodo extends Component {
   constructor() {
@@ -10,8 +14,16 @@ class MainTodo extends Component {
 
     this.state = {
       showPopup: false,
-      todo: ''
+      todos: []
     }
+  }
+
+  componentWillMount() {
+    getTodos().then(todos => {
+      this.setState({
+        todos: todos
+      })
+    })
   }
 
   togglePopup(event) {
@@ -19,11 +31,17 @@ class MainTodo extends Component {
       showPopup: !this.state.showPopup
     })
   }
-  //style={{ backgroundColor: 'blue' }}
+
   render() {
+    const todos = []
+
+    this.state.todos.forEach(todo => {
+      todos.push(<Todo />)
+    })
+
     return (
-      <div className='d-flex flex-wrap mt-5'>
-        <div className='header d-flex'>
+      <div>
+        <div className='header d-flex mt-5'>
           <h4 className='my-auto'>TODO</h4>
           <button
             onClick={this.togglePopup}
@@ -32,19 +50,26 @@ class MainTodo extends Component {
             + Add new
           </button>
         </div>
-        <div className='nav d-flex flex-column bg-dark'>
-          <p>sadsadas</p>
-        </div>
-
-        <div className='main d-flex flex-column bg-dark'>
-          <div>
-            <p>sadsadas</p>
-            <p>sadsadas</p>
-            <p>sadsadas</p>
+        <div className='d-flex mt-5'>
+          <div className='nav d-flex flex-column'>
+            <label>All</label>
+            <label>Work</label>
+            <label>Home</label>
+            <label>Travelling</label>
           </div>
-        </div>
 
-        {this.state.showPopup ? <Popup closePopup={this.togglePopup} /> : null}
+          <div className='main d-flex flex-column'>
+            {/* {this.state.todos.map(() => {
+              return <Todo />
+            })} */}
+
+            {todos}
+          </div>
+
+          {this.state.showPopup ? (
+            <Popup closePopup={this.togglePopup} />
+          ) : null}
+        </div>
       </div>
     )
   }
@@ -64,4 +89,14 @@ class Popup extends React.Component {
   }
 }
 
-export default MainTodo
+MainTodo.propTypes = {
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object
+}
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+})
+
+export default connect(mapStateToProps)(withRouter(MainTodo))
