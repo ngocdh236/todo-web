@@ -3,9 +3,8 @@
   height: 60px;
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, #F3F9A7, #CAC531);
+  background: purple;
   margin: 10px 0;
-  // overflow: auto;
 }
 
 .inputField {
@@ -42,11 +41,4 @@
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
-
-  // top: 5px;
-  // left: 5px;
-  // width: 15px;
-  // height: 15px;
-  // border-radius: 100%;
-  // background: white;
 }

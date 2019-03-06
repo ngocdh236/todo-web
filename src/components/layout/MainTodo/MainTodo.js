@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './MainTodo.scss'
 import { connect } from 'react-redux'
-import Todo from '../templates/Todo'
-import { getTodos } from '../../actions/todoActions'
+import Todo from '../../common/Todo'
+import { getTodos } from '../../../actions/todoActions'
 import { withRouter } from 'react-router-dom'
 
 class MainTodo extends Component {
@@ -18,12 +18,22 @@ class MainTodo extends Component {
     }
   }
 
+  componentDidMount() {
+    if (!this.props.auth.isAuthenticated) {
+      this.props.history.push('/login')
+    }
+  }
+
   componentWillMount() {
-    getTodos().then(todos => {
-      this.setState({
-        todos: todos
+    if (!this.props.auth.isAuthenticated) {
+      this.props.history.push('/login')
+    } else {
+      getTodos().then(todos => {
+        this.setState({
+          todos: todos
+        })
       })
-    })
+    }
   }
 
   togglePopup(event) {
@@ -33,10 +43,16 @@ class MainTodo extends Component {
   }
 
   render() {
-    const todos = []
-
-    this.state.todos.forEach(todo => {
-      todos.push(<Todo />)
+    const todos = this.state.todos.map(todo => {
+      return (
+        <Todo
+          key={todo.id.toString()}
+          createdAt={todo.createdAt}
+          id={todo.id}
+          title={todo.title}
+          done={todo.done}
+        />
+      )
     })
 
     return (
@@ -58,13 +74,7 @@ class MainTodo extends Component {
             <label>Travelling</label>
           </div>
 
-          <div className='main d-flex flex-column'>
-            {/* {this.state.todos.map(() => {
-              return <Todo />
-            })} */}
-
-            {todos}
-          </div>
+          <div className='main d-flex flex-column'>{todos}</div>
 
           {this.state.showPopup ? (
             <Popup closePopup={this.togglePopup} />

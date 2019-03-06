@@ -1,15 +1,19 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { loginUser } from '../actions/authActions'
 import { withRouter } from 'react-router-dom'
-import InputField from './templates/InputField'
+import { connect } from 'react-redux'
+import { registerUser } from '../../actions/authActions'
+import InputField from '../common/InputField'
 
-class Login extends Component {
+class Register extends Component {
   constructor() {
     super()
     this.state = {
-      usernameOrEmail: '',
+      isLoggedIn: false,
+      picture: '',
+      name: '',
+      username: '',
+      email: '',
       password: '',
       errors: {}
     }
@@ -18,17 +22,7 @@ class Login extends Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/todo')
-    }
-  }
-
   componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated) {
-      this.props.history.push('/todo')
-    }
-
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors })
     }
@@ -41,32 +35,45 @@ class Login extends Component {
   onSubmit(e) {
     e.preventDefault()
 
-    const userData = {
-      usernameOrEmail: this.state.usernameOrEmail,
+    const newUser = {
+      name: this.state.name,
+      username: this.state.username,
+      email: this.state.email,
       password: this.state.password
     }
 
-    this.props.loginUser(userData)
+    this.props.registerUser(newUser, this.props.history)
   }
 
   render() {
-    const { errors } = this.state
-
     return (
-      <div className='login mt-5 text-center'>
+      <div className='register mt-5 text-center'>
         <div className='container'>
           <div className='row'>
             <div className='col-md-8 m-auto'>
-              <h1 className='display-4'>Log In</h1>
-              <p className='lead'>Login to your bla bla bla account</p>
+              <h1 className='display-4'>Sign Up</h1>
+              <p className='lead'>Create your Muzify account</p>
               <form className='mt-5' noValidate onSubmit={this.onSubmit}>
                 <InputField
-                  placeholder='Username or Email Address'
-                  name='usernameOrEmail'
-                  type='text'
-                  value={this.state.usernameOrEmail}
+                  placeholder='Name'
+                  name='name'
+                  value={this.state.name}
                   onChange={this.onChange}
-                  // error={errors.usernameOrEmail}
+                />
+
+                <InputField
+                  placeholder='Username'
+                  name='username'
+                  value={this.state.username}
+                  onChange={this.onChange}
+                />
+
+                <InputField
+                  placeholder='Email Address'
+                  name='email'
+                  type='email'
+                  value={this.state.email}
+                  onChange={this.onChange}
                 />
 
                 <InputField
@@ -75,13 +82,10 @@ class Login extends Component {
                   type='password'
                   value={this.state.password}
                   onChange={this.onChange}
-                  // error={errors.password}
                 />
 
                 <input type='submit' className='btn btn-lg btn-light mt-5' />
               </form>
-              <br />
-              
             </div>
           </div>
         </div>
@@ -90,8 +94,8 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
-  loginUser: PropTypes.func.isRequired,
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object
 }
@@ -103,5 +107,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { loginUser }
-)(withRouter(Login))
+  { registerUser }
+)(withRouter(Register))

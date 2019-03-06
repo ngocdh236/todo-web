@@ -1,19 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { registerUser } from '../actions/authActions'
-import InputField from './templates/InputField'
+import { loginUser } from '../../actions/authActions'
+import { withRouter } from 'react-router-dom'
+import InputField from '../common/InputField'
 
-class Register extends Component {
+class Login extends Component {
   constructor() {
     super()
     this.state = {
-      isLoggedIn: false,
-      picture: '',
-      name: '',
-      username: '',
-      email: '',
+      usernameOrEmail: '',
       password: '',
       errors: {}
     }
@@ -22,7 +18,17 @@ class Register extends Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/todo')
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push('/todo')
+    }
+
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors })
     }
@@ -35,50 +41,29 @@ class Register extends Component {
   onSubmit(e) {
     e.preventDefault()
 
-    const newUser = {
-      name: this.state.name,
-      username: this.state.username,
-      email: this.state.email,
+    const userData = {
+      usernameOrEmail: this.state.usernameOrEmail,
       password: this.state.password
     }
 
-    this.props.registerUser(newUser, this.props.history)
+    this.props.loginUser(userData)
   }
 
   render() {
-    const { errors } = this.state
-
     return (
-      <div className='register mt-5 text-center'>
+      <div className='login mt-5 text-center'>
         <div className='container'>
           <div className='row'>
             <div className='col-md-8 m-auto'>
-              <h1 className='display-4'>Sign Up</h1>
-              <p className='lead'>Create your Muzify account</p>
+              <h1 className='display-4'>Log In</h1>
+              <p className='lead'>Login to your bla bla bla account</p>
               <form className='mt-5' noValidate onSubmit={this.onSubmit}>
                 <InputField
-                  placeholder='Name'
-                  name='name'
-                  value={this.state.name}
+                  placeholder='Username or Email Address'
+                  name='usernameOrEmail'
+                  type='text'
+                  value={this.state.usernameOrEmail}
                   onChange={this.onChange}
-                  error={errors.name}
-                />
-
-                <InputField
-                  placeholder='Username'
-                  name='username'
-                  value={this.state.username}
-                  onChange={this.onChange}
-                  error={errors.name}
-                />
-
-                <InputField
-                  placeholder='Email Address'
-                  name='email'
-                  type='email'
-                  value={this.state.email}
-                  onChange={this.onChange}
-                  error={errors.email}
                 />
 
                 <InputField
@@ -87,11 +72,12 @@ class Register extends Component {
                   type='password'
                   value={this.state.password}
                   onChange={this.onChange}
-                  error={errors.password}
                 />
 
                 <input type='submit' className='btn btn-lg btn-light mt-5' />
               </form>
+              <br />
+              
             </div>
           </div>
         </div>
@@ -100,8 +86,8 @@ class Register extends Component {
   }
 }
 
-Register.propTypes = {
-  registerUser: PropTypes.func.isRequired,
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object
 }
@@ -113,5 +99,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { registerUser }
-)(withRouter(Register))
+  { loginUser }
+)(withRouter(Login))

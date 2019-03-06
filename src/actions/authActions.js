@@ -45,4 +45,5 @@ export const logoutUser = () => dispatch => {
   localStorage.removeItem('token')
   setAuthToken(false)
   dispatch(setCurrentUser({}))
+  window.location.href = '/login'
 }

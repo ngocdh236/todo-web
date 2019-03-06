@@ -1,7 +1,6 @@
 import axios from 'axios'
-import { GET_ERRORS } from './types'
 
-export const getTodos = () => {
+export const getTodos = async () => {
   return axios
     .get('/api/todos')
     .then(res => res.data)
