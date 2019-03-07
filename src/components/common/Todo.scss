@@ -1,26 +1,25 @@
-.todo-template {
-  border-radius: 2mm;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  background: purple;
-  margin: 10px 0;
+.Todo {
+  padding-right: 20px;
 }
 
-.inputField {
+.todo-template {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.inputField {           
   border: none;
-  border-radius: 1mm;
-  margin-right: 10px;
-  background: transparent;
-  color: white;
-  width: auto;
+  background: inherit;
+  // color: white;
+  height: 20px;
 }
 
 #checkbox {
   position: relative;
   width: 25px;
   height: 25px;
-  margin: 0 10px;
+  margin-right: 10px;
 }
 
 #checkbox-button {

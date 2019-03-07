@@ -3,17 +3,27 @@
   margin-bottom: 5mm;
 }
 
-.nav, .main {
+.nav,
+.main {
   border-radius: 1mm;
+  background: var(--background-secondary);
+  padding-top: 20px;
+  padding-left: 20px;
+  font-size: 20px;
+  height: 70vh;
 }
 
 .nav {
   width: 25%;
-  align-items: flex-start;
   margin-right: 5%;
 }
 
 .main {
   width: 70%;
-  align-items: flex-start;
+}
+
+button {
+  border-radius: 1mm;
+  background: white;
+  background: linear-gradient(to right, #c4e0e5, #4ca1af);
 }

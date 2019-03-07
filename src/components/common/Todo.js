@@ -45,18 +45,21 @@ class Todo extends React.Component {
     const checkMark = <div id='checkbox-checkmark' onClick={this.onClick} />
 
     return (
-      <div className='todo-template'>
-        <div id='checkbox'>
-          <button id='checkbox-button' onClick={this.onClick} />
-          {done ? checkMark : null}
-        </div>
+      <div className='Todo'>
+        <div className='todo-template'>
+          <div id='checkbox'>
+            <button id='checkbox-button' onClick={this.onClick} />
+            {done ? checkMark : null}
+          </div>
 
-        <input
-          type='text'
-          className='inputField'
-          value={this.state.title}
-          onChange={this.onChange}
-        />
+          <input
+            type='text'
+            className='inputField'
+            value={this.state.title}
+            onChange={this.onChange}
+          />
+        </div>
+        <hr />
       </div>
     )
   }

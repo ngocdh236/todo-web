@@ -56,25 +56,22 @@ class MainTodo extends Component {
     })
 
     return (
-      <div>
+      <div className='main-todo'>
         <div className='header d-flex mt-5'>
           <h4 className='my-auto'>TODO</h4>
           <button
             onClick={this.togglePopup}
-            className='btn btn-primary ml-auto'
+            className='ml-auto'
           >
             + Add new
           </button>
         </div>
         <div className='d-flex mt-5'>
-          <div className='nav d-flex flex-column'>
+          <div className='nav'>
             <label>All</label>
-            <label>Work</label>
-            <label>Home</label>
-            <label>Travelling</label>
           </div>
 
-          <div className='main d-flex flex-column'>{todos}</div>
+          <div className='main'>{todos}</div>
 
           {this.state.showPopup ? (
             <Popup closePopup={this.togglePopup} />
