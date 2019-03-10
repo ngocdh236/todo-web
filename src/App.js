@@ -11,6 +11,7 @@ import MainSchedule from './components/layout/MainSchedule'
 import setAuthToken from './utils/setAuthToken'
 import { setCurrentUser } from './actions/authActions'
 import { logoutUser } from './actions/authActions'
+import { setLightTheme, setDarkTheme } from './actions/themeActions'
 
 import './App.scss'
 
@@ -26,37 +27,32 @@ if (localStorage.token) {
   }
 }
 
+switch (localStorage.getItem('theme')) {
+  case 'Dark':
+    store.dispatch(setDarkTheme())
+    break
+  default:
+    store.dispatch(setLightTheme())
+    break
+}
+
 class App extends Component {
   constructor() {
     super()
 
     this.state = {
-      darkMode: false
+      theme: localStorage.theme,
+      darkMode: localStorage.darkMode
     }
 
     this.onClick = this.onClick.bind(this)
   }
 
   onClick() {
-    this.setState({ darkMode: !this.state.darkMode })
-  }
-
-  setLightTheme() {
-    let root = document.documentElement
-    root.style.setProperty('--background-primary', '#fff')
-    root.style.setProperty('--background-secondary', 'yellow')
-    root.style.setProperty('--text-primary', '#000')
-  }
-
-  setDarkTheme() {
-    let root = document.documentElement
-    root.style.setProperty('--background-primary', '#000')
-    root.style.setProperty('--background-secondary', '#37474f')
-    root.style.setProperty('--text-primary', '#fff')
-  }
-
-  componentDidUpdate() {
-    this.state.darkMode ? this.setDarkTheme() : this.setLightTheme()
+    store.getState().theme.darkMode
+      ? store.dispatch(setLightTheme())
+      : store.dispatch(setDarkTheme())
+    this.setState({ theme: localStorage.theme })
   }
 
   render() {
@@ -72,7 +68,11 @@ class App extends Component {
               <Route exact path='/schedule' component={MainSchedule} />
             </div>
             <button id='button-mode' onClick={this.onClick}>
-              {this.state.darkMode ? <label>Light</label> : <label>Dark</label>}
+              {this.state.theme === 'Light' ? (
+                <label>Dark</label>
+              ) : (
+                <label>Light</label>
+              )}
             </button>
           </div>
         </Router>
