@@ -3,23 +3,41 @@
   margin-bottom: 5mm;
 }
 
-.nav,
-.main {
-  border-radius: 1mm;
-  background: var(--background-secondary);
-  padding-top: 20px;
-  padding-left: 20px;
+.completed,
+.todo {
+  width: 45%;
   font-size: 20px;
   height: 70vh;
+  display: flex;
+  flex-direction: column;
+
+  label {
+    border-radius: 2mm;
+    height: 50px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10%;
+    align-self: center;
+  }
 }
 
-.nav {
-  width: 25%;
+.completed {
+  label {
+    background: linear-gradient(-180deg, #b4ec51 0%, #429321 100%);
+  }
   margin-right: 5%;
 }
 
-.main {
-  width: 70%;
+.todo {
+  label {
+    background: linear-gradient(-180deg, #f5515f 0%, #9f041b 100%);
+  }
+}
+
+.Todo {
+  margin-bottom: 10%;
 }
 
 button {
@@ -27,3 +45,4 @@ button {
   background: white;
   background: linear-gradient(to right, #c4e0e5, #4ca1af);
 }
+

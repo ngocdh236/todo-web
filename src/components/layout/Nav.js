@@ -42,6 +42,12 @@ class Nav extends Component {
             </Link>
           </li>
           <li className='nav-item'>
+            <Link className='nav-link' to='/category'>
+              {' '}
+              Category
+            </Link>
+          </li>
+          <li className='nav-item'>
             <Link className='nav-link' to='/schedule'>
               {' '}
               Schedule
@@ -57,21 +63,23 @@ class Nav extends Component {
     )
 
     return (
-      <nav className='navbar navbar-expand-sm'>
-        <Link className='navbar-brand' to='/'>
-          HOME
-        </Link>
-        <button
-          className='navbar-toggler'
-          type='button'
-          data-toggle='collapse'
-          data-target='#mobile-nav'
-        >
-          <span className='navbar-toggler-icon' />
-        </button>
+      <div className='Nav'>
+        <nav className='navbar navbar-expand-sm'>
+          <Link className='navbar-brand' to='/'>
+            HOME
+          </Link>
+          <button
+            className='navbar-toggler'
+            type='button'
+            data-toggle='collapse'
+            data-target='#mobile-nav'
+          >
+            <span className='navbar-toggler-icon' />
+          </button>
 
-        {isAuthenticated ? authLinks : guestLinks}
-      </nav>
+          {isAuthenticated ? authLinks : guestLinks}
+        </nav>
+      </div>
     )
   }
 }

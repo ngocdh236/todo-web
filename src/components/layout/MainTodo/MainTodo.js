@@ -18,12 +18,6 @@ class MainTodo extends Component {
     }
   }
 
-  componentDidMount() {
-    if (!this.props.auth.isAuthenticated) {
-      this.props.history.push('/login')
-    }
-  }
-
   componentWillMount() {
     if (!this.props.auth.isAuthenticated) {
       this.props.history.push('/login')
@@ -58,20 +52,21 @@ class MainTodo extends Component {
     return (
       <div className='main-todo'>
         <div className='header d-flex mt-5'>
-          <h4 className='my-auto'>TODO</h4>
-          <button
-            onClick={this.togglePopup}
-            className='ml-auto'
-          >
+          <button onClick={this.togglePopup} className='ml-auto'>
             + Add new
           </button>
         </div>
-        <div className='d-flex mt-5'>
-          <div className='nav'>
-            <label>All</label>
+        <div className='d-flex mt-5 px-5'>
+          <div className='completed'>
+            <label>Completed</label>
           </div>
 
-          <div className='main'>{todos}</div>
+          <div className='verticalLine' />
+
+          <div className='todo'>
+            <label>Todo</label>
+            {todos}
+          </div>
 
           {this.state.showPopup ? (
             <Popup closePopup={this.togglePopup} />

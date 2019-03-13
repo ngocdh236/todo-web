@@ -59,7 +59,6 @@ class Todo extends React.Component {
             onChange={this.onChange}
           />
         </div>
-        <hr />
       </div>
     )
   }

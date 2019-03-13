@@ -7,6 +7,7 @@ import Nav from './components/layout/Nav'
 import Register from './components/auth/Register'
 import Login from './components/auth/Login'
 import MainTodo from './components/layout/MainTodo/MainTodo'
+import MainCategory from './components/layout/MainCategory/MainCategory'
 import MainSchedule from './components/layout/MainSchedule'
 import setAuthToken from './utils/setAuthToken'
 import { setCurrentUser } from './actions/authActions'
@@ -65,6 +66,7 @@ class App extends Component {
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
               <Route exact path='/todo' component={MainTodo} />
+              <Route exact path='/category' component={MainCategory} />
               <Route exact path='/schedule' component={MainSchedule} />
             </div>
             <button id='button-mode' onClick={this.onClick}>

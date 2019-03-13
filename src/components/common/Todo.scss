@@ -25,18 +25,19 @@
 #checkbox-button {
   width: 25px;
   height: 25px;
-  border-radius: 100%;
-  background: whitesmoke;
+  border: 0.5px solid gainsboro;
+  // border-radius: 100%;
+  background: white;
 }
 
 #checkbox-checkmark {
   position: absolute;
-  left: 9px;
-  top: 5px;
-  width: 7px;
-  height: 12px;
+  left: 10px;
+  top: -6px;
+  width: 12px;
+  height: 24px;
   border: solid purple;
-  border-width: 0 3px 3px 0;
+  border-width: 0 3.5px 3.5px 0;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
