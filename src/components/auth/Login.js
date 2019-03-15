@@ -51,7 +51,7 @@ class Login extends Component {
 
   render() {
     return (
-      <div className='login mt-5 text-center'>
+      <div className='Login mt-5 text-center'>
         <div className='container'>
           <div className='row'>
             <div className='col-md-8 m-auto'>

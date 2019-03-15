@@ -47,7 +47,7 @@ class Register extends Component {
 
   render() {
     return (
-      <div className='register mt-5 text-center'>
+      <div className='Register mt-5 text-center'>
         <div className='container'>
           <div className='row'>
             <div className='col-md-8 m-auto'>

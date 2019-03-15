@@ -1,16 +1,5 @@
 import { SET_LIGHT_THEME, SET_DARK_THEME } from '../actions/types'
-
-const lightTheme = {
-  '--background-primary': '#fff',
-  '--background-secondary': 'linear-gradient(to right, #c4e0e5, #4ca1af)',
-  '--text-primary': '#000'
-}
-
-const darkTheme = {
-  '--background-primary': '#222222',
-  '--background-secondary': '#37474f',
-  '--text-primary': '#fff'
-}
+import { lightTheme, darkTheme } from '../theme'
 
 let root = document.documentElement
 

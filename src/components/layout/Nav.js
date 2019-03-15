@@ -34,13 +34,7 @@ class Nav extends Component {
 
     const authLinks = (
       <div className='collapse navbar-collapse' id='mobile-nav'>
-        <ul className='navbar-nav ml-auto'>
-          <li className='nav-item'>
-            <Link className='nav-link' to='/todo'>
-              {' '}
-              Todo
-            </Link>
-          </li>
+        <ul className='navbar-nav mr-auto'>
           <li className='nav-item'>
             <Link className='nav-link' to='/category'>
               {' '}
@@ -53,6 +47,8 @@ class Nav extends Component {
               Schedule
             </Link>
           </li>
+        </ul>
+        <ul className='navbar-nav ml-auto'>
           <li className='nav-item'>
             <label onClick={this.onLogoutClick.bind(this)} className='nav-link'>
               Logout
@@ -63,10 +59,11 @@ class Nav extends Component {
     )
 
     return (
-      <div className='Nav'>
-        <nav className='navbar navbar-expand-sm'>
-          <Link className='navbar-brand' to='/'>
-            HOME
+      <div className='Nav' id='mobile-nav'>
+        <nav className='navbar navbar-expand-sm' id='mobile-nav'>
+          <Link className='navbar-brand' to='/todo'>
+            {' '}
+            TODO
           </Link>
           <button
             className='navbar-toggler'

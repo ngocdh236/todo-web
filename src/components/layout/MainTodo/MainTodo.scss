@@ -1,13 +1,11 @@
 .header {
   width: 100%;
-  margin-bottom: 5mm;
+  margin-bottom: 50px;
+  justify-content: space-between;
 }
 
-.completed,
 .todo {
-  width: 45%;
   font-size: 20px;
-  height: 70vh;
   display: flex;
   flex-direction: column;
 
@@ -23,26 +21,20 @@
   }
 }
 
-.completed {
-  label {
-    background: linear-gradient(-180deg, #b4ec51 0%, #429321 100%);
-  }
-  margin-right: 5%;
-}
-
-.todo {
-  label {
-    background: linear-gradient(-180deg, #f5515f 0%, #9f041b 100%);
-  }
-}
-
 .Todo {
-  margin-bottom: 10%;
+  margin-bottom: 30px;
 }
 
-button {
-  border-radius: 1mm;
-  background: white;
-  background: linear-gradient(to right, #c4e0e5, #4ca1af);
+.new-todo {
+  display: relative;
+  button {
+    display: absolute;
+    right: 10px;
+  }
 }
 
+// button {
+//   border-radius: 1mm;
+//   background: white;
+//   background: linear-gradient(to right, #c4e0e5, #4ca1af);
+// }

@@ -1,23 +1,21 @@
 .Category {
-  width: 300px;
-  height: 450px;
-  border: 1px solid #979797;
+  width: 30%;
+  height: 100px;
   border-radius: 5mm;
   margin-top: 10vh;
-  // background-color: purple;
-  background-size: 300px 90px;
-  
+  box-shadow: var(--box-shadow);
+  display: flex;
+  flex-flow: row;
+  align-items: center;
 }
 
-// .name {
-//   width: 298px;
-//   height: 90px;
-//   border-bottom: 1px solid #979797;
-//   border-top-left-radius: 5mm;
-//   border-top-right-radius: 5mm;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   font-size: 20px;
-//   background: purple;
-// }
+.icon {
+  border-radius: 100%;
+  margin: 0 15px;
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

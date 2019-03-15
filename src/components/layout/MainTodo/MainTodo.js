@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import Todo from '../../common/Todo'
 import { getTodos } from '../../../actions/todoActions'
 import { withRouter } from 'react-router-dom'
+import Category from '../../common/Category'
 
 class MainTodo extends Component {
   constructor() {
@@ -14,8 +15,11 @@ class MainTodo extends Component {
 
     this.state = {
       showPopup: false,
+      newTodo: false,
       todos: []
     }
+
+    this.newTodo = React.createRef()
   }
 
   componentWillMount() {
@@ -31,47 +35,65 @@ class MainTodo extends Component {
   }
 
   togglePopup(event) {
+    // this.setState({
+    //   showPopup: !this.state.showPopup
+    // })
     this.setState({
-      showPopup: !this.state.showPopup
+      newTodo: !this.state.newTodo
     })
+    window.scrollTo(0, this.newTodo.current.offsetTop)
   }
 
   render() {
-    const todos = this.state.todos.map(todo => {
-      return (
-        <Todo
-          key={todo.id.toString()}
-          createdAt={todo.createdAt}
-          id={todo.id}
-          title={todo.title}
-          done={todo.done}
-        />
-      )
-    })
+    if (this.state.todos) {
+      var todos = this.state.todos.map(todo => {
+        return (
+          <Todo
+            key={todo.id.toString()}
+            createdAt={todo.createdAt}
+            id={todo.id}
+            title={todo.title}
+            done={todo.done}
+          />
+        )
+      })
+    }
 
     return (
-      <div className='main-todo'>
-        <div className='header d-flex mt-5'>
-          <button onClick={this.togglePopup} className='ml-auto'>
-            + Add new
-          </button>
+      <div className='MainTodo'>
+        <button onClick={this.togglePopup} className='ml-auto'>
+          + Add new
+        </button>
+        <div className='header d-flex'>
+          <Category
+            id={1}
+            name='Completed'
+            gradientColor='#417505'
+            icon='far fa-check-circle'
+          />
+          <Category
+            id={2}
+            name='Due Soon'
+            gradientColor='#D0021B'
+            icon='far fa-clock'
+          />
+          <Category
+            id={3}
+            name='Todo'
+            gradientColor='#F8E71C'
+            icon='far fa-times-circle'
+          />
         </div>
-        <div className='d-flex mt-5 px-5'>
-          <div className='completed'>
-            <label>Completed</label>
+        <div className='todo' ref={this.newTodo}>
+          {todos}
+          {/* {this.state.newTodo ? ( */}
+          <div className='new-todo' ref='newTodo'>
+            <Todo title='' newTodo={false} />
           </div>
-
-          <div className='verticalLine' />
-
-          <div className='todo'>
-            <label>Todo</label>
-            {todos}
-          </div>
-
-          {this.state.showPopup ? (
-            <Popup closePopup={this.togglePopup} />
-          ) : null}
+          {/* ) : null} */}
         </div>
+
+        {this.state.showPopup ? <Popup closePopup={this.togglePopup} /> : null}
       </div>
     )
   }
