@@ -1,61 +1,78 @@
 import React from 'react'
 import './Todo.scss'
 import PropTypes from 'prop-types'
-import { editTodo } from '../../actions/todoActions'
+import { createTodo, editTodo } from '../../actions/todoActions'
 
 class Todo extends React.Component {
-  constructor() {
+  constructor(props) {
     super()
     this.state = {
-      newTodo: false,
-      todo: {
-        category: {},
-        createdAt: '',
-        deadline: '',
-        description: '',
-        done: false,
-        id: 0,
-        title: ''
-      }
+      editTodo: false,
+      newTodo: props.newTodo,
+      todo: props.todo
     }
 
     this.onButtonDoneClick = this.onButtonDoneClick.bind(this)
-    this.onButtonAddNewClick = this.onButtonAddNewClick.bind(this)
+    this.onButtonApproveClick = this.onButtonApproveClick.bind(this)
     this.onButtonCancelNewClick = this.onButtonCancelNewClick.bind(this)
     this.onButtonInfoClick = this.onButtonInfoClick.bind(this)
     this.onChange = this.onChange.bind(this)
   }
 
-  componentWillMount() {
-    this.setState({
-      newTodo: this.props.newTodo,
-      todo: {
-        category: {},
-        createdAt: this.props.createdAt,
-        deadline: '',
-        description: this.props.description,
-        done: this.props.done,
-        id: this.props.id,
-        title: this.props.title  
-      }
-    })
-  }
-
   onChange(e) {
-    this.setState({ newTodo: true })
-    this.setState({ todo: { ...this.state.todo, title: e.target.value } })
+    this.setState({
+      ...this.state,
+      editTodo: true,
+      todo: { ...this.state.todo, title: e.target.value }
+    })
+    if (e.target.value === this.props.todo.title) {
+      this.setState({
+        ...this.state,
+        editTodo: false,
+        todo: { ...this.state.todo, title: this.props.todo.title }
+      })
+    }
   }
 
   onButtonDoneClick() {
-    this.setState({ todo: { ...this.state.todo, done: !this.state.todo.done } })
+    this.setState(
+      {
+        ...this.state,
+        todo: { ...this.state.todo, done: !this.state.todo.done }
+      },
+      () =>
+        editTodo(this.state.todo).then(res => {
+          if (!res.success) {
+            this.setState({
+              ...this.state,
+              todo: { ...this.state.todo, done: !this.state.todo.done }
+            })
+          }
+        })
+    )
   }
 
-  onButtonAddNewClick() {}
+  onButtonApproveClick() {
+    if (!this.state.newTodo) {
+      editTodo(this.state.todo).then(res => {
+        if (res.success) {
+          this.setState({ ...this.state, editTodo: false })
+        }
+      })
+    } else {
+      createTodo(this.state.todo).then(res => {
+        if (res.success) {
+          this.setState({ ...this.state, editTodo: false, newTodo: false })
+        }
+      })
+    }
+  }
 
   onButtonCancelNewClick() {
     this.setState({
-      newTodo: false,
-      todo: { ...this.state.todo, title: this.props.title }
+      ...this.state,
+      editTodo: false,
+      todo: this.props.todo
     })
   }
 
@@ -82,23 +99,25 @@ class Todo extends React.Component {
           onChange={this.onChange}
         />
 
-        {this.state.newTodo ? (
+        {this.state.editTodo ? (
           <div style={{ display: 'flex' }}>
-            <button onClick={this.onButtonAddNewClick}>
+            <button onClick={this.onButtonApproveClick}>
               <i className='far fa-check-circle' style={{ fontSize: '25px' }} />
             </button>
             <button onClick={this.onButtonCancelNewClick}>
               <i className='far fa-times-circle' style={{ fontSize: '25px' }} />
             </button>
           </div>
-        ) : (
+        ) : null}
+
+        {!this.state.newTodo ? (
           <button>
             <i
               className='fas fa-info-circle'
               onClick={this.onButtonInfoClick}
             />
           </button>
-        )}
+        ) : null}
       </div>
     )
   }
@@ -106,14 +125,11 @@ class Todo extends React.Component {
 
 Todo.propTypes = {
   newTodo: PropTypes.bool,
-  category: PropTypes.object,
-  createdAt: PropTypes.string,
-  deadline: PropTypes.string,
-  description: PropTypes.string,
-  done: PropTypes.bool,
-  id: PropTypes.number,
-  title: PropTypes.string,
-  updatedAt: PropTypes.string
+  todo: PropTypes.object
+}
+
+Todo.defaultProps = {
+  newTodo: false
 }
 
 export default Todo

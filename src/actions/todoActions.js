@@ -7,16 +7,16 @@ export const getTodos = async () => {
     .catch(err => console.log(err))
 }
 
-export const createTodo = todo => {
-  axios
-    .post('/api/todos')
-    .then(res => console.log(res.data))
+export const createTodo = async (todo) => {
+  return axios
+    .post('/api/todos', todo)
+    .then(res => res.data)
     .catch(err => console.log(err.response.data))
 }
 
-export const editTodo = todo => {
-  axios
+export const editTodo = async (todo) => {
+  return axios
     .put('api/todos', todo)
-    .then(res => console.log(res.data))
+    .then(res => res.data)
     .catch(err => console.log(err.response.data))
 }

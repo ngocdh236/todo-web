@@ -22,7 +22,7 @@ class MainTodo extends Component {
     this.newTodo = React.createRef()
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (!this.props.auth.isAuthenticated) {
       this.props.history.push('/login')
     } else {
@@ -47,15 +47,7 @@ class MainTodo extends Component {
   render() {
     if (this.state.todos) {
       var todos = this.state.todos.map(todo => {
-        return (
-          <Todo
-            key={todo.id.toString()}
-            createdAt={todo.createdAt}
-            id={todo.id}
-            title={todo.title}
-            done={todo.done}
-          />
-        )
+        return <Todo key={todo.id.toString()} todo={todo} />
       })
     }
 
@@ -88,7 +80,13 @@ class MainTodo extends Component {
           {todos}
           {/* {this.state.newTodo ? ( */}
           <div className='new-todo' ref='newTodo'>
-            <Todo title='' newTodo={false} />
+            <Todo
+              newTodo={true}
+              todo={{
+                done: false,
+                title: ''
+              }}
+            />
           </div>
           {/* ) : null} */}
         </div>

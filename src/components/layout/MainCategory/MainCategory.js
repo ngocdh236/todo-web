@@ -6,7 +6,7 @@ import { getCategories } from '../../../actions/categoryActions'
 import Category from '../../common/Category'
 
 class MainCategory extends Component {
-  // componentWillMount() {
+  // componentDidMount() {
   //   if (!this.props.auth.isAuthenticated) {
   //     this.props.history.push('/login')
   //   } else {

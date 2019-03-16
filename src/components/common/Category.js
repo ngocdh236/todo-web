@@ -21,7 +21,7 @@ class Category extends React.Component {
     this.setState({ name: e.target.name })
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setState({
       id: this.props.id,
       name: this.props.name,
