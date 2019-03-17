@@ -11,16 +11,12 @@ class MainTodo extends Component {
   constructor() {
     super()
 
-    this.togglePopup = this.togglePopup.bind(this)
-
     this.state = {
-      showPopup: false,
       todos: []
     }
 
-    this.newTodo = React.createRef()
-
-    this.updateTodoList = this.updateTodoList.bind(this)
+    this.addTodo = this.addTodo.bind(this)
+    this.deleteTodo = this.deleteTodo.bind(this)
   }
 
   componentDidMount() {
@@ -35,24 +31,21 @@ class MainTodo extends Component {
     }
   }
 
-  togglePopup(event) {
-    // this.setState({
-    //   showPopup: !this.state.showPopup
-    // })
-
-    window.scrollTo(0, this.newTodo.current.offsetTop)
-  }
-
-  updateTodoList(todo) {
-    // if (this.state.todos) {
-    // this.setState({
-    //   ...this.state,
-    //   todos: this.state.todos.filter(todo => todo.id !== todoId)
-    // })
+  addTodo(todo) {
     this.setState({
       ...this.state,
       todos: [...this.state.todos, todo]
     })
+  }
+
+  deleteTodo(todoId) {
+    if (this.state.todos) {
+      var newTodos = this.state.todos.filter(todo => todo.id !== todoId)
+      this.setState({
+        ...this.state,
+        todos: newTodos
+      })
+    }
   }
 
   render() {
@@ -62,7 +55,7 @@ class MainTodo extends Component {
           <Todo
             key={todo.id.toString()}
             todo={todo}
-            updateTodoList={this.updateTodoList}
+            deleteTodo={this.deleteTodo}
           />
         )
       })
@@ -70,9 +63,6 @@ class MainTodo extends Component {
 
     return (
       <div className='MainTodo'>
-        <button onClick={this.togglePopup} className='ml-auto'>
-          + Add new
-        </button>
         <div className='header d-flex'>
           <Category
             id={1}
@@ -102,25 +92,9 @@ class MainTodo extends Component {
                 done: false,
                 title: ''
               }}
-              updateTodoList={this.updateTodoList}
+              addTodo={this.addTodo}
             />
           </div>
-        </div>
-
-        {this.state.showPopup ? <Popup closePopup={this.togglePopup} /> : null}
-      </div>
-    )
-  }
-}
-
-class Popup extends React.Component {
-  render() {
-    return (
-      <div className='popup'>
-        <div className='popup-inner'>
-          <button onClick={this.props.closePopup} className='btn btn-light'>
-            Cancel
-          </button>
         </div>
       </div>
     )

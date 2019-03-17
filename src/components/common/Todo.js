@@ -1,7 +1,7 @@
 import React from 'react'
 import './Todo.scss'
 import PropTypes from 'prop-types'
-import { createTodo, editTodo } from '../../actions/todoActions'
+import { createTodo, editTodo, deleteTodo } from '../../actions/todoActions'
 
 class Todo extends React.Component {
   constructor(props) {
@@ -9,7 +9,8 @@ class Todo extends React.Component {
     this.state = {
       editTodo: false,
       newTodo: props.newTodo,
-      todo: props.todo
+      todo: props.todo,
+      showPopup: false
     }
 
     this.onButtonDoneClick = this.onButtonDoneClick.bind(this)
@@ -17,6 +18,7 @@ class Todo extends React.Component {
     this.onButtonCancelClick = this.onButtonCancelClick.bind(this)
     this.onButtonInfoClick = this.onButtonInfoClick.bind(this)
     this.onChange = this.onChange.bind(this)
+    this.deleteTodo = this.deleteTodo.bind(this)
   }
 
   onChange(e) {
@@ -64,7 +66,7 @@ class Todo extends React.Component {
         if (res.status <= 201) {
           this.setState(
             { ...this.state, editTodo: false, newTodo: false },
-            () => this.props.updateTodoList(res.data)
+            () => this.props.addTodo(res.data)
           )
           this.setState({
             editTodo: false,
@@ -84,7 +86,21 @@ class Todo extends React.Component {
     })
   }
 
-  onButtonInfoClick() {}
+  onButtonInfoClick() {
+    this.setState({
+      ...this.state,
+      showPopup: !this.state.showPopup
+    })
+  }
+
+  deleteTodo() {
+    var todoId = this.state.todo.id
+    deleteTodo(todoId).then(res => {
+      if (res.status <= 201) {
+        this.props.deleteTodo(todoId)
+      }
+    })
+  }
 
   render() {
     const done = this.state.todo.done
@@ -119,12 +135,16 @@ class Todo extends React.Component {
         ) : null}
 
         {!this.state.newTodo ? (
-          <button>
-            <i
-              className='fas fa-info-circle'
-              onClick={this.onButtonInfoClick}
-            />
+          <button onClick={this.onButtonInfoClick}>
+            <i className='fas fa-info-circle' />
           </button>
+        ) : null}
+
+        {this.state.showPopup ? (
+          <Popup
+            closePopup={this.onButtonInfoClick}
+            deleteTodo={this.deleteTodo}
+          />
         ) : null}
       </div>
     )
@@ -132,9 +152,10 @@ class Todo extends React.Component {
 }
 
 Todo.propTypes = {
-  newTodo: PropTypes.bool,
-  todo: PropTypes.object,
-  updateTodoList: PropTypes.func
+  newTodo: PropTypes.bool.isRequired,
+  todo: PropTypes.object.isRequired,
+  addTodo: PropTypes.func,
+  deleteTodo: PropTypes.func
 }
 
 Todo.defaultProps = {
@@ -142,3 +163,20 @@ Todo.defaultProps = {
 }
 
 export default Todo
+
+class Popup extends React.Component {
+  render() {
+    return (
+      <div className='popup'>
+        <div className='popup-inner'>
+          <button onClick={this.props.closePopup} className='btn btn-light'>
+            Done
+          </button>
+          <button onClick={this.props.deleteTodo} className='btn btn-light'>
+            Delete
+          </button>
+        </div>
+      </div>
+    )
+  }
+}
