@@ -14,7 +14,7 @@ class Todo extends React.Component {
 
     this.onButtonDoneClick = this.onButtonDoneClick.bind(this)
     this.onButtonApproveClick = this.onButtonApproveClick.bind(this)
-    this.onButtonCancelNewClick = this.onButtonCancelNewClick.bind(this)
+    this.onButtonCancelClick = this.onButtonCancelClick.bind(this)
     this.onButtonInfoClick = this.onButtonInfoClick.bind(this)
     this.onChange = this.onChange.bind(this)
   }
@@ -55,20 +55,28 @@ class Todo extends React.Component {
   onButtonApproveClick() {
     if (!this.state.newTodo) {
       editTodo(this.state.todo).then(res => {
-        if (res.success) {
+        if (res.validateStatus) {
           this.setState({ ...this.state, editTodo: false })
         }
       })
     } else {
       createTodo(this.state.todo).then(res => {
-        if (res.success) {
-          this.setState({ ...this.state, editTodo: false, newTodo: false })
+        if (res.status <= 201) {
+          this.setState(
+            { ...this.state, editTodo: false, newTodo: false },
+            () => this.props.updateTodoList(res.data)
+          )
+          this.setState({
+            editTodo: false,
+            newTodo: this.props.newTodo,
+            todo: this.props.todo
+          })
         }
       })
     }
   }
 
-  onButtonCancelNewClick() {
+  onButtonCancelClick() {
     this.setState({
       ...this.state,
       editTodo: false,
@@ -104,7 +112,7 @@ class Todo extends React.Component {
             <button onClick={this.onButtonApproveClick}>
               <i className='far fa-check-circle' style={{ fontSize: '25px' }} />
             </button>
-            <button onClick={this.onButtonCancelNewClick}>
+            <button onClick={this.onButtonCancelClick}>
               <i className='far fa-times-circle' style={{ fontSize: '25px' }} />
             </button>
           </div>
@@ -125,7 +133,8 @@ class Todo extends React.Component {
 
 Todo.propTypes = {
   newTodo: PropTypes.bool,
-  todo: PropTypes.object
+  todo: PropTypes.object,
+  updateTodoList: PropTypes.func
 }
 
 Todo.defaultProps = {

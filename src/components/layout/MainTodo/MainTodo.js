@@ -15,11 +15,12 @@ class MainTodo extends Component {
 
     this.state = {
       showPopup: false,
-      newTodo: false,
       todos: []
     }
 
     this.newTodo = React.createRef()
+
+    this.updateTodoList = this.updateTodoList.bind(this)
   }
 
   componentDidMount() {
@@ -38,16 +39,32 @@ class MainTodo extends Component {
     // this.setState({
     //   showPopup: !this.state.showPopup
     // })
-    this.setState({
-      newTodo: !this.state.newTodo
-    })
+
     window.scrollTo(0, this.newTodo.current.offsetTop)
+  }
+
+  updateTodoList(todo) {
+    // if (this.state.todos) {
+    // this.setState({
+    //   ...this.state,
+    //   todos: this.state.todos.filter(todo => todo.id !== todoId)
+    // })
+    this.setState({
+      ...this.state,
+      todos: [...this.state.todos, todo]
+    })
   }
 
   render() {
     if (this.state.todos) {
       var todos = this.state.todos.map(todo => {
-        return <Todo key={todo.id.toString()} todo={todo} />
+        return (
+          <Todo
+            key={todo.id.toString()}
+            todo={todo}
+            updateTodoList={this.updateTodoList}
+          />
+        )
       })
     }
 
@@ -78,7 +95,6 @@ class MainTodo extends Component {
         </div>
         <div className='todo' ref={this.newTodo}>
           {todos}
-          {/* {this.state.newTodo ? ( */}
           <div className='new-todo' ref='newTodo'>
             <Todo
               newTodo={true}
@@ -86,9 +102,9 @@ class MainTodo extends Component {
                 done: false,
                 title: ''
               }}
+              updateTodoList={this.updateTodoList}
             />
           </div>
-          {/* ) : null} */}
         </div>
 
         {this.state.showPopup ? <Popup closePopup={this.togglePopup} /> : null}
