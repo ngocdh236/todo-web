@@ -1,61 +1,61 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import './MainTodo.scss'
+import '../../styles/MainTodo.scss'
 import { connect } from 'react-redux'
-import Todo from '../../common/Todo'
-import { getTodos } from '../../../actions/todoActions'
+import Todo from '../common/Todo'
+import { getAllTodos } from '../../actions/todoActions'
 import { withRouter } from 'react-router-dom'
-import Category from '../../common/Category'
+import Category from '../common/Category'
 
 class MainTodo extends Component {
   constructor() {
     super()
 
     this.state = {
-      todos: []
+      todoList: []
     }
 
-    this.addTodo = this.addTodo.bind(this)
-    this.deleteTodo = this.deleteTodo.bind(this)
+    this.addToTodoList = this.addToTodoList.bind(this)
+    this.removeFromTodoList = this.removeFromTodoList.bind(this)
   }
 
   componentDidMount() {
     if (!this.props.auth.isAuthenticated) {
       this.props.history.push('/login')
     } else {
-      getTodos().then(todos => {
+      getAllTodos().then(todoList => {
         this.setState({
-          todos: todos
+          todoList: todoList
         })
       })
     }
   }
 
-  addTodo(todo) {
+  addToTodoList(todo) {
     this.setState({
       ...this.state,
-      todos: [...this.state.todos, todo]
+      todoList: [...this.state.todoList, todo]
     })
   }
 
-  deleteTodo(todoId) {
-    if (this.state.todos) {
-      var newTodos = this.state.todos.filter(todo => todo.id !== todoId)
+  removeFromTodoList(todoId) {
+    if (this.state.todoList) {
+      var newTodos = this.state.todoList.filter(todo => todo.id !== todoId)
       this.setState({
         ...this.state,
-        todos: newTodos
+        todoList: newTodos
       })
     }
   }
 
   render() {
-    if (this.state.todos) {
-      var todos = this.state.todos.map(todo => {
+    if (this.state.todoList) {
+      var todoList = this.state.todoList.map(todo => {
         return (
           <Todo
             key={todo.id.toString()}
             todo={todo}
-            deleteTodo={this.deleteTodo}
+            removeFromTodoList={this.removeFromTodoList}
           />
         )
       })
@@ -83,16 +83,16 @@ class MainTodo extends Component {
             icon='far fa-times-circle'
           />
         </div>
-        <div className='todo' ref={this.newTodo}>
-          {todos}
-          <div className='new-todo' ref='newTodo'>
+        <div className='todo-list' ref={this.createTodo}>
+          {todoList}
+          <div className='new-todo'>
             <Todo
               newTodo={true}
               todo={{
                 done: false,
                 title: ''
               }}
-              addTodo={this.addTodo}
+              addToTodoList={this.addToTodoList}
             />
           </div>
         </div>

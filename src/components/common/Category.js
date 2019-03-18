@@ -1,8 +1,8 @@
 import React from 'react'
-import './Todo.scss'
+
 import PropTypes from 'prop-types'
-import './Category.scss'
-import Todo from './Todo'
+import '../../styles/Category.scss'
+// import Todo from './Todo'
 
 class Category extends React.Component {
   constructor() {

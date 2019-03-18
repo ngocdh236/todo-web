@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { getCategories } from '../../../actions/categoryActions'
-import Category from '../../common/Category'
+// import { getCategories } from '../../../actions/categoryActions'
+import Category from '../common/Category'
 
 class MainCategory extends Component {
   // componentDidMount() {

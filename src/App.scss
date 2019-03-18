@@ -2,8 +2,45 @@
   --background-primary: white;
   --background-secondary: white;
   --text-primary: white;
-  --box-shadow: white ;
+  --box-shadow: white;
+  --button-danger: white;
+  --button-done: white;
+  --text-secondary: white;
+}
 
+%button-default {
+  color: var(--text-primary);
+  background: transparent;
+  &:focus {
+    outline: 0;
+  }
+  border: none;
+  border-radius: 1mm;
+}
+
+%xy-centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+%y-centered {
+  display: flex;
+  align-items: center;
+}
+
+.vertical-line {
+  border-left: 1px solid gainsboro;
+  width: 1%;
+}
+
+.horizontal-line {
+  border-top: 1px solid gainsboro;
+  height: 1%;
+}
+
+.text-secondary {
+  color: var(--text-secondary);
 }
 
 .App {
@@ -27,7 +64,8 @@
     &:focus {
       outline: 0;
     }
-    border: 0 solid;
+    border: none;
+    border-radius: 1mm;
   }
 
   #button-mode,
@@ -46,8 +84,13 @@
     border-bottom: 0.5px solid gainsboro;
   }
 
-  .verticalLine {
-    border-left: 1px solid gainsboro;
-    width: 5%;
+  .button-delete {
+    // @extend %button-default;
+    background: var(--button-danger);
+  }
+
+  .button-done {
+    // @extend %button-default;
+    background: var(--button-done);
   }
 }
