@@ -61,7 +61,7 @@ class Nav extends Component {
     return (
       <div className='Nav' id='mobile-nav'>
         <nav className='navbar navbar-expand-sm' id='mobile-nav'>
-          <Link className='navbar-brand' to='/todo'>
+          <Link className='navbar-brand' to='/'>
             {' '}
             TODO
           </Link>

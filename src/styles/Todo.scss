@@ -9,13 +9,6 @@
     border-radius: 3mm;
     box-shadow: var(--box-shadow);
 
-    .inputField {
-      width: 100%;
-      border: none;
-      background: inherit;
-      margin: 0 20px;
-    }
-
     #checkbox {
       position: relative;
       width: 30px;
@@ -42,22 +35,32 @@
       -ms-transform: rotate(45deg);
       transform: rotate(45deg);
     }
+    
+    input {
+      margin: 0 20px;
+    }
   }
 
   .info {
-    position: relative;
-    width: 40%;
+    width: 80%;
     margin-top: 20px;
     margin-left: auto;
-    right: 30px;
     box-shadow: var(--box-shadow);
     border-radius: 2mm;
     display: flex;
     flex-direction: column;
-    // background-color: rgba(0, 0, 0, 0.5);
 
     .buttons {
       align-self: flex-end;
+    }
+
+    input {
+      margin: 0 10px;
+    }
+
+    textarea {
+      width: 100%;
+      margin: 0;
     }
   }
 }

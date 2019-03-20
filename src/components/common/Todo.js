@@ -2,6 +2,7 @@ import React from 'react'
 import '../../styles/Todo.scss'
 import PropTypes from 'prop-types'
 import { createTodo, updateTodo, deleteTodo } from '../../actions/todoActions'
+import TodoInfo from './TodoInfo'
 
 class Todo extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class Todo extends React.Component {
       showInfo: false
     }
 
-    this.done = this.done.bind(this)
+    this.onDoneChange = this.onDoneChange.bind(this)
     this.createOrUpdate = this.createOrUpdate.bind(this)
     this.cancelCreateOrUpdate = this.cancelCreateOrUpdate.bind(this)
     this.showInfo = this.showInfo.bind(this)
@@ -31,7 +32,7 @@ class Todo extends React.Component {
     // TODO: change updateTodo to false if title remains the same
   }
 
-  done() {
+  onDoneChange() {
     this.setState(
       {
         ...this.state,
@@ -100,46 +101,23 @@ class Todo extends React.Component {
   render() {
     const done = this.state.todo.done
 
-    const checkMark = <div id='checkbox-checkmark' onClick={this.done} />
-
-    const title = (
-      <input
-        type='text'
-        className='inputField'
-        value={this.state.todo.title}
-        onChange={this.onTitleChange}
-      />
-    )
-
-    const info = (
-      <div className='info p-2'>
-        {title}
-        <div className='horizontal-line mb-1' />
-        <div className='d-flex'>
-          <p className='text-secondary mr-3'>Description</p>
-          <p>{this.state.todo.description}</p>
-        </div>
-
-        <div className='buttons'>
-          <button className='button-delete ml-1' onClick={this.delete}>
-            Delete
-          </button>
-          <button className='button-done ml-1' onClick={this.showInfo}>
-            Done
-          </button>
-        </div>
-      </div>
+    const checkMark = (
+      <div id='checkbox-checkmark' onClick={this.onDoneChange} />
     )
 
     return (
       <div className='Todo'>
         <div className='todo'>
           <div id='checkbox'>
-            <button id='checkbox-button' onClick={this.done} />
+            <button id='checkbox-button' onClick={this.onDoneChange} />
             {done ? checkMark : null}
           </div>
 
-          {title}
+          <input
+            type='text'
+            value={this.state.todo.title}
+            onChange={this.onTitleChange}
+          />
 
           {this.state.updateTodo ? (
             <div style={{ display: 'flex' }}>
@@ -164,7 +142,13 @@ class Todo extends React.Component {
             </button>
           ) : null}
         </div>
-        {this.state.showInfo ? info : null}
+        {this.state.showInfo ? (
+          <TodoInfo
+            todo={this.state.todo}
+            onDoneClick={this.showInfo}
+            onDeleteClick={this.delete}
+          />
+        ) : null}
       </div>
     )
   }
