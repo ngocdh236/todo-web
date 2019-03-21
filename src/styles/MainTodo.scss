@@ -1,5 +1,22 @@
 @import '../App.scss';
 
+.MainTodo {
+  padding: 80px 0;
+
+  .Category {
+    width: auto;
+    box-shadow: none;
+
+    .icon {
+      width: 80px;
+      height: 80px;
+    }
+    .info {
+      display: none;
+    }
+  }
+}
+
 .header {
   width: 100%;
   margin-bottom: 50px;
@@ -30,5 +47,44 @@
   button {
     display: absolute;
     right: 10px;
+  }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 768px) {
+  .MainTodo {
+    .Category {
+      width: 30%;
+      border-radius: 5mm;
+      box-shadow: var(--box-shadow);
+
+      .icon {
+        margin: 0 10px;
+        width: 50px;
+        height: 50px;
+      }
+
+      .info {
+        display: block;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .MainTodo {
+    .Category {
+      width: 30%;
+      border-radius: 5mm;
+      box-shadow: var(--box-shadow);
+
+      .icon {
+        width: 50px;
+        height: 50px;
+      }
+
+      .info {
+        display: block;
+      }
+    }
   }
 }

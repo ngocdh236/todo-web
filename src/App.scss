@@ -29,18 +29,14 @@
   align-items: center;
 }
 
-.vertical-line {
-  border-left: 1px solid gainsboro;
-  width: 1%;
-}
-
-.horizontal-line {
-  border-top: 1px solid gainsboro;
-  height: 1%;
-}
-
-.text-secondary {
-  color: var(--text-secondary);
+%button-default {
+  color: var(--text-primary);
+  background: transparent;
+  &:focus {
+    outline: 0;
+  }
+  border: none;
+  border-radius: 1mm;
 }
 
 .App {
@@ -54,7 +50,8 @@
 }
 
 a,
-input, textarea {
+input,
+textarea {
   color: var(--text-primary);
   outline: none;
   resize: none;
@@ -64,13 +61,7 @@ input, textarea {
 }
 
 button {
-  color: var(--text-primary);
-  background: transparent;
-  &:focus {
-    outline: 0;
-  }
-  border: none;
-  border-radius: 1mm;
+  @extend %button-default;
 }
 
 #button-mode,
@@ -90,11 +81,23 @@ hr {
 }
 
 .button-delete {
-  // @extend %button-default;
   background: var(--button-danger);
 }
 
 .button-done {
-  // @extend %button-default;
   background: var(--button-done);
+}
+
+.vertical-line {
+  border-left: 1px solid gainsboro;
+  width: 1%;
+}
+
+.horizontal-line {
+  border-top: 1px solid gainsboro;
+  height: 1%;
+}
+
+.text-secondary {
+  color: var(--text-secondary);
 }

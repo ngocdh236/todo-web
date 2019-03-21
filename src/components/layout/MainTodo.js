@@ -66,7 +66,7 @@ class MainTodo extends Component {
         <div className='header d-flex'>
           <Category
             id={1}
-            name='Completed'
+            name='Done'
             gradientColor='#417505'
             icon='far fa-check-circle'
           />

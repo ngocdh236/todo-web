@@ -35,32 +35,9 @@
       -ms-transform: rotate(45deg);
       transform: rotate(45deg);
     }
-    
+
     input {
       margin: 0 20px;
-    }
-  }
-
-  .info {
-    width: 80%;
-    margin-top: 20px;
-    margin-left: auto;
-    box-shadow: var(--box-shadow);
-    border-radius: 2mm;
-    display: flex;
-    flex-direction: column;
-
-    .buttons {
-      align-self: flex-end;
-    }
-
-    input {
-      margin: 0 10px;
-    }
-
-    textarea {
-      width: 100%;
-      margin: 0;
     }
   }
 }

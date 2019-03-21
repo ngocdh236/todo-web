@@ -1,0 +1,73 @@
+@import '../App.scss';
+
+.TodoInfo {
+  width: 80%;
+  margin-top: 20px;
+  margin-left: auto;
+  box-shadow: var(--box-shadow);
+  border-radius: 2mm;
+  display: flex;
+  flex-direction: column;
+
+  .buttons {
+    align-self: flex-end;
+  }
+
+  input {
+    margin: 0 10px;
+  }
+
+  textarea {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    height: auto;
+  }
+
+  .dropbtn {
+    background-color: gainsboro;
+    padding: 12px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content button {
+    padding: 12px;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    text-align: start;
+  }
+
+  .dropdown-content button:hover {
+    background-color: #f1f1f1;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .dropdown:hover .dropbtn {
+    background-color: gray;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .TodoInfo {
+    width: 60%;
+  }
+}

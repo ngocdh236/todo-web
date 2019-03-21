@@ -1,11 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { getCategories } from '../../actions/categoryActions'
+import '../../styles/TodoInfo.scss'
 
 class TodoInfo extends React.Component {
   constructor(props) {
     super()
     this.state = {
-      todo: props.todo
+      todo: props.todo,
+      categoryList: []
     }
     this.onTitleChange = this.onTitleChange.bind(this)
     this.onDescriptionChange = this.onDescriptionChange.bind(this)
@@ -23,9 +26,25 @@ class TodoInfo extends React.Component {
     })
   }
 
+  componentDidMount() {
+    getCategories().then(categoryList => {
+      this.setState({
+        ...this.state,
+        categoryList: categoryList
+      })
+    })
+  }
+
   render() {
+    var categoryList = this.state.categoryList.map(category => {
+      return <button key={category.id}>{category.name}</button>
+    })
+
+    var category = this.state.todo.category
+    var description = this.state.todo.description
+
     return (
-      <div className='info p-2'>
+      <div className='TodoInfo p-2'>
         <input
           type='text'
           className='input font-weight-bold'
@@ -35,27 +54,35 @@ class TodoInfo extends React.Component {
 
         <div className='horizontal-line my-3' />
 
-        <div className='table table-borderless'>
+        <table className='table table-borderless'>
           <tbody>
             <tr>
-              <td className='text-secondary' scope='row'>
+              <td className='text-secondary'>
                 Description
               </td>
               <td>
                 <textarea
                   type='text'
                   className='input autoExpand'
-                  value={
-                    this.state.todo.description
-                      ? this.state.todo.description
-                      : undefined
-                  }
+                  value={description ? description : undefined}
                   onChange={this.onDescriptionChange}
                 />
               </td>
             </tr>
+
+            <tr>
+              <td className='text-secondary'>
+                Category
+              </td>
+              <div className='dropdown'>
+                <button className='dropbtn'>
+                  {category ? category.name : 'Choose category'}
+                </button>
+                <div className='dropdown-content'>{categoryList}</div>
+              </div>
+            </tr>
           </tbody>
-        </div>
+        </table>
 
         <div className='buttons'>
           <button
