@@ -65,21 +65,15 @@ class MainTodo extends Component {
       <div className='MainTodo'>
         <div className='header d-flex'>
           <Category
-            id={1}
-            name='Done'
-            gradientColor='#417505'
+            category={{ id: 1, name: 'Done', gradientColor: '#417505' }}
             icon='far fa-check-circle'
           />
           <Category
-            id={2}
-            name='Due Soon'
-            gradientColor='#D0021B'
+            category={{ id: 2, name: 'Due Soon', gradientColor: '#D0021B' }}
             icon='far fa-clock'
           />
           <Category
-            id={3}
-            name='Todo'
-            gradientColor='#F8E71C'
+            category={{ id: 3, name: 'Todo', gradientColor: '#F8E71C' }}
             icon='far fa-times-circle'
           />
         </div>

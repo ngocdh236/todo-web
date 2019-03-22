@@ -8,7 +8,7 @@ const light = {
 const dark = {
   bgPrimary: '#222222',
   bgSecondary: '#37474f',
-  textPrimary: 'black'
+  textPrimary: 'white'
 }
 
 const buttonDanger = 'rgb(202, 92, 84)'

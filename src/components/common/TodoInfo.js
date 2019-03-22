@@ -5,25 +5,52 @@ import '../../styles/TodoInfo.scss'
 
 class TodoInfo extends React.Component {
   constructor(props) {
-    super()
+    super(props)
     this.state = {
       todo: props.todo,
       categoryList: []
     }
     this.onTitleChange = this.onTitleChange.bind(this)
     this.onDescriptionChange = this.onDescriptionChange.bind(this)
+    this.onDoneClick = this.onDoneClick.bind(this)
+    this.onCategoryChange = this.onCategoryChange.bind(this)
   }
 
   onTitleChange(e) {
-    this.setState({
-      todo: { ...this.state.todo, title: e.target.value }
-    })
+    this.setState(
+      {
+        todo: { ...this.state.todo, title: e.target.value }
+      },
+      () => {
+        this.props.onInfoChange(this.state.todo)
+      }
+    )
   }
 
   onDescriptionChange(e) {
-    this.setState({
-      todo: { ...this.state.todo, description: e.target.value }
-    })
+    this.setState(
+      {
+        todo: { ...this.state.todo, description: e.target.value }
+      },
+      () => {
+        this.props.onInfoChange(this.state.todo)
+      }
+    )
+  }
+
+  onCategoryChange(category) {
+    this.setState(
+      {
+        todo: { ...this.state.todo, category: category }
+      },
+      () => {
+        this.props.onInfoChange(this.state.todo)
+      }
+    )
+  }
+
+  onDoneClick() {
+    this.props.onInfoDoneClick(this.state.todo)
   }
 
   componentDidMount() {
@@ -37,7 +64,11 @@ class TodoInfo extends React.Component {
 
   render() {
     var categoryList = this.state.categoryList.map(category => {
-      return <button key={category.id}>{category.name}</button>
+      return (
+        <button key={category.id} onClick={() => this.onCategoryChange(category)}>
+          {category.name}
+        </button>
+      )
     })
 
     var category = this.state.todo.category
@@ -57,9 +88,7 @@ class TodoInfo extends React.Component {
         <table className='table table-borderless'>
           <tbody>
             <tr>
-              <td className='text-secondary'>
-                Description
-              </td>
+              <td className='text-secondary'>Description</td>
               <td>
                 <textarea
                   type='text'
@@ -71,15 +100,15 @@ class TodoInfo extends React.Component {
             </tr>
 
             <tr>
-              <td className='text-secondary'>
-                Category
+              <td className='text-secondary'>Category</td>
+              <td>
+                <div className='dropdown'>
+                  <button className='dropbtn'>
+                    {category ? category.name : 'Choose category'}
+                  </button>
+                  <div className='dropdown-content'>{categoryList}</div>
+                </div>
               </td>
-              <div className='dropdown'>
-                <button className='dropbtn'>
-                  {category ? category.name : 'Choose category'}
-                </button>
-                <div className='dropdown-content'>{categoryList}</div>
-              </div>
             </tr>
           </tbody>
         </table>
@@ -90,7 +119,7 @@ class TodoInfo extends React.Component {
             onClick={this.props.onDeleteClick}>
             Delete
           </button>
-          <button className='button-done ml-1' onClick={this.props.onDoneClick}>
+          <button className='button-done ml-1' onClick={this.onDoneClick}>
             Done
           </button>
         </div>
@@ -101,8 +130,9 @@ class TodoInfo extends React.Component {
 
 TodoInfo.propTypes = {
   todo: PropTypes.object,
-  onDoneClick: PropTypes.func,
-  onDeleteClick: PropTypes.func
+  onInfoDoneClick: PropTypes.func,
+  onDeleteClick: PropTypes.func,
+  onInfoChange: PropTypes.func
 }
 
 export default TodoInfo

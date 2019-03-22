@@ -3,23 +3,29 @@ import '../../styles/Todo.scss'
 import PropTypes from 'prop-types'
 import { createTodo, updateTodo, deleteTodo } from '../../actions/todoActions'
 import TodoInfo from './TodoInfo'
+import isEmpty from '../../validation/is-empty'
 
 class Todo extends React.Component {
   constructor(props) {
-    super()
+    super(props)
     this.state = {
       newTodo: props.newTodo,
       todo: props.todo,
       updateTodo: false,
-      showInfo: false
+      showInfo: false,
+      alert: false,
+      warning: ''
     }
 
     this.onDoneChange = this.onDoneChange.bind(this)
-    this.createOrUpdate = this.createOrUpdate.bind(this)
-    this.cancelCreateOrUpdate = this.cancelCreateOrUpdate.bind(this)
-    this.showInfo = this.showInfo.bind(this)
+    this.onCreateOrUpdate = this.onCreateOrUpdate.bind(this)
+    this.onCancelCreateOrUpdate = this.onCancelCreateOrUpdate.bind(this)
+    this.onShowInfo = this.onShowInfo.bind(this)
     this.onTitleChange = this.onTitleChange.bind(this)
-    this.delete = this.delete.bind(this)
+    this.onDelete = this.onDelete.bind(this)
+    this.onInfoChange = this.onInfoChange.bind(this)
+
+    this.todoElement = React.createRef()
   }
 
   onTitleChange(e) {
@@ -29,52 +35,72 @@ class Todo extends React.Component {
       todo: { ...this.state.todo, title: e.target.value }
     })
 
+    if (this.state.showInfo) {
+      this.todoElement.current.onTitleChange(e)
+    }
+
     // TODO: change updateTodo to false if title remains the same
   }
 
   onDoneChange() {
-    this.setState(
-      {
-        ...this.state,
-        todo: { ...this.state.todo, done: !this.state.todo.done }
-      },
-      () =>
-        updateTodo(this.state.todo).then(res => {
-          if (!res.data.success) {
-            this.setState({
-              ...this.state,
-              todo: { ...this.state.todo, done: !this.state.todo.done }
-            })
-          }
-        })
-    )
-  }
-
-  createOrUpdate() {
-    if (this.state.newTodo) {
-      createTodo(this.state.todo).then(res => {
-        if (res.status <= 201) {
-          this.setState(
-            { ...this.state, updateTodo: false, newTodo: false },
-            () => this.props.addToTodoList(res.data)
-          )
-          this.setState({
-            updateTodo: false,
-            newTodo: this.props.newTodo,
-            todo: this.props.todo
+    if (!this.state.newTodo) {
+      this.setState(
+        {
+          ...this.state,
+          todo: { ...this.state.todo, done: !this.state.todo.done }
+        },
+        () =>
+          updateTodo(this.state.todo).then(res => {
+            if (!res.data.success) {
+              this.setState({
+                ...this.state,
+                todo: { ...this.state.todo, done: !this.state.todo.done }
+              })
+            }
           })
-        }
-      })
-    } else {
-      updateTodo(this.state.todo).then(res => {
-        if (res.data.success) {
-          this.setState({ ...this.state, updateTodo: false })
-        }
-      })
+      )
     }
   }
 
-  cancelCreateOrUpdate() {
+  onCreateOrUpdate() {
+    if (isEmpty(this.state.todo.title)) {
+      this.setState({
+        ...this.state,
+        alert: true,
+        warning: 'Title must not be blank'
+      })
+    } else {
+      if (this.state.newTodo) {
+        createTodo(this.state.todo).then(res => {
+          if (res.status <= 201) {
+            this.setState(
+              { ...this.state, updateTodo: false, newTodo: false },
+              () => this.props.addToTodoList(res.data)
+            )
+            this.setState({
+              updateTodo: false,
+              newTodo: this.props.newTodo,
+              todo: this.props.todo,
+              alert: false
+            })
+          }
+        })
+      } else {
+        updateTodo(this.state.todo).then(res => {
+          if (res.data.success) {
+            this.setState({
+              ...this.state,
+              updateTodo: false,
+              alert: false,
+              showInfo: false
+            })
+          }
+        })
+      }
+    }
+  }
+
+  onCancelCreateOrUpdate() {
     this.setState({
       ...this.state,
       updateTodo: false,
@@ -82,19 +108,26 @@ class Todo extends React.Component {
     })
   }
 
-  showInfo() {
+  onShowInfo() {
     this.setState({
       ...this.state,
-      showInfo: !this.state.showInfo
+      showInfo: true
     })
   }
 
-  delete() {
+  onDelete() {
     var todoId = this.state.todo.id
     deleteTodo(todoId).then(res => {
       if (res.status <= 201) {
         this.props.removeFromTodoList(todoId)
       }
+    })
+  }
+
+  onInfoChange(todo) {
+    this.setState({
+      ...this.state,
+      todo: todo
     })
   }
 
@@ -121,13 +154,13 @@ class Todo extends React.Component {
 
           {this.state.updateTodo ? (
             <div style={{ display: 'flex' }}>
-              <button onClick={this.createOrUpdate}>
+              <button onClick={this.onCreateOrUpdate}>
                 <i
                   className='far fa-check-circle'
                   style={{ fontSize: '25px' }}
                 />
               </button>
-              <button onClick={this.cancelCreateOrUpdate}>
+              <button onClick={this.onCancelCreateOrUpdate}>
                 <i
                   className='far fa-times-circle'
                   style={{ fontSize: '25px' }}
@@ -137,16 +170,25 @@ class Todo extends React.Component {
           ) : null}
 
           {!this.state.newTodo ? (
-            <button onClick={this.showInfo}>
+            <button onClick={this.onShowInfo}>
               <i className='fas fa-info-circle' />
             </button>
           ) : null}
         </div>
+
+        {this.state.alert ? (
+          <div className='mt-3 alert alert-danger' role='alert'>
+            {this.state.warning}
+          </div>
+        ) : null}
+
         {this.state.showInfo ? (
           <TodoInfo
+            ref={this.todoElement}
             todo={this.state.todo}
-            onDoneClick={this.showInfo}
-            onDeleteClick={this.delete}
+            onInfoDoneClick={this.onCreateOrUpdate}
+            onDeleteClick={this.onDelete}
+            onInfoChange={this.onInfoChange}
           />
         ) : null}
       </div>

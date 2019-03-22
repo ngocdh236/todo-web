@@ -20,7 +20,7 @@ export const updateTodo = async todo => {
   return axios
     .put(todosUrl, todo)
     .then(res => res)
-    .catch(err => err)
+    .catch(err => console.log(err.response.data))
 }
 
 export const deleteTodo = async todoId => {

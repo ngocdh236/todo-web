@@ -1,0 +1,15 @@
+.MainCategory {
+  display: flex;
+
+  .category-list {
+    width: 30%;
+    display: block;
+  }
+
+  .MainTodo {
+    width: 70%;
+    .Category {
+      display: none;
+    }
+  }
+}
