@@ -5,6 +5,7 @@
 
   .Category {
     width: auto;
+    height: auto;
     box-shadow: none;
 
     .icon {
@@ -54,6 +55,7 @@
   .MainTodo {
     .Category {
       width: 30%;
+      height: 10vh;
       border-radius: 5mm;
       box-shadow: var(--box-shadow);
 
@@ -74,6 +76,7 @@
   .MainTodo {
     .Category {
       width: 30%;
+      height: 10vh;
       border-radius: 5mm;
       box-shadow: var(--box-shadow);
 

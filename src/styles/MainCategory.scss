@@ -2,8 +2,12 @@
   display: flex;
 
   .category-list {
+    margin-right: 10%;
     width: 30%;
     display: block;
+    .Category {
+      width: 100%;
+    }
   }
 
   .MainTodo {

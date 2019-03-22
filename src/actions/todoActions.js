@@ -23,6 +23,13 @@ export const updateTodo = async todo => {
     .catch(err => console.log(err.response.data))
 }
 
+export const getTodoById = async todoId => {
+  return axios
+    .get(`${todosUrl}/${todoId}`)
+    .then(res => res.data)
+    .catch(err => err)
+}
+
 export const deleteTodo = async todoId => {
   return axios
     .delete(`${todosUrl}/${todoId}`)

@@ -1,7 +1,12 @@
 import React from 'react'
 import '../../styles/Todo.scss'
 import PropTypes from 'prop-types'
-import { createTodo, updateTodo, deleteTodo } from '../../actions/todoActions'
+import {
+  createTodo,
+  updateTodo,
+  deleteTodo,
+  getTodoById
+} from '../../actions/todoActions'
 import TodoInfo from './TodoInfo'
 import isEmpty from '../../validation/is-empty'
 
@@ -62,50 +67,70 @@ class Todo extends React.Component {
     }
   }
 
-  onCreateOrUpdate() {
-    if (isEmpty(this.state.todo.title)) {
-      this.setState({
-        ...this.state,
-        alert: true,
-        warning: 'Title must not be blank'
-      })
-    } else {
-      if (this.state.newTodo) {
-        createTodo(this.state.todo).then(res => {
-          if (res.status <= 201) {
-            this.setState(
-              { ...this.state, updateTodo: false, newTodo: false },
-              () => this.props.addToTodoList(res.data)
-            )
-            this.setState({
-              updateTodo: false,
-              newTodo: this.props.newTodo,
-              todo: this.props.todo,
-              alert: false
-            })
-          }
+  onCreateOrUpdate = todo => {
+    return () => {
+      if (isEmpty(this.state.todo.title)) {
+        this.setState({
+          ...this.state,
+          alert: true,
+          warning: 'Title must not be blank'
         })
       } else {
-        updateTodo(this.state.todo).then(res => {
-          if (res.data.success) {
-            this.setState({
-              ...this.state,
-              updateTodo: false,
-              alert: false,
-              showInfo: false
-            })
-          }
-        })
+        if (this.state.newTodo) {
+          createTodo(this.state.todo).then(res => {
+            if (res.status <= 201) {
+              this.setState(
+                { ...this.state, updateTodo: false, newTodo: false },
+                () => this.props.addToTodoList(res.data)
+              )
+              this.setState({
+                updateTodo: false,
+                newTodo: this.props.newTodo,
+                todo: this.props.todo,
+                alert: false
+              })
+            }
+          })
+        } else {
+          updateTodo(todo).then(res => {
+            if (res.data.success) {
+              this.setState({
+                ...this.state,
+                todo: todo,
+                updateTodo: false,
+                alert: false,
+                showInfo: false
+              })
+            }
+          })
+        }
       }
     }
   }
 
   onCancelCreateOrUpdate() {
-    this.setState({
-      ...this.state,
-      updateTodo: false,
-      todo: this.props.todo
-    })
+    if (this.state.newTodo) {
+      this.setState({
+        ...this.state,
+        updateTodo: false,
+        todo: this.props.todo
+      })
+    } else {
+      getTodoById(this.state.todo.id).then(todo => {
+        this.setState({
+          ...this.state,
+          updateTodo: false,
+          todo: todo
+        })
+
+        if (this.state.showInfo) {
+          this.todoElement.current.setState({
+            ...this.todoElement.current.state,
+            todo: this.state.todo
+          })
+        }
+      })
+    }
   }
 
   onShowInfo() {
@@ -154,7 +179,7 @@ class Todo extends React.Component {
 
           {this.state.updateTodo ? (
             <div style={{ display: 'flex' }}>
-              <button onClick={this.onCreateOrUpdate}>
+              <button onClick={this.onCreateOrUpdate(this.state.todo)}>
                 <i
                   className='far fa-check-circle'
                   style={{ fontSize: '25px' }}

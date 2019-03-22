@@ -12,7 +12,6 @@ class TodoInfo extends React.Component {
     }
     this.onTitleChange = this.onTitleChange.bind(this)
     this.onDescriptionChange = this.onDescriptionChange.bind(this)
-    this.onDoneClick = this.onDoneClick.bind(this)
     this.onCategoryChange = this.onCategoryChange.bind(this)
   }
 
@@ -28,29 +27,17 @@ class TodoInfo extends React.Component {
   }
 
   onDescriptionChange(e) {
-    this.setState(
-      {
-        todo: { ...this.state.todo, description: e.target.value }
-      },
-      () => {
-        this.props.onInfoChange(this.state.todo)
-      }
-    )
+    this.setState({
+      todo: { ...this.state.todo, description: e.target.value }
+    })
   }
 
-  onCategoryChange(category) {
-    this.setState(
-      {
+  onCategoryChange = category => {
+    return () => {
+      this.setState({
         todo: { ...this.state.todo, category: category }
-      },
-      () => {
-        this.props.onInfoChange(this.state.todo)
-      }
-    )
-  }
-
-  onDoneClick() {
-    this.props.onInfoDoneClick(this.state.todo)
+      })
+    }
   }
 
   componentDidMount() {
@@ -65,7 +52,7 @@ class TodoInfo extends React.Component {
   render() {
     var categoryList = this.state.categoryList.map(category => {
       return (
-        <button key={category.id} onClick={() => this.onCategoryChange(category)}>
+        <button key={category.id} onClick={this.onCategoryChange(category)}>
           {category.name}
         </button>
       )
@@ -119,7 +106,9 @@ class TodoInfo extends React.Component {
             onClick={this.props.onDeleteClick}>
             Delete
           </button>
-          <button className='button-done ml-1' onClick={this.onDoneClick}>
+          <button
+            className='button-done ml-1'
+            onClick={this.props.onInfoDoneClick(this.state.todo)}>
             Done
           </button>
         </div>
