@@ -1,0 +1,29 @@
+@import '../App.scss';
+
+.TodoList {
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+
+  label {
+    border-radius: 2mm;
+    height: 50px;
+    width: 200px;
+    @extend %xy-centered;
+    margin-bottom: 10%;
+    align-self: center;
+  }
+
+  .Todo {
+    margin-bottom: 30px;
+  }
+  
+  .new-todo {
+    display: relative;
+    button {
+      display: absolute;
+      right: 10px;
+    }
+  }
+}
+

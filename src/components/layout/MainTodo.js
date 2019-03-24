@@ -2,15 +2,14 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import '../../styles/MainTodo.scss'
 import { connect } from 'react-redux'
-import Todo from '../common/Todo'
 import { getAllTodos } from '../../actions/todoActions'
 import { withRouter } from 'react-router-dom'
 import Category from '../common/Category'
+import TodoList from '../common/TodoList'
 
 class MainTodo extends Component {
   constructor() {
     super()
-
     this.state = {
       todoList: []
     }
@@ -24,6 +23,7 @@ class MainTodo extends Component {
       this.props.history.push('/login')
     } else {
       getAllTodos().then(todoList => {
+        console.log('getAllTodos' + todoList)
         this.setState({
           todoList: todoList
         })
@@ -49,18 +49,6 @@ class MainTodo extends Component {
   }
 
   render() {
-    if (this.state.todoList) {
-      var todoList = this.state.todoList.map(todo => {
-        return (
-          <Todo
-            key={todo.id.toString()}
-            todo={todo}
-            removeFromTodoList={this.removeFromTodoList}
-          />
-        )
-      })
-    }
-
     return (
       <div className='MainTodo'>
         <div className='header d-flex'>
@@ -77,19 +65,8 @@ class MainTodo extends Component {
             icon='far fa-times-circle'
           />
         </div>
-        <div className='todo-list' ref={this.createTodo}>
-          {todoList}
-          <div className='new-todo'>
-            <Todo
-              newTodo={true}
-              todo={{
-                done: false,
-                title: ''
-              }}
-              addToTodoList={this.addToTodoList}
-            />
-          </div>
-        </div>
+
+        <TodoList todoList={this.state.todoList} addToTodoList={this.addToTodoList} removeFromTodoList={this.removeFromTodoList} />
       </div>
     )
   }

@@ -1,6 +1,7 @@
 @import '../App.scss';
 
 .Category {
+  height: 10vh;
   border-radius: 5mm;
   box-shadow: var(--box-shadow);
   @extend %y-centered;

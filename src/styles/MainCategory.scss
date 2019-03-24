@@ -2,11 +2,13 @@
   display: flex;
 
   .category-list {
-    margin-right: 10%;
-    width: 30%;
+    padding: 80px 0;
+    margin-right: 5%;
+    width: 35%;
     display: block;
     .Category {
       width: 100%;
+      margin-bottom: 20px;
     }
   }
 
