@@ -1,12 +1,13 @@
 import axios from 'axios'
-import { GET_ERRORS } from './types'
-import setAuthToken from '../utils/setAuthToken'
 import jwt_decoce from 'jwt-decode'
-import { SET_CURRENT_USER } from '../actions/types'
+import { SET_CURRENT_USER, GET_ERRORS } from './types'
+import setAuthToken from '../utils/setAuthToken'
+const signUpUrl = '/api/auth/signup'
+const signInUrl = '/api/auth/signin'
 
 export const registerUser = (userData, history) => dispatch => {
   axios
-    .post('/api/auth/signup', userData)
+    .post(signUpUrl, userData)
     .then(res => history.push('/login'))
     .catch(err =>
       dispatch({
@@ -18,7 +19,7 @@ export const registerUser = (userData, history) => dispatch => {
 
 export const loginUser = userData => dispatch => {
   axios
-    .post('/api/auth/signin', userData)
+    .post(signInUrl, userData)
     .then(res => {
       const { accessToken } = res.data
       localStorage.setItem('token', accessToken)

@@ -1,10 +1,14 @@
 import { combineReducers } from 'redux'
-import authReducer from './authReducer'
-import errorReducer from './errorReducer'
-import themeReducer from './themeReducer'
+import auth from './authReducer'
+import error from './errorReducer'
+import theme from './themeReducer'
+import todos from './todosReducer'
+import categories from './categoriesReducer'
 
 export default combineReducers({
-  auth: authReducer,
-  theme: themeReducer,
-  errors: errorReducer
+  auth: auth,
+  theme: theme,
+  errors: error,
+  todos: todos,
+  categories: categories
 })

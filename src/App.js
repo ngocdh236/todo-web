@@ -10,9 +10,10 @@ import MainTodo from './components/layout/MainTodo'
 import MainCategory from './components/layout/MainCategory'
 import MainSchedule from './components/layout/MainSchedule'
 import setAuthToken from './utils/setAuthToken'
-import { setCurrentUser } from './actions/authActions'
-import { logoutUser } from './actions/authActions'
+import { setCurrentUser, logoutUser } from './actions/authActions'
 import { setLightTheme, setDarkTheme } from './actions/themeActions'
+import { getTodos } from './actions/todoActions'
+import { getCategories } from './actions/categoryActions'
 
 import './App.scss'
 
@@ -20,6 +21,8 @@ if (localStorage.token) {
   setAuthToken(localStorage.token)
   const decoded = jwt_decode(localStorage.token)
   store.dispatch(setCurrentUser(decoded))
+  store.dispatch(getTodos())
+  store.dispatch(getCategories())
 
   const currentTime = Date.now() / 1000
   if (decoded.exp < currentTime) {

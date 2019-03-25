@@ -77,7 +77,6 @@ class Login extends Component {
                 <input type='submit' className='btn btn-lg btn-light mt-5' />
               </form>
               <br />
-              
             </div>
           </div>
         </div>

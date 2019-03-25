@@ -5,19 +5,21 @@ import PropTypes from 'prop-types'
 
 class TodoList extends Component {
   render() {
-    var todoList = this.props.todoList.map(todo => {
+    var todos = this.props.todos.map(todo => {
       return (
         <Todo
           key={todo.id}
           todo={todo}
-          removeFromTodoList={this.props.removeFromTodoList}
+          categories={this.props.categories}
+          deleteTodo={this.props.deleteTodo}
+          updateTodo={this.props.updateTodo}
         />
       )
     })
 
     return (
       <div className='TodoList'>
-        {todoList}
+        {todos}
         <div className='new-todo'>
           <Todo
             newTodo={true}
@@ -25,7 +27,7 @@ class TodoList extends Component {
               done: false,
               title: ''
             }}
-            addToTodoList={this.props.addToTodoList}
+            createTodo={this.props.createTodo}
           />
         </div>
       </div>
@@ -34,9 +36,11 @@ class TodoList extends Component {
 }
 
 TodoList.propTypes = {
-  todoList: PropTypes.array.isRequired,
-  addToTodoList: PropTypes.func,
-  removeFromTodoList: PropTypes.func
+  todos: PropTypes.array.isRequired,
+  categories: PropTypes.array,
+  createTodo: PropTypes.func,
+  deleteTodo: PropTypes.func,
+  updateTodo: PropTypes.func
 }
 
 export default TodoList

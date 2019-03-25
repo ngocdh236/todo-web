@@ -1,12 +1,7 @@
 import React from 'react'
 import '../../styles/Todo.scss'
 import PropTypes from 'prop-types'
-import {
-  createTodo,
-  updateTodo,
-  deleteTodo,
-  getTodoById
-} from '../../actions/todoActions'
+import { getTodoById } from '../../actions/todoActions'
 import TodoInfo from './TodoInfo'
 import isEmpty from '../../validation/is-empty'
 
@@ -27,24 +22,20 @@ class Todo extends React.Component {
     this.onCancelCreateOrUpdate = this.onCancelCreateOrUpdate.bind(this)
     this.onShowInfo = this.onShowInfo.bind(this)
     this.onTitleChange = this.onTitleChange.bind(this)
-    this.onDelete = this.onDelete.bind(this)
-    this.onInfoChange = this.onInfoChange.bind(this)
+    this.onInfoTitleChange = this.onInfoTitleChange.bind(this)
 
     this.todoElement = React.createRef()
   }
 
   onTitleChange(e) {
-    this.setState({
-      ...this.state,
-      updateTodo: true,
-      todo: { ...this.state.todo, title: e.target.value }
-    })
-
-    if (this.state.showInfo) {
-      this.todoElement.current.onTitleChange(e)
-    }
-
-    // TODO: change updateTodo to false if title remains the same
+    this.setState(
+      {
+        ...this.state,
+        updateTodo: true,
+        todo: { ...this.state.todo, title: e.target.value }
+      },
+      () => this.onChangeInfo()
+    )
   }
 
   onDoneChange() {
@@ -54,15 +45,7 @@ class Todo extends React.Component {
           ...this.state,
           todo: { ...this.state.todo, done: !this.state.todo.done }
         },
-        () =>
-          updateTodo(this.state.todo).then(res => {
-            if (!res.data.success) {
-              this.setState({
-                ...this.state,
-                todo: { ...this.state.todo, done: !this.state.todo.done }
-              })
-            }
-          })
+        () => this.props.updateTodo(this.state.todo)
       )
     }
   }
@@ -77,31 +60,22 @@ class Todo extends React.Component {
         })
       } else {
         if (this.state.newTodo) {
-          createTodo(this.state.todo).then(res => {
-            if (res.status <= 201) {
-              this.setState(
-                { ...this.state, updateTodo: false, newTodo: false },
-                () => this.props.addToTodoList(res.data)
-              )
-              this.setState({
-                updateTodo: false,
-                newTodo: this.props.newTodo,
-                todo: this.props.todo,
-                alert: false
-              })
-            }
+          this.props.createTodo(todo)
+          this.setState({
+            updateTodo: false,
+            newTodo: this.props.newTodo,
+            todo: this.props.todo,
+            alert: false
           })
         } else {
-          updateTodo(todo).then(res => {
-            if (res.data.success) {
-              this.setState({
-                ...this.state,
-                todo: todo,
-                updateTodo: false,
-                alert: false,
-                showInfo: false
-              })
-            }
+          this.props.updateTodo(todo)
+
+          this.setState({
+            ...this.state,
+            todo: this.state.todo,
+            updateTodo: false,
+            alert: false,
+            showInfo: false
           })
         }
       }
@@ -123,12 +97,16 @@ class Todo extends React.Component {
           todo: todo
         })
 
-        if (this.state.showInfo) {
-          this.todoElement.current.setState({
-            ...this.todoElement.current.state,
-            todo: this.state.todo
-          })
-        }
+        this.onChangeInfo()
+      })
+    }
+  }
+
+  onChangeInfo() {
+    if (this.state.showInfo) {
+      this.todoElement.current.setState({
+        ...this.todoElement.current.state,
+        todo: this.state.todo
       })
     }
   }
@@ -140,19 +118,10 @@ class Todo extends React.Component {
     })
   }
 
-  onDelete() {
-    var todoId = this.state.todo.id
-    deleteTodo(todoId).then(res => {
-      if (res.status <= 201) {
-        this.props.removeFromTodoList(todoId)
-      }
-    })
-  }
-
-  onInfoChange(todo) {
+  onInfoTitleChange(title) {
     this.setState({
       ...this.state,
-      todo: todo
+      todo: { ...this.state.todo, title: title }
     })
   }
 
@@ -210,10 +179,12 @@ class Todo extends React.Component {
         {this.state.showInfo ? (
           <TodoInfo
             ref={this.todoElement}
-            todo={this.state.todo}
+            todo={this.props.todo}
+            categories={this.props.categories}
             onInfoDoneClick={this.onCreateOrUpdate}
-            onDeleteClick={this.onDelete}
-            onInfoChange={this.onInfoChange}
+            onInfoTitleChange={this.onInfoTitleChange}
+            updateTodo={this.props.updateTodo}
+            deleteTodo={this.props.deleteTodo}
           />
         ) : null}
       </div>
@@ -223,9 +194,10 @@ class Todo extends React.Component {
 
 Todo.propTypes = {
   newTodo: PropTypes.bool.isRequired,
-  todo: PropTypes.object.isRequired,
-  addToTodoList: PropTypes.func,
-  removeFromTodoList: PropTypes.func
+  todo: PropTypes.object,
+  createTodo: PropTypes.func,
+  updateTodo: PropTypes.func,
+  deleteTodo: PropTypes.func
 }
 
 Todo.defaultProps = {

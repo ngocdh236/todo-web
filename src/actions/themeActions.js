@@ -1,4 +1,4 @@
-import { SET_LIGHT_THEME, SET_DARK_THEME } from '../actions/types'
+import { SET_LIGHT_THEME, SET_DARK_THEME } from './types'
 import { lightTheme, darkTheme } from '../theme'
 
 let root = document.documentElement

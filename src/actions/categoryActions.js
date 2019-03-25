@@ -1,9 +1,10 @@
 import axios from 'axios'
+import { SET_CATEGORIES, CREATE_CATEGORY } from './types'
 
-export const getCategories = async () => {
-  return axios
+export const getCategories = () => dispatch => {
+  axios
     .get('/api/categories')
-    .then(res => res.data)
+    .then(res => dispatch({ type: SET_CATEGORIES, categories: res.data }))
     .catch(err => console.log(err))
 }
 

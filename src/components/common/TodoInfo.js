@@ -1,14 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getCategories } from '../../actions/categoryActions'
 import '../../styles/TodoInfo.scss'
 
 class TodoInfo extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      todo: props.todo,
-      categoryList: []
+      todo: props.todo
     }
     this.onTitleChange = this.onTitleChange.bind(this)
     this.onDescriptionChange = this.onDescriptionChange.bind(this)
@@ -21,7 +19,7 @@ class TodoInfo extends React.Component {
         todo: { ...this.state.todo, title: e.target.value }
       },
       () => {
-        this.props.onInfoChange(this.state.todo)
+        this.props.onInfoTitleChange(this.state.todo.title)
       }
     )
   }
@@ -40,17 +38,8 @@ class TodoInfo extends React.Component {
     }
   }
 
-  componentDidMount() {
-    getCategories().then(categoryList => {
-      this.setState({
-        ...this.state,
-        categoryList: categoryList
-      })
-    })
-  }
-
   render() {
-    var categoryList = this.state.categoryList.map(category => {
+    var categories = this.props.categories.map(category => {
       return (
         <button key={category.id} onClick={this.onCategoryChange(category)}>
           {category.name}
@@ -93,7 +82,7 @@ class TodoInfo extends React.Component {
                   <button className='dropbtn'>
                     {category ? category.name : 'Choose category'}
                   </button>
-                  <div className='dropdown-content'>{categoryList}</div>
+                  <div className='dropdown-content'>{categories}</div>
                 </div>
               </td>
             </tr>
@@ -103,7 +92,7 @@ class TodoInfo extends React.Component {
         <div className='buttons'>
           <button
             className='button-delete ml-1'
-            onClick={this.props.onDeleteClick}>
+            onClick={this.props.deleteTodo(this.props.todo.id)}>
             Delete
           </button>
           <button
@@ -119,9 +108,12 @@ class TodoInfo extends React.Component {
 
 TodoInfo.propTypes = {
   todo: PropTypes.object,
+  categories: PropTypes.array,
   onInfoDoneClick: PropTypes.func,
-  onDeleteClick: PropTypes.func,
-  onInfoChange: PropTypes.func
+  onTitleChange: PropTypes.func,
+  createTodo: PropTypes.func,
+  updateTodo: PropTypes.func,
+  deleteTodo: PropTypes.func
 }
 
 export default TodoInfo
