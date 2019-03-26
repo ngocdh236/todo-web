@@ -1,11 +1,14 @@
-import '../../styles/Todo.scss'
+import '../styles/Todo.scss'
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
-import { getTodoById } from '../../actions/todoActions'
+import { getTodoById } from '../actions/todoActions'
 import TodoInfo from './TodoInfo'
-import isEmpty from '../../validation/is-empty'
+import isEmpty from '../validation/is-empty'
+import { createTodo, updateTodo } from '../actions/todoActions'
 
 class Todo extends React.Component {
   constructor(props) {
@@ -185,8 +188,6 @@ class Todo extends React.Component {
             categories={this.props.categories}
             onInfoDoneClick={this.onCreateOrUpdate}
             onInfoTitleChange={this.onInfoTitleChange}
-            updateTodo={this.props.updateTodo}
-            deleteTodo={this.props.deleteTodo}
           />
         ) : null}
       </div>
@@ -195,15 +196,22 @@ class Todo extends React.Component {
 }
 
 Todo.propTypes = {
-  newTodo: PropTypes.bool.isRequired,
+  newTodo: PropTypes.bool,
   todo: PropTypes.object,
   createTodo: PropTypes.func,
-  updateTodo: PropTypes.func,
-  deleteTodo: PropTypes.func
+  updateTodo: PropTypes.func
 }
 
 Todo.defaultProps = {
   newTodo: false
 }
 
-export default Todo
+const mapStateToProps = state => ({
+  todos: state.todos,
+  errors: state.errors
+})
+
+export default connect(
+  mapStateToProps,
+  { createTodo, updateTodo }
+)(withRouter(Todo))

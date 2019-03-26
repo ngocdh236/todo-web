@@ -1,7 +1,11 @@
-import '../../styles/TodoInfo.scss'
+import '../styles/TodoInfo.scss'
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+
+import { deleteTodo } from '../actions/todoActions'
 
 class TodoInfo extends React.Component {
   constructor(props) {
@@ -112,9 +116,16 @@ TodoInfo.propTypes = {
   categories: PropTypes.array,
   onInfoDoneClick: PropTypes.func,
   onTitleChange: PropTypes.func,
-  createTodo: PropTypes.func,
   updateTodo: PropTypes.func,
   deleteTodo: PropTypes.func
 }
 
-export default TodoInfo
+const mapStateToProps = state => ({
+  todos: state.todos,
+  categories: state.categories
+})
+
+export default connect(
+  mapStateToProps,
+  { deleteTodo }
+)(withRouter(TodoInfo))

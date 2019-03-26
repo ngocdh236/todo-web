@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import Category from '../components/common/Category'
-import TodoList from '../components/common/TodoList'
+import Category from './Category'
+import TodoList from './TodoList'
 
 class MainCategory extends Component {
   constructor(props) {
@@ -40,31 +40,19 @@ class MainCategory extends Component {
     return (
       <div className='MainCategory'>
         <div className='category-list'>{categories}</div>
-
-        <TodoList
-          todos={this.state.todos}
-          categories={this.props.categories}
-          createTodo={this.props.createTodo}
-          deleteTodo={this.props.deleteTodo}
-          updateTodo={this.props.updateTodo}
-        />
+        <TodoList todos={this.state.todos} />
       </div>
     )
   }
 }
 
 MainCategory.propTypes = {
-  createTodo: PropTypes.func,
-  updateTodo: PropTypes.func,
-  deleteTodo: PropTypes.func,
-  auth: PropTypes.object.isRequired,
   todos: PropTypes.array.isRequired,
   categories: PropTypes.array.isRequired,
   errors: PropTypes.object
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth,
   todos: state.todos,
   categories: state.categories,
   errors: state.errors

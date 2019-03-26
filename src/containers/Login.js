@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 import { loginUser } from '../actions/authActions'
-import InputField from '../components/common/InputField'
+import InputField from '../components/InputField'
 
 class Login extends Component {
   constructor() {

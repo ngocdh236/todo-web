@@ -29,16 +29,6 @@
   align-items: center;
 }
 
-%button-default {
-  color: var(--text-primary);
-  background: transparent;
-  &:focus {
-    outline: 0;
-  }
-  border: none;
-  border-radius: 1mm;
-}
-
 .App {
   background: var(--background-primary) no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -57,20 +47,16 @@ textarea {
   resize: none;
   border: none;
   background: inherit;
-  width: 100%;
+  width: auto;
 }
 
 button {
   @extend %button-default;
 }
 
-#button-mode,
-hr {
+#button-mode {
   background: var(--text-primary);
   color: var(--background-primary);
-}
-
-#button-mode {
   position: fixed;
   bottom: 10px;
   right: 10px;

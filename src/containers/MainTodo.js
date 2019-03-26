@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import Category from '../components/common/Category'
-import TodoList from '../components/common/TodoList'
+import Category from './Category'
+import TodoList from './TodoList'
 import { createTodo, updateTodo, deleteTodo } from '../actions/todoActions'
 
 class MainTodo extends Component {
@@ -14,6 +14,10 @@ class MainTodo extends Component {
     return (
       <div className='MainTodo'>
         <div className='header d-flex'>
+          <Category
+            category={{ id: 0, name: 'All', gradientColor: 'white' }}
+            icon=''
+          />
           <Category
             category={{ id: 1, name: 'Done', gradientColor: '#417505' }}
             icon='far fa-check-circle'
@@ -28,30 +32,19 @@ class MainTodo extends Component {
           />
         </div>
 
-        <TodoList
-          todos={this.props.todos}
-          categories={this.props.categories}
-          createTodo={this.props.createTodo}
-          deleteTodo={this.props.deleteTodo}
-          updateTodo={this.props.updateTodo}
-        />
+        <TodoList todos={this.props.filteredTodos} />
       </div>
     )
   }
 }
 
 MainTodo.propTypes = {
-  createTodo: PropTypes.func,
-  updateTodo: PropTypes.func,
-  deleteTodo: PropTypes.func,
-  auth: PropTypes.object.isRequired,
-  todos: PropTypes.array.isRequired,
+  todos: PropTypes.object.isRequired,
   categories: PropTypes.array.isRequired,
   errors: PropTypes.object
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth,
   todos: state.todos,
   categories: state.categories,
   errors: state.errors

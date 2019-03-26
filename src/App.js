@@ -79,20 +79,20 @@ class App extends Component {
         <Router>
           <div className='App'>
             <Nav />
-            <div className='container'>
+            <div className='px-5'>
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
               <PrivateRoute exact path='/' component={MainTodo} />
               <PrivateRoute exact path='/category' component={MainCategory} />
               <PrivateRoute exact path='/schedule' component={MainSchedule} />
+              <button id='button-mode' onClick={this.onClick}>
+                {this.state.theme === 'Light' ? (
+                  <label>Dark</label>
+                ) : (
+                  <label>Light</label>
+                )}
+              </button>
             </div>
-            <button id='button-mode' onClick={this.onClick}>
-              {this.state.theme === 'Light' ? (
-                <label>Dark</label>
-              ) : (
-                <label>Light</label>
-              )}
-            </button>
           </div>
         </Router>
       </Provider>

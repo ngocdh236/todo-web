@@ -1,4 +1,4 @@
-import '../../styles/Category.scss'
+import '../styles/Category.scss'
 
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -25,7 +25,7 @@ class Category extends React.Component {
           </div>
           <div className='info'>
             <p>{this.state.category.name}</p>
-            <p>8 tasks</p>
+            {/* <p>8 tasks</p> */}
           </div>
         {/* </button> */}
       </div>

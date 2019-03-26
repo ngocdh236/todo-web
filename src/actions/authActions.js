@@ -3,6 +3,8 @@ import jwt_decoce from 'jwt-decode'
 
 import { SET_CURRENT_USER, GET_ERRORS } from './types'
 import setAuthToken from '../utils/setAuthToken'
+import { getTodos } from '../actions/todoActions'
+import { getCategories } from '../actions/categoryActions'
 
 const signUpUrl = '/api/auth/signup'
 const signInUrl = '/api/auth/signin'
@@ -28,6 +30,8 @@ export const loginUser = userData => dispatch => {
       setAuthToken(accessToken)
       const decoded = jwt_decoce(accessToken)
       dispatch(setCurrentUser(decoded))
+      dispatch(getTodos())
+      dispatch(getCategories())
     })
     .catch(err =>
       dispatch({
