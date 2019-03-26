@@ -1,6 +1,7 @@
+import '../../styles/Category.scss'
+
 import React from 'react'
 import PropTypes from 'prop-types'
-import '../../styles/Category.scss'
 
 class Category extends React.Component {
   constructor(props) {
@@ -15,16 +16,18 @@ class Category extends React.Component {
     var gradientColor = this.state.category.gradientColor
     return (
       <div className='Category'>
-        <div className='icon' style={{ background: gradientColor }}>
-          <i
-            className={this.state.icon}
-            style={{ color: 'white', fontSize: '20px' }}
-          />
-        </div>
-        <div className='info'>
-          <p>{this.state.category.name}</p>
-          <p>8 tasks</p>
-        </div>
+        {/* <button onClick={this.}> */}
+          <div className='icon' style={{ background: gradientColor }}>
+            <i
+              className={this.state.icon}
+              style={{ color: 'white', fontSize: '20px' }}
+            />
+          </div>
+          <div className='info'>
+            <p>{this.state.category.name}</p>
+            <p>8 tasks</p>
+          </div>
+        {/* </button> */}
       </div>
     )
   }

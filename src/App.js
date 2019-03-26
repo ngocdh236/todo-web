@@ -1,21 +1,22 @@
+import './App.scss'
+
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import jwt_decode from 'jwt-decode'
 import store from './store'
-import Nav from './components/layout/Nav'
-import Register from './components/auth/Register'
-import Login from './components/auth/Login'
-import MainTodo from './components/layout/MainTodo'
-import MainCategory from './components/layout/MainCategory'
-import MainSchedule from './components/layout/MainSchedule'
+
+import Nav from './containers/Nav'
+import Register from './containers/Register'
+import Login from './containers/Login'
+import MainTodo from './containers/MainTodo'
+import MainCategory from './containers/MainCategory'
+import MainSchedule from './containers/MainSchedule'
 import setAuthToken from './utils/setAuthToken'
 import { setCurrentUser, logoutUser } from './actions/authActions'
 import { setLightTheme, setDarkTheme } from './actions/themeActions'
 import { getTodos } from './actions/todoActions'
 import { getCategories } from './actions/categoryActions'
-
-import './App.scss'
 
 if (localStorage.token) {
   setAuthToken(localStorage.token)
@@ -39,6 +40,19 @@ switch (localStorage.getItem('theme')) {
     store.dispatch(setLightTheme())
     break
 }
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      store.getState().auth.isAuthenticated ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to='/login' />
+      )
+    }
+  />
+)
 
 class App extends Component {
   constructor() {
@@ -68,9 +82,9 @@ class App extends Component {
             <div className='container'>
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
-              <Route exact path='/' component={MainTodo} />
-              <Route exact path='/category' component={MainCategory} />
-              <Route exact path='/schedule' component={MainSchedule} />
+              <PrivateRoute exact path='/' component={MainTodo} />
+              <PrivateRoute exact path='/category' component={MainCategory} />
+              <PrivateRoute exact path='/schedule' component={MainSchedule} />
             </div>
             <button id='button-mode' onClick={this.onClick}>
               {this.state.theme === 'Light' ? (

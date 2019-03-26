@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 import { SET_CATEGORIES, CREATE_CATEGORY } from './types'
 
 export const getCategories = () => dispatch => {

@@ -1,21 +1,19 @@
 .MainCategory {
   display: flex;
+  padding: 80px 0;
 
   .category-list {
-    padding: 80px 0;
     margin-right: 5%;
     width: 35%;
     display: block;
-    .Category {
+    .Category,
+    button {
       width: 100%;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
   }
 
-  .MainTodo {
-    width: 70%;
-    .Category {
-      display: none;
-    }
+  .TodoList {
+    width: 60%;
   }
 }

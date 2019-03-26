@@ -1,40 +1,34 @@
-import '../../styles/MainCategory.scss'
+import '../styles/MainCategory.scss'
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import Category from '../common/Category'
-import TodoList from '../common/TodoList'
-
+import Category from '../components/common/Category'
+import TodoList from '../components/common/TodoList'
 
 class MainCategory extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
-      todos: []
+      todos: props.todos
     }
     this.onClick = this.onClick.bind(this)
-  }
-
-  componentDidMount() {
-    if (!this.props.auth.isAuthenticated) {
-      this.props.history.push('/login')
-    }
   }
 
   onClick = category => {
     return () => {
       this.setState({
-        todos: this.props.todos.filter(todo => todo.category === category)
+        todos: this.props.todos.filter(todo => {
+          if (todo.category) return todo.category.id === category.id
+        })
       })
     }
   }
 
   render() {
-    console.log(this.state.todos)
     var categories = this.props.categories.map(category => {
       return (
         <button key={category.id} onClick={this.onClick(category)}>

@@ -1,7 +1,9 @@
-import React, { Component } from 'react'
 import '../../styles/TodoList.scss'
-import Todo from '../common/Todo'
+
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+
+import Todo from '../common/Todo'
 
 class TodoList extends Component {
   render() {

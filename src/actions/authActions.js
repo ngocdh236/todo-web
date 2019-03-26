@@ -1,7 +1,9 @@
 import axios from 'axios'
 import jwt_decoce from 'jwt-decode'
+
 import { SET_CURRENT_USER, GET_ERRORS } from './types'
 import setAuthToken from '../utils/setAuthToken'
+
 const signUpUrl = '/api/auth/signup'
 const signInUrl = '/api/auth/signin'
 

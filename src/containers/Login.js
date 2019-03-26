@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { loginUser } from '../../actions/authActions'
 import { withRouter } from 'react-router-dom'
-import InputField from '../common/InputField'
+
+import { loginUser } from '../actions/authActions'
+import InputField from '../components/common/InputField'
 
 class Login extends Component {
   constructor() {

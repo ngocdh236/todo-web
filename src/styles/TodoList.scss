@@ -2,8 +2,8 @@
 
 .TodoList {
   font-size: 20px;
-  display: flex;
-  flex-direction: column;
+  display: block;
+  // flex-direction: column;
 
   label {
     border-radius: 2mm;

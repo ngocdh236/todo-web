@@ -1,6 +1,8 @@
-import React from 'react'
 import '../../styles/Todo.scss'
+
+import React from 'react'
 import PropTypes from 'prop-types'
+
 import { getTodoById } from '../../actions/todoActions'
 import TodoInfo from './TodoInfo'
 import isEmpty from '../../validation/is-empty'

@@ -1,6 +1,7 @@
+import '../../styles/TodoInfo.scss'
+
 import React from 'react'
 import PropTypes from 'prop-types'
-import '../../styles/TodoInfo.scss'
 
 class TodoInfo extends React.Component {
   constructor(props) {

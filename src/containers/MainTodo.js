@@ -1,21 +1,15 @@
-import '../../styles/MainTodo.scss'
+import '../styles/MainTodo.scss'
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import Category from '../common/Category'
-import TodoList from '../common/TodoList'
-import { createTodo, updateTodo, deleteTodo } from '../../actions/todoActions'
+import Category from '../components/common/Category'
+import TodoList from '../components/common/TodoList'
+import { createTodo, updateTodo, deleteTodo } from '../actions/todoActions'
 
 class MainTodo extends Component {
-  componentDidMount() {
-    if (!this.props.auth.isAuthenticated) {
-      this.props.history.push('/login')
-    }
-  }
-
   render() {
     return (
       <div className='MainTodo'>
