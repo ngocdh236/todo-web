@@ -1,6 +1,12 @@
 import axios from 'axios'
 
-import { SET_TODOS, CREATE_TODO, DELETE_TODO, UPDATE_TODO } from './types'
+import {
+  SET_TODOS,
+  CREATE_TODO,
+  DELETE_TODO,
+  UPDATE_TODO,
+  SET_VISIBILITY_FILTER
+} from './types'
 
 const todosUrl = '/api/todos'
 
@@ -40,3 +46,17 @@ export const deleteTodo = id => dispatch => {
       .catch(err => err)
   }
 }
+
+export const VisibilityFilters = {
+  SHOW_ALL: 'SHOW_ALL',
+  SHOW_DONE: 'SHOW_DONE',
+  SHOW_TODO: 'SHOW_TODO',
+  SHOW_DUE_SOON: 'SHOW_DUE_SOON',
+  SHOW_BY_CATEGORY: 'SHOW_BY_CATEGORY'
+}
+
+export const setVisibilityFilter = (filter, category) => ({
+  type: SET_VISIBILITY_FILTER,
+  filter,
+  category
+})

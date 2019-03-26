@@ -1,58 +1,25 @@
-import isEmpty from '../validation/is-empty'
 import {
   SET_TODOS,
   CREATE_TODO,
   DELETE_TODO,
-  UPDATE_TODO,
-  CATEGORY,
-  DONE,
-  TODO,
-  DUE_SOON
+  UPDATE_TODO
 } from '../actions/types'
 
-const initialState = {
-  all: [],
-  filtered: []
-}
-
-export default function(state = initialState, action) {
+const todos = (state = [], action) => {
   switch (action.type) {
     case SET_TODOS:
-      return { ...state, all: action.todos }
+      return action.todos
     case CREATE_TODO:
-      return { ...state, all: [...state.all, action.todo] }
+      return [...state, action.todo]
     case DELETE_TODO:
-      return { ...state, all: state.all.filter(todo => todo.id !== action.id) }
+      return state.filter(todo => todo.id !== action.id)
     case UPDATE_TODO:
-      return {
-        ...state,
-        all: state.all.map(todo =>
-          todo.id === action.todo.id ? action.todo : todo
-        )
-      }
-    case CATEGORY:
-      return {
-        ...state,
-        filtered: state.all.filter(todo => {
-          if (todo.category) return todo.category.id === action.id
-        })
-      }
-    case DONE:
-      return {
-        ...state,
-        filtered: state.all.filter(todo => todo.done)
-      }
-    case TODO:
-      return {
-        ...state,
-        filtered: state.all.filter(todo => !todo.done)
-      }
-    case DUE_SOON:
-      return {
-        ...state,
-        filtered: state.all.filter(todo => !isEmpty(todo.deadline))
-      }
+      return state.map(todo =>
+        todo.id === action.todo.id ? action.todo : todo
+      )
     default:
       return state
   }
 }
+
+export default todos

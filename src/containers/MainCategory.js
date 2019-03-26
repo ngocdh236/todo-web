@@ -5,8 +5,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import Category from './Category'
-import TodoList from './TodoList'
+import VisibleTodoList from './VisibleTodoList'
+import FilterLink from './FilterLink'
+import { VisibilityFilters } from '../actions/todoActions'
 
 class MainCategory extends Component {
   constructor(props) {
@@ -15,32 +16,29 @@ class MainCategory extends Component {
     this.state = {
       todos: props.todos
     }
-    this.onClick = this.onClick.bind(this)
-  }
-
-  onClick = category => {
-    return () => {
-      this.setState({
-        todos: this.props.todos.filter(todo => {
-          if (todo.category) return todo.category.id === category.id
-        })
-      })
-    }
   }
 
   render() {
     var categories = this.props.categories.map(category => {
       return (
-        <button key={category.id} onClick={this.onClick(category)}>
-          <Category category={category} />
-        </button>
+        <FilterLink
+          key={category.id}
+          category={category}
+          filter={VisibilityFilters.SHOW_BY_CATEGORY}
+        />
       )
     })
 
     return (
       <div className='MainCategory'>
-        <div className='category-list'>{categories}</div>
-        <TodoList todos={this.state.todos} />
+        <div className='category-list'>
+          <FilterLink
+            category={{ id: 0, name: 'All', gradientColor: 'white' }}
+            filter={VisibilityFilters.SHOW_ALL}
+          />
+          {categories}
+        </div>
+        <VisibleTodoList />
       </div>
     )
   }

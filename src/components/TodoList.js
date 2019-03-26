@@ -2,14 +2,12 @@ import '../styles/TodoList.scss'
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 
-import Todo from './Todo'
+import Todo from '../containers/Todo'
 
 class TodoList extends Component {
   render() {
-    var todos = this.props.todos.all.map(todo => {
+    var todos = this.props.todos.map(todo => {
       return <Todo key={todo.id} todo={todo} />
     })
 
@@ -31,11 +29,7 @@ class TodoList extends Component {
 }
 
 TodoList.propTypes = {
-  todos: PropTypes.object.isRequired
+  todos: PropTypes.array
 }
 
-const mapStateToProps = state => ({
-  todos: state.todos
-})
-
-export default connect(mapStateToProps)(withRouter(TodoList))
+export default TodoList
