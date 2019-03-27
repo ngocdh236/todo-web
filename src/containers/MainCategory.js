@@ -8,7 +8,6 @@ import { withRouter } from 'react-router-dom'
 import CategorizedTodoList from './CategorizedTodoList'
 import CategorizedTodoLink from './CategorizedTodoLink'
 import { Filters } from '../actions'
-import { setFilterCategory } from '../actions/todoActions'
 
 class MainCategory extends Component {
   constructor(props) {

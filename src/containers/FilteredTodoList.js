@@ -10,7 +10,7 @@ const getTodos = (todos, todosFilter) => {
       return todos
     case Filters.SHOW_DONE:
       return todos.filter(todo => todo.done)
-    case Filters.SHOW_TODO:
+    case Filters.SHOW_UNDONE:
       return todos.filter(todo => !todo.done)
     case Filters.SHOW_DUE_SOON:
       return todos.filter(todo => !isEmpty(todo.deadline))

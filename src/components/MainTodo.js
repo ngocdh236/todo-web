@@ -28,7 +28,7 @@ class MainTodo extends Component {
         <FilteredTodoLink
           category={{ id: -4, name: 'Todo', gradientColor: '#F8E71C' }}
           icon='far fa-times-circle'
-          filter={Filters.SHOW_TODO}
+          filter={Filters.SHOW_UNDONE}
         />
       </div>
     )
