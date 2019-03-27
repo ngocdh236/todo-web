@@ -33,14 +33,11 @@ class Todo extends React.Component {
   }
 
   onTitleChange(e) {
-    this.setState(
-      {
-        ...this.state,
-        updateTodo: true,
-        todo: { ...this.state.todo, title: e.target.value }
-      },
-      () => this.onChangeInfo()
-    )
+    this.setState({
+      ...this.state,
+      updateTodo: true,
+      todo: { ...this.state.todo, title: e.target.value }
+    })
   }
 
   onDoneChange() {
@@ -101,17 +98,6 @@ class Todo extends React.Component {
           updateTodo: false,
           todo: todo
         })
-
-        this.onChangeInfo()
-      })
-    }
-  }
-
-  onChangeInfo() {
-    if (this.state.showInfo) {
-      this.todoElement.current.setState({
-        ...this.todoElement.current.state,
-        todo: this.state.todo
       })
     }
   }
@@ -183,7 +169,6 @@ class Todo extends React.Component {
 
         {this.state.showInfo ? (
           <TodoInfo
-            ref={this.todoElement}
             todo={this.props.todo}
             categories={this.props.categories}
             onInfoDoneClick={this.onCreateOrUpdate}

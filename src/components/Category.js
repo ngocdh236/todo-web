@@ -4,16 +4,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 class Category extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      icon: props.icon,
-      category: props.category
-    }
-  }
-
   render() {
-    var gradientColor = this.state.category.gradientColor
+    var gradientColor = this.props.category.gradientColor
     return (
       <button
         className='Category'
@@ -21,12 +13,12 @@ class Category extends React.Component {
         onClick={this.props.onClick}>
         <div className='icon' style={{ background: gradientColor }}>
           <i
-            className={this.state.icon}
+            className={this.props.icon}
             style={{ color: 'white', fontSize: '20px' }}
           />
         </div>
         <div className='info'>
-          <p>{this.state.category.name}</p>
+          <p>{this.props.category.name}</p>
         </div>
       </button>
     )

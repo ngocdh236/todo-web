@@ -62,7 +62,9 @@ class Nav extends Component {
           <span className='navbar-toggler-icon' />
         </button>
 
-        <div className='collapse navbar-collapse navbar-default' id='mobile-nav'>
+        <div
+          className='collapse navbar-collapse navbar-default'
+          id='mobile-nav'>
           {isAuthenticated ? authLinks : guestLinks}
         </div>
       </nav>

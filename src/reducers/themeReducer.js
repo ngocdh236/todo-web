@@ -1,4 +1,4 @@
-import { SET_DARK_THEME, SET_LIGHT_THEME } from '../actions/types'
+import { Types } from '../actions'
 
 const initialState = {
   darkMode: false
@@ -6,12 +6,12 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case SET_DARK_THEME:
+    case Types.SET_DARK_THEME:
       return {
         ...state,
         darkMode: true
       }
-    case SET_LIGHT_THEME:
+    case Types.SET_LIGHT_THEME:
       return {
         ...state,
         darkMode: false

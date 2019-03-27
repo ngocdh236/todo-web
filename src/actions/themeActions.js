@@ -1,4 +1,4 @@
-import { SET_LIGHT_THEME, SET_DARK_THEME } from './types'
+import { Types } from '.'
 import { lightTheme, darkTheme } from '../theme'
 
 let root = document.documentElement
@@ -21,12 +21,12 @@ export const setDarkTheme = () => dispatch => {
 
 export const changeLightTheme = () => {
   return {
-    type: SET_LIGHT_THEME
+    type: Types.SET_LIGHT_THEME
   }
 }
 
 export const changeDarkTheme = () => {
   return {
-    type: SET_DARK_THEME
+    type: Types.SET_DARK_THEME
   }
 }

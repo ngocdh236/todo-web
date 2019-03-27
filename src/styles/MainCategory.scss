@@ -4,16 +4,16 @@
 
   .category-list {
     margin-right: 5%;
-    width: 35%;
+    width: 30%;
     display: block;
-    .Category,
-    button {
+
+    .Category {
       width: 100%;
-      margin-bottom: 10px;
+      margin-bottom: 30px;
     }
   }
 
   .TodoList {
-    width: 60%;
+    width: 65%;
   }
 }

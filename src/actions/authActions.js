@@ -1,7 +1,7 @@
 import axios from 'axios'
 import jwt_decoce from 'jwt-decode'
 
-import { SET_CURRENT_USER, GET_ERRORS } from './types'
+import { Types } from '.'
 import setAuthToken from '../utils/setAuthToken'
 import { getTodos } from '../actions/todoActions'
 import { getCategories } from '../actions/categoryActions'
@@ -15,7 +15,7 @@ export const registerUser = (userData, history) => dispatch => {
     .then(res => history.push('/login'))
     .catch(err =>
       dispatch({
-        type: GET_ERRORS,
+        type: Types.GET_ERRORS,
         payload: err.response.data
       })
     )
@@ -35,7 +35,7 @@ export const loginUser = userData => dispatch => {
     })
     .catch(err =>
       dispatch({
-        type: GET_ERRORS,
+        type: Types.GET_ERRORS,
         payload: err.response.data
       })
     )
@@ -43,7 +43,7 @@ export const loginUser = userData => dispatch => {
 
 export const setCurrentUser = decoded => {
   return {
-    type: SET_CURRENT_USER,
+    type: Types.SET_CURRENT_USER,
     payload: decoded
   }
 }

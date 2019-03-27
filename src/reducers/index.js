@@ -4,13 +4,15 @@ import error from './errorReducer'
 import theme from './themeReducer'
 import todos from './todosReducer'
 import categories from './categoriesReducer'
-import visibilityFilter from './visibilityFilter'
+import todosFilter from './todosFilterReducer'
+import todosCategoryFilter from './todosCategoryFilterReducer'
 
 export default combineReducers({
-  auth: auth,
-  theme: theme,
+  auth,
+  theme,
   errors: error,
   todos,
-  categories: categories,
-  visibilityFilter
+  categories,
+  todosFilter,
+  todosCategoryFilter
 })

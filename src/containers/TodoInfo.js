@@ -121,7 +121,6 @@ TodoInfo.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  todos: state.todos,
   categories: state.categories
 })
 

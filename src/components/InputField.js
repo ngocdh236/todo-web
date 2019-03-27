@@ -47,4 +47,3 @@ InputField.defaultProps = {
 }
 
 export default InputField
-

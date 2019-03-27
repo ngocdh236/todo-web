@@ -5,9 +5,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import VisibleTodoList from './VisibleTodoList'
-import FilterLink from './FilterLink'
-import { VisibilityFilters } from '../actions/todoActions'
+import CategorizedTodoList from './CategorizedTodoList'
+import CategorizedTodoLink from './CategorizedTodoLink'
+import { Filters } from '../actions'
+import { setFilterCategory } from '../actions/todoActions'
 
 class MainCategory extends Component {
   constructor(props) {
@@ -21,10 +22,10 @@ class MainCategory extends Component {
   render() {
     var categories = this.props.categories.map(category => {
       return (
-        <FilterLink
+        <CategorizedTodoLink
           key={category.id}
           category={category}
-          filter={VisibilityFilters.SHOW_BY_CATEGORY}
+          filter={Filters.SHOW_BY_CATEGORY}
         />
       )
     })
@@ -32,13 +33,14 @@ class MainCategory extends Component {
     return (
       <div className='MainCategory'>
         <div className='category-list'>
-          <FilterLink
-            category={{ id: 0, name: 'All', gradientColor: 'white' }}
-            filter={VisibilityFilters.SHOW_ALL}
+          <CategorizedTodoLink
+            category={{ id: -1, name: 'All', gradientColor: 'white' }}
+            icon=''
+            filter={Filters.SHOW_ALL}
           />
           {categories}
         </div>
-        <VisibleTodoList />
+        <CategorizedTodoList />
       </div>
     )
   }

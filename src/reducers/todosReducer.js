@@ -1,19 +1,14 @@
-import {
-  SET_TODOS,
-  CREATE_TODO,
-  DELETE_TODO,
-  UPDATE_TODO
-} from '../actions/types'
+import { Types } from '../actions'
 
 const todos = (state = [], action) => {
   switch (action.type) {
-    case SET_TODOS:
+    case Types.SET_TODOS:
       return action.todos
-    case CREATE_TODO:
+    case Types.CREATE_TODO:
       return [...state, action.todo]
-    case DELETE_TODO:
+    case Types.DELETE_TODO:
       return state.filter(todo => todo.id !== action.id)
-    case UPDATE_TODO:
+    case Types.UPDATE_TODO:
       return state.map(todo =>
         todo.id === action.todo.id ? action.todo : todo
       )
