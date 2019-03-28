@@ -39,11 +39,22 @@ class Register extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.errors !== prevProps.errors) {
-      this.setState({
-        ...this.state,
-        errors: this.props.errors
-      })
+    var error = this.props.error
+    if (error !== prevProps.error) {
+      if (error.errors) {
+        this.setState({
+          ...this.state,
+          errors: error.errors,
+          message: ''
+        })
+      }
+      if (error.message) {
+        this.setState({
+          ...this.state,
+          errorMessage: error.message,
+          errors: []
+        })
+      }
     }
   }
 
@@ -52,20 +63,23 @@ class Register extends Component {
     var username = 'username'
     var email = 'email'
     var password = 'password'
+    var errors = this.state.errors
+
     return (
       <div className='Register mt-5 text-center'>
         <div className='container'>
           <div className='row'>
             <div className='col-md-8 m-auto'>
               <h1 className='display-4'>Sign Up</h1>
-              <p className='lead'>Create your bla bla bla account</p>
               <form className='mt-5' noValidate onSubmit={this.onSubmit}>
                 <InputField
                   placeholder='Name'
                   name={name}
                   value={this.state.name}
                   onChange={this.onChange}
-                  error={this.state.errors.find(error => error.field === name)}
+                  error={
+                    errors ? errors.find(error => error.field === name) : null
+                  }
                 />
 
                 <InputField
@@ -73,7 +87,11 @@ class Register extends Component {
                   name={username}
                   value={this.state.username}
                   onChange={this.onChange}
-                  error={this.state.errors.find(error => error.field === username)}
+                  error={
+                    errors
+                      ? errors.find(error => error.field === username)
+                      : null
+                  }
                 />
 
                 <InputField
@@ -82,7 +100,9 @@ class Register extends Component {
                   type='email'
                   value={this.state.email}
                   onChange={this.onChange}
-                  error={this.state.errors.find(error => error.field === email)}
+                  error={
+                    errors ? errors.find(error => error.field === email) : null
+                  }
                 />
 
                 <InputField
@@ -91,7 +111,11 @@ class Register extends Component {
                   type='password'
                   value={this.state.password}
                   onChange={this.onChange}
-                  error={this.state.errors.find(error => error.field === password)}
+                  error={
+                    errors
+                      ? errors.find(error => error.field === password)
+                      : null
+                  }
                 />
 
                 <input type='submit' className='btn btn-lg btn-light mt-5' />
@@ -102,6 +126,10 @@ class Register extends Component {
               </Link>
             </div>
           </div>
+          <br />
+          {this.state.errorMessage ? (
+            <p className='lead text-danger'>{this.state.errorMessage}</p>
+          ) : null}
         </div>
       </div>
     )
@@ -111,12 +139,12 @@ class Register extends Component {
 Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.array
+  error: PropTypes.object
 }
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  errors: state.errors
+  error: state.error
 })
 
 export default connect(

@@ -12,7 +12,8 @@ class Login extends Component {
     this.state = {
       usernameOrEmail: '',
       password: '',
-      errors: []
+      errors: [],
+      errorMessage: ''
     }
 
     this.onChange = this.onChange.bind(this)
@@ -51,24 +52,33 @@ class Login extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.errors !== prevProps.errors) {
-      this.setState({
-        ...this.state,
-        errors: this.props.errors
-      })
+    var error = this.props.error
+    if (error !== prevProps.error) {
+      if (error.errors) {
+        this.setState({
+          ...this.state,
+          errors: error.errors
+        })
+      }
+      if (error.message) {
+        this.setState({
+          ...this.state,
+          errorMessage: error.message
+        })
+      }
     }
   }
 
   render() {
     var usernameOrEmail = 'usernameOrEmail'
     var password = 'password'
+    var errors = this.state.errors
     return (
       <div className='Login mt-5 text-center'>
         <div className='container'>
           <div className='row'>
             <div className='col-md-8 m-auto'>
               <h1 className='display-4'>Log In</h1>
-              <p className='lead'>Login to your bla bla bla account</p>
               <form className='mt-5' noValidate onSubmit={this.onSubmit}>
                 <InputField
                   placeholder='Username or Email Address'
@@ -76,9 +86,11 @@ class Login extends Component {
                   type='text'
                   value={this.state.usernameOrEmail}
                   onChange={this.onChange}
-                  error={this.state.errors.find(
-                    error => error.field === usernameOrEmail
-                  )}
+                  error={
+                    errors
+                      ? errors.find(error => error.field === usernameOrEmail)
+                      : null
+                  }
                 />
 
                 <InputField
@@ -87,9 +99,11 @@ class Login extends Component {
                   type='password'
                   value={this.state.password}
                   onChange={this.onChange}
-                  error={this.state.errors.find(
-                    error => error.field === password
-                  )}
+                  error={
+                    errors
+                      ? errors.find(error => error.field === password)
+                      : null
+                  }
                 />
 
                 <input type='submit' className='btn btn-lg btn-light mt-5' />
@@ -100,6 +114,10 @@ class Login extends Component {
               </Link>
             </div>
           </div>
+          <br />
+          {this.state.errorMessage ? (
+            <p className='lead text-danger'>{this.state.errorMessage}</p>
+          ) : null}
         </div>
       </div>
     )
@@ -109,12 +127,12 @@ class Login extends Component {
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.array
+  error: PropTypes.object
 }
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  errors: state.errors
+  error: state.error
 })
 
 export default connect(

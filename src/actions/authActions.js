@@ -13,13 +13,12 @@ export const registerUser = (userData, history) => dispatch => {
   axios
     .post(signUpUrl, userData)
     .then(res => history.push('/login'))
-    .catch(err => {
-      if (err.response.data.errors)
-        dispatch({
-          type: Types.GET_ERRORS,
-          errors: err.response.data.errors
-        })
-    })
+    .catch(err =>
+      dispatch({
+        type: Types.GET_ERRORS,
+        payload: err.response.data
+      })
+    )
 }
 
 export const loginUser = userData => dispatch => {
@@ -34,13 +33,12 @@ export const loginUser = userData => dispatch => {
       dispatch(getTodos())
       dispatch(getCategories())
     })
-    .catch(err => {
-      if (err.response.data.errors)
-        dispatch({
-          type: Types.GET_ERRORS,
-          errors: err.response.data.errors
-        })
-    })
+    .catch(err =>
+      dispatch({
+        type: Types.GET_ERRORS,
+        payload: err.response.data
+      })
+    )
 }
 
 export const setCurrentUser = decoded => {
