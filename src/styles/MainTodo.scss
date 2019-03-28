@@ -5,76 +5,14 @@
 
   .header {
     margin-bottom: 50px;
-    justify-content: space-between;
-  }
-
-  .Category {
-    width: auto;
-    box-shadow: none;
-
-    .icon {
-      width: 80px;
-      height: 80px;
-    }
-    .info {
-      display: none;
-    }
+    justify-content: space-around;
   }
 }
 
-@media only screen and (min-width: 600px) and (max-width: 768px) {
+@media only screen and (min-width: 600px) {
   .MainTodo {
-    .Category {
-      width: 22%;
-      box-shadow: var(--box-shadow);
-
-      .icon {
-        margin: 0 5px;
-        width: 40px;
-        height: 40px;
-      }
-
-      .info {
-        display: block;
-      }
-    }
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  .MainTodo {
-    .Category {
-      width: 22%;
-      box-shadow: var(--box-shadow);
-
-      .icon {
-        margin: 0 10px;
-        width: 50px;
-        height: 50px;
-      }
-
-      .info {
-        display: block;
-      }
-    }
-  }
-}
-
-@media only screen and (min-width: 992px) {
-  .MainTodo {
-    .Category {
-      width: 22%;
-      box-shadow: var(--box-shadow);
-
-      .icon {
-        margin: 0 20px;
-        width: 60px;
-        height: 60px;
-      }
-
-      .info {
-        display: block;
-      }
+    .header {
+      justify-content: space-between;
     }
   }
 }
