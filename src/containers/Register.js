@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { registerUser } from '../actions/authActions'
@@ -10,23 +10,15 @@ class Register extends Component {
   constructor() {
     super()
     this.state = {
-      isLoggedIn: false,
-      picture: '',
       name: '',
       username: '',
       email: '',
       password: '',
-      errors: {}
+      errors: []
     }
 
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors })
-    }
   }
 
   onChange(e) {
@@ -46,47 +38,68 @@ class Register extends Component {
     this.props.registerUser(newUser, this.props.history)
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.errors !== prevProps.errors) {
+      this.setState({
+        ...this.state,
+        errors: this.props.errors
+      })
+    }
+  }
+
   render() {
+    var name = 'name'
+    var username = 'username'
+    var email = 'email'
+    var password = 'password'
     return (
       <div className='Register mt-5 text-center'>
         <div className='container'>
           <div className='row'>
             <div className='col-md-8 m-auto'>
               <h1 className='display-4'>Sign Up</h1>
-              <p className='lead'>Create your Muzify account</p>
+              <p className='lead'>Create your bla bla bla account</p>
               <form className='mt-5' noValidate onSubmit={this.onSubmit}>
                 <InputField
                   placeholder='Name'
-                  name='name'
+                  name={name}
                   value={this.state.name}
                   onChange={this.onChange}
+                  error={this.state.errors.find(error => error.field === name)}
                 />
 
                 <InputField
                   placeholder='Username'
-                  name='username'
+                  name={username}
                   value={this.state.username}
                   onChange={this.onChange}
+                  error={this.state.errors.find(error => error.field === username)}
                 />
 
                 <InputField
                   placeholder='Email Address'
-                  name='email'
+                  name={email}
                   type='email'
                   value={this.state.email}
                   onChange={this.onChange}
+                  error={this.state.errors.find(error => error.field === email)}
                 />
 
                 <InputField
                   placeholder='Password'
-                  name='password'
+                  name={password}
                   type='password'
                   value={this.state.password}
                   onChange={this.onChange}
+                  error={this.state.errors.find(error => error.field === password)}
                 />
 
                 <input type='submit' className='btn btn-lg btn-light mt-5' />
               </form>
+              <br />
+              <Link className='nav-link' to='/login'>
+                Already have an account? Click here
+              </Link>
             </div>
           </div>
         </div>
@@ -98,7 +111,7 @@ class Register extends Component {
 Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object
+  errors: PropTypes.array
 }
 
 const mapStateToProps = state => ({

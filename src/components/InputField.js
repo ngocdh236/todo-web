@@ -26,7 +26,11 @@ const InputField = ({
         disabled={disabled}
       />
       {info && <small className='form-text text-muted'>{info}</small>}
-      {error && <div className='invalid-feedback'>{error}</div>}
+      {error && (
+        <div className='invalid-feedback'>
+          {placeholder} {error.defaultMessage}
+        </div>
+      )}
     </div>
   )
 }
@@ -36,7 +40,7 @@ InputField.propTypes = {
   placeholder: PropTypes.string,
   value: PropTypes.string.isRequired,
   info: PropTypes.string,
-  error: PropTypes.string,
+  error: PropTypes.object,
   type: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   disabled: PropTypes.string

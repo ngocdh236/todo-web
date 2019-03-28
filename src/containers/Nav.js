@@ -59,7 +59,7 @@ class Nav extends Component {
           type='button'
           data-toggle='collapse'
           data-target='#mobile-nav'>
-          <span className='navbar-toggler-icon' />
+          <i className='fas fa-bars' />
         </button>
 
         <div
