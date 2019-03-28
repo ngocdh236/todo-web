@@ -11,7 +11,7 @@ import Register from './containers/Register'
 import Login from './containers/Login'
 import MainTodo from './components/MainTodo'
 import MainCategory from './containers/MainCategory'
-import MainSchedule from './containers/MainSchedule'
+// import MainSchedule from './containers/MainSchedule'
 import setAuthToken from './utils/setAuthToken'
 import { setCurrentUser, logoutUser } from './actions/authActions'
 import { setLightTheme, setDarkTheme } from './actions/themeActions'
@@ -84,7 +84,7 @@ class App extends Component {
               <Route exact path='/login' component={Login} />
               <PrivateRoute exact path='/' component={MainTodo} />
               <PrivateRoute exact path='/category' component={MainCategory} />
-              <PrivateRoute exact path='/schedule' component={MainSchedule} />
+              {/* <PrivateRoute exact path='/schedule' component={MainSchedule} /> */}
               <button id='button-mode' onClick={this.onClick}>
                 {this.state.theme === 'Light' ? (
                   <label>Dark</label>

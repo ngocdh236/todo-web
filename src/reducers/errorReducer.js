@@ -6,7 +6,6 @@ const initialState = {
 }
 
 export default function(state = initialState, action) {
-  console.log(action.payload)
   switch (action.type) {
     case Types.GET_ERRORS:
       if (action.payload.errors) {

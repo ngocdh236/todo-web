@@ -36,11 +36,11 @@ class Nav extends Component {
             Category
           </Link>
         </li>
-        <li className='nav-item'>
+        {/* <li className='nav-item'>
           <Link className='nav-link' to='/schedule'>
             Schedule
           </Link>
-        </li>
+        </li> */}
         <li className='nav-item'>
           <label className='nav-link' onClick={this.onLogoutClick.bind(this)}>
             Logout
