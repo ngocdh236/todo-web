@@ -32,6 +32,16 @@ class Todo extends React.Component {
     this.todoElement = React.createRef()
   }
 
+  componentDidUpdate(prevProps) {
+    var categoryId = this.props.todosCategoryFilter.category.id
+    if (categoryId !== prevProps.todosCategoryFilter.category.id) {
+      this.setState({
+        ...this.state,
+        todo: { ...this.state.todo, categoryId: categoryId }
+      })
+    }
+  }
+
   onTitleChange(e) {
     this.setState({
       ...this.state,
@@ -96,7 +106,8 @@ class Todo extends React.Component {
         this.setState({
           ...this.state,
           updateTodo: false,
-          todo: todo
+          todo: todo,
+          showInfo: false
         })
       })
     }
@@ -183,8 +194,10 @@ class Todo extends React.Component {
 Todo.propTypes = {
   newTodo: PropTypes.bool,
   todo: PropTypes.object,
+  categoryId: PropTypes.number,
   createTodo: PropTypes.func,
-  updateTodo: PropTypes.func
+  updateTodo: PropTypes.func,
+  todosCategoryFilter: PropTypes.object
 }
 
 Todo.defaultProps = {
@@ -193,7 +206,8 @@ Todo.defaultProps = {
 
 const mapStateToProps = state => ({
   todos: state.todos,
-  errors: state.errors
+  errors: state.errors,
+  todosCategoryFilter: state.todosCategoryFilter
 })
 
 export default connect(
