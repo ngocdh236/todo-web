@@ -96,12 +96,12 @@ class TodoInfo extends React.Component {
 
         <div className='buttons'>
           <button
-            className='button-delete ml-1'
+            className='btn btn-danger ml-1'
             onClick={this.props.deleteTodo(this.props.todo.id)}>
             Delete
           </button>
           <button
-            className='button-done ml-1'
+            className='btn btn-light ml-1'
             onClick={this.props.onInfoDoneClick(this.state.todo)}>
             Done
           </button>

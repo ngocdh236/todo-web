@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom'
 
 import CategorizedTodoList from './CategorizedTodoList'
 import CategorizedTodoLink from './CategorizedTodoLink'
+import { createCategory } from '../actions/categoryActions'
 import { Filters } from '../actions'
 
 class MainCategory extends Component {
@@ -14,8 +15,28 @@ class MainCategory extends Component {
     super(props)
 
     this.state = {
-      todos: props.todos
+      todos: props.todos,
+      addNewCategory: false,
+      newCategory: {}
     }
+
+    this.toggleAddNewCategory = this.toggleAddNewCategory.bind(this)
+    this.onChange = this.onChange.bind(this)
+    this.addNewCategory = this.addNewCategory.bind(this)
+  }
+
+  toggleAddNewCategory() {
+    this.setState({
+      addNewCategory: !this.state.addNewCategory
+    })
+  }
+
+  addNewCategory() {
+    this.props.createCategory(this.state.newCategory)
+  }
+
+  onChange(e) {
+    this.setState({ ...this.state, newCategory: { name: e.target.value } })
   }
 
   render() {
@@ -29,17 +50,51 @@ class MainCategory extends Component {
       )
     })
 
+    var newCategory = (
+      <div className='new-category'>
+        <input className='mr-2' onChange={this.onChange} />
+        <button className='btn btn-primary' onClick={this.addNewCategory}>
+          Add
+        </button>
+      </div>
+    )
+
     return (
       <div className='MainCategory'>
-        <div className='category-list'>
-          <CategorizedTodoLink
-            category={{ id: -1, name: 'All', gradientColor: 'white' }}
-            icon=''
-            filter={Filters.SHOW_ALL}
-          />
-          {categories}
+        <button
+          className='btn btn-primary mb-5'
+          onClick={this.toggleAddNewCategory}>
+          + Add new
+        </button>
+        {this.state.addNewCategory ? newCategory : null}
+
+        <br />
+
+        <div className='dropdown'>
+          <button className='dropbtn'>
+            {this.props.todosCategoryFilter.category.name}
+          </button>
+          <div className='dropdown-content'>
+            <CategorizedTodoLink
+              category={{ id: -1, name: 'All', gradientColor: 'white' }}
+              icon=''
+              filter={Filters.SHOW_ALL}
+            />
+            {categories}
+          </div>
         </div>
-        <CategorizedTodoList />
+
+        <div className='d-flex'>
+          <div className='category-list'>
+            <CategorizedTodoLink
+              category={{ id: -1, name: 'All', gradientColor: 'white' }}
+              icon=''
+              filter={Filters.SHOW_ALL}
+            />
+            {categories}
+          </div>
+          <CategorizedTodoList />
+        </div>
       </div>
     )
   }
@@ -48,13 +103,18 @@ class MainCategory extends Component {
 MainCategory.propTypes = {
   todos: PropTypes.array.isRequired,
   categories: PropTypes.array.isRequired,
-  errors: PropTypes.object
+  errors: PropTypes.object,
+  todosCategoryFilter: PropTypes.object
 }
 
 const mapStateToProps = state => ({
   todos: state.todos,
   categories: state.categories,
-  errors: state.errors
+  errors: state.errors,
+  todosCategoryFilter: state.todosCategoryFilter
 })
 
-export default connect(mapStateToProps)(withRouter(MainCategory))
+export default connect(
+  mapStateToProps,
+  { createCategory }
+)(withRouter(MainCategory))

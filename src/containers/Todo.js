@@ -35,10 +35,12 @@ class Todo extends React.Component {
   componentDidUpdate(prevProps) {
     var categoryId = this.props.todosCategoryFilter.category.id
     if (categoryId !== prevProps.todosCategoryFilter.category.id) {
-      this.setState({
-        ...this.state,
-        todo: { ...this.state.todo, categoryId: categoryId }
-      })
+      if (categoryId >= 0) {
+        this.setState({
+          ...this.state,
+          todo: { ...this.state.todo, categoryId: categoryId }
+        })
+      }
     }
   }
 

@@ -3,8 +3,6 @@
   --background-secondary: white;
   --text-primary: white;
   --box-shadow: white;
-  --button-danger: white;
-  --button-done: white;
   --text-secondary: white;
 }
 
@@ -66,14 +64,6 @@ button {
   border-bottom: 0.5px solid gainsboro;
 }
 
-.button-delete {
-  background: var(--button-danger);
-}
-
-.button-done {
-  background: var(--button-done);
-}
-
 .vertical-line {
   border-left: 1px solid gainsboro;
   width: 1%;
@@ -86,4 +76,44 @@ button {
 
 .text-secondary {
   color: var(--text-secondary);
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+
+  .dropbtn {
+    background-color: gainsboro;
+    border: none;
+    cursor: pointer;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content button {
+    padding: 8px;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    text-align: start;
+  }
+
+  .dropdown-content button:hover {
+    background-color: #f1f1f1;
+  }
+
+  &:hover .dropdown-content {
+    display: block;
+  }
+
+  &:hover .dropbtn {
+    background-color: gray;
+  }
 }
