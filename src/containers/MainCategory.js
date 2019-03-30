@@ -31,7 +31,9 @@ class MainCategory extends Component {
   }
 
   addNewCategory() {
-    this.props.createCategory(this.state.newCategory)
+    this.props
+      .createCategory(this.state.newCategory)
+      .then(this.setState({ ...this.state, newCategory: {} }))
   }
 
   onChange(e) {
@@ -51,7 +53,11 @@ class MainCategory extends Component {
 
     var newCategory = (
       <div className='new-category'>
-        <input className='mr-2' onChange={this.onChange} />
+        <input
+          className='mr-2'
+          value={this.state.newCategory.name ? this.state.newCategory.name : ''}
+          onChange={this.onChange}
+        />
         <button className='btn btn-primary' onClick={this.addNewCategory}>
           Add
         </button>
@@ -70,7 +76,9 @@ class MainCategory extends Component {
         <br />
 
         <div className='dropdown'>
-          <button className='dropbtn'>
+          <button
+            className='dropbtn'
+            style={{ width: '150px', height: '50px' }}>
             {this.props.todosCategoryFilter.category.name}
           </button>
           <div className='dropdown-content'>

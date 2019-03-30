@@ -9,8 +9,8 @@ export const getCategories = () => dispatch => {
     .catch(err => console.log(err))
 }
 
-export const createCategory = category => dispatch => {
-  axios
+export const createCategory = category => async dispatch => {
+  return axios
     .post('/api/categories', category)
     .then(res => {
       dispatch({ type: Types.CREATE_CATEGORY, category: res.data })
@@ -22,7 +22,6 @@ export const createCategory = category => dispatch => {
         filter: Filters.SHOW_BY_CATEGORY,
         category: res.data
       })
-    }
-    )
+    })
     .catch(err => console.log(err.response.data))
 }
