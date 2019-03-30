@@ -15,27 +15,11 @@ class Login extends Component {
       password: '',
       errors: [],
       errorMessage: '',
-      redirectToReffer: false
+      redirect: false
     }
 
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-  }
-
-  componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/')
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated) {
-      this.props.history.push('/')
-    }
-
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors })
-    }
   }
 
   onChange(e) {
@@ -52,12 +36,7 @@ class Login extends Component {
       password: this.state.password
     }
 
-    this.props.loginUser(userData).then(
-      this.setState({
-        ...this.state,
-        redirectToReffer: true
-      })
-    )
+    this.props.loginUser(userData)
   }
 
   componentDidUpdate(prevProps) {
@@ -66,21 +45,30 @@ class Login extends Component {
       if (error.errors) {
         this.setState({
           ...this.state,
-          errors: error.errors
+          errors: error.errors,
+          errorMessage: ''
         })
       }
       if (error.message) {
         this.setState({
           ...this.state,
+          errors: [],
           errorMessage: error.message
         })
       }
     }
+
+    if (this.props !== prevProps) {
+      this.setState({
+        ...this.state,
+        redirect: true
+      })
+    }
   }
 
   render() {
-    const { from } = this.props.location.state || { from: { pathname: '' } }
-    if (this.state.redirectToReferrer === true) {
+    const { from } = this.props.location.state || { from: { pathname: '/' } }
+    if (this.state.redirect) {
       return <Redirect to={from} />
     }
 
@@ -134,7 +122,9 @@ class Login extends Component {
             <p className='lead text-danger'>{this.state.errorMessage}</p>
           ) : null}
           {this.props.notification.message ? (
-            <p className='lead text-success'>{this.props.notification.message}</p>
+            <p className='lead text-success'>
+              {this.props.notification.message}
+            </p>
           ) : null}
         </div>
       </div>

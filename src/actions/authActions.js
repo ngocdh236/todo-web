@@ -27,8 +27,8 @@ export const registerUser = (userData, history) => dispatch => {
     )
 }
 
-export const loginUser = userData => async dispatch => {
-  return axios
+export const loginUser = userData => dispatch => {
+  axios
     .post(signInUrl, userData)
     .then(res => {
       const { accessToken } = res.data
