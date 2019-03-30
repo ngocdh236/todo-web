@@ -48,7 +48,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
       store.getState().auth.isAuthenticated ? (
         <Component {...props} />
       ) : (
-        <Redirect to='/login' />
+        <Redirect
+          to={{ pathname: '/login', state: { from: props.location } }}
+        />
       )
     }
   />
@@ -85,6 +87,7 @@ class App extends Component {
               <PrivateRoute exact path='/' component={MainTodo} />
               <PrivateRoute exact path='/category' component={MainCategory} />
               {/* <PrivateRoute exact path='/schedule' component={MainSchedule} /> */}
+
               <button id='button-mode' onClick={this.onClick}>
                 {this.state.theme === 'Light' ? (
                   <label>Dark</label>

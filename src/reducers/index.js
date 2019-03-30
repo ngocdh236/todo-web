@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import auth from './authReducer'
 import error from './errorReducer'
+import notification from './notificationReducer'
 import theme from './themeReducer'
 import todos from './todosReducer'
 import categories from './categoriesReducer'
@@ -11,6 +12,7 @@ export default combineReducers({
   auth,
   theme,
   error,
+  notification,
   todos,
   categories,
   todosFilter,

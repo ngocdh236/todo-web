@@ -3,7 +3,6 @@ import '../styles/Todo.scss'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 
 import { getTodoById } from '../actions/todoActions'
 import TodoInfo from './TodoInfo'
@@ -215,4 +214,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { createTodo, updateTodo }
-)(withRouter(Todo))
+)(Todo)

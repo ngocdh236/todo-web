@@ -12,7 +12,13 @@ const signInUrl = '/api/auth/signin'
 export const registerUser = (userData, history) => dispatch => {
   axios
     .post(signUpUrl, userData)
-    .then(res => history.push('/login'))
+    .then(res => {
+      dispatch({
+        type: Types.GET_NOTIFICATION,
+        message: res.data.message
+      })
+      history.push('/login')
+    })
     .catch(err =>
       dispatch({
         type: Types.GET_ERRORS,
@@ -21,8 +27,8 @@ export const registerUser = (userData, history) => dispatch => {
     )
 }
 
-export const loginUser = userData => dispatch => {
-  axios
+export const loginUser = userData => async dispatch => {
+  return axios
     .post(signInUrl, userData)
     .then(res => {
       const { accessToken } = res.data

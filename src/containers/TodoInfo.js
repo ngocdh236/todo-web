@@ -3,7 +3,6 @@ import '../styles/TodoInfo.scss'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 
 import { deleteTodo } from '../actions/todoActions'
 
@@ -127,4 +126,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { deleteTodo }
-)(withRouter(TodoInfo))
+)(TodoInfo)

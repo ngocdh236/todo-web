@@ -3,7 +3,6 @@ import '../styles/MainCategory.scss'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 
 import CategorizedTodoList from './CategorizedTodoList'
 import CategorizedTodoLink from './CategorizedTodoLink'
@@ -62,7 +61,7 @@ class MainCategory extends Component {
     return (
       <div className='MainCategory'>
         <button
-          className='btn btn-primary mb-5'
+          className='btn btn-primary mb-4'
           onClick={this.toggleAddNewCategory}>
           + Add new
         </button>
@@ -117,4 +116,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { createCategory }
-)(withRouter(MainCategory))
+)(MainCategory)

@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withRouter, Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 import { loginUser } from '../actions/authActions'
+import { removeNotification } from '../actions/notificationActions'
 import InputField from '../components/InputField'
 
 class Login extends Component {
@@ -13,7 +14,8 @@ class Login extends Component {
       usernameOrEmail: '',
       password: '',
       errors: [],
-      errorMessage: ''
+      errorMessage: '',
+      redirectToReffer: false
     }
 
     this.onChange = this.onChange.bind(this)
@@ -43,12 +45,19 @@ class Login extends Component {
   onSubmit(e) {
     e.preventDefault()
 
+    this.props.removeNotification()
+
     const userData = {
       usernameOrEmail: this.state.usernameOrEmail,
       password: this.state.password
     }
 
-    this.props.loginUser(userData)
+    this.props.loginUser(userData).then(
+      this.setState({
+        ...this.state,
+        redirectToReffer: true
+      })
+    )
   }
 
   componentDidUpdate(prevProps) {
@@ -70,9 +79,15 @@ class Login extends Component {
   }
 
   render() {
+    const { from } = this.props.location.state || { from: { pathname: '' } }
+    if (this.state.redirectToReferrer === true) {
+      return <Redirect to={from} />
+    }
+
     var usernameOrEmail = 'usernameOrEmail'
     var password = 'password'
     var errors = this.state.errors
+
     return (
       <div className='Login mt-5 text-center'>
         <div className='container'>
@@ -118,6 +133,9 @@ class Login extends Component {
           {this.state.errorMessage ? (
             <p className='lead text-danger'>{this.state.errorMessage}</p>
           ) : null}
+          {this.props.notification.message ? (
+            <p className='lead'>{this.props.notification.message}</p>
+          ) : null}
         </div>
       </div>
     )
@@ -132,10 +150,11 @@ Login.propTypes = {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  error: state.error
+  error: state.error,
+  notification: state.notification
 })
 
 export default connect(
   mapStateToProps,
-  { loginUser }
-)(withRouter(Login))
+  { loginUser, removeNotification }
+)(Login)
