@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { Types } from '.'
+import { Types, Filters } from '.'
 
 export const getCategories = () => dispatch => {
   axios
@@ -12,6 +12,17 @@ export const getCategories = () => dispatch => {
 export const createCategory = category => dispatch => {
   axios
     .post('/api/categories', category)
-    .then(res => dispatch({ type: Types.CREATE_CATEGORY, category: res.data }))
+    .then(res => {
+      dispatch({ type: Types.CREATE_CATEGORY, category: res.data })
+      return res
+    })
+    .then(res => {
+      dispatch({
+        type: Types.SET_FILTER_CATEGORY,
+        filter: Filters.SHOW_BY_CATEGORY,
+        category: res.data
+      })
+    }
+    )
     .catch(err => console.log(err.response.data))
 }

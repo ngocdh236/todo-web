@@ -3,7 +3,7 @@
 
   .new-category {
     input {
-      border: 0.5px solid gainsboro;
+      border: 1px solid gainsboro;
       border-radius: 1mm;
       height: 40px;
       width: 50%;
@@ -13,11 +13,6 @@
 
   .dropdown {
     margin-bottom: 30px;
-
-    .dropbtn {
-      min-width: 150px;
-      min-height: 50px;
-    }
 
     .Category {
       .info {

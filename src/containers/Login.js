@@ -134,7 +134,7 @@ class Login extends Component {
             <p className='lead text-danger'>{this.state.errorMessage}</p>
           ) : null}
           {this.props.notification.message ? (
-            <p className='lead'>{this.props.notification.message}</p>
+            <p className='lead text-success'>{this.props.notification.message}</p>
           ) : null}
         </div>
       </div>
