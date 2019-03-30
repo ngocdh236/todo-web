@@ -14,15 +14,13 @@ class TodoList extends Component {
     return (
       <div className='TodoList'>
         {todos}
-        <div className='new-todo'>
-          <Todo
-            newTodo={true}
-            todo={{
-              done: false,
-              title: ''
-            }}
-          />
-        </div>
+        <Todo
+          newTodo={true}
+          todo={{
+            done: false,
+            title: ''
+          }}
+        />
       </div>
     )
   }

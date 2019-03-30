@@ -1,7 +1,7 @@
 @import '../App.scss';
 
 .TodoInfo {
-  width: 80%;
+  width: 100%;
   margin-top: 20px;
   margin-left: auto;
   box-shadow: var(--box-shadow);
@@ -22,6 +22,12 @@
     margin: 0;
     padding: 0;
     height: auto;
+  }
+}
+
+@media only screen and (min-width: 480px) {
+  .TodoInfo {
+    width: 80%;
   }
 }
 

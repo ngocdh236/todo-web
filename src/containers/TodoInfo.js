@@ -18,14 +18,9 @@ class TodoInfo extends React.Component {
   }
 
   onTitleChange(e) {
-    this.setState(
-      {
-        todo: { ...this.state.todo, title: e.target.value }
-      },
-      () => {
-        this.props.onInfoTitleChange(this.state.todo.title)
-      }
-    )
+    this.setState({
+      todo: { ...this.state.todo, title: e.target.value }
+    })
   }
 
   onDescriptionChange(e) {
@@ -114,7 +109,6 @@ TodoInfo.propTypes = {
   todo: PropTypes.object,
   categories: PropTypes.array,
   onInfoDoneClick: PropTypes.func,
-  onTitleChange: PropTypes.func,
   updateTodo: PropTypes.func,
   deleteTodo: PropTypes.func
 }

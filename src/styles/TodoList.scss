@@ -1,7 +1,7 @@
 @import '../App.scss';
 
 .TodoList {
-  font-size: 20px;
+  // font-size: 20px;
   display: block;
 
   label {
@@ -17,11 +17,4 @@
     margin-bottom: 30px;
   }
 
-  .new-todo {
-    display: relative;
-    button {
-      display: absolute;
-      right: 10px;
-    }
-  }
 }

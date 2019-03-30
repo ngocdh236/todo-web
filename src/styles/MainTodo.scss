@@ -1,11 +1,17 @@
 @import '../App.scss';
 
 .MainTodo {
-  padding: 80px 0;
+  padding: 25px 0;
 
   .header {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     justify-content: space-around;
+  }
+}
+
+@media only screen and (min-width: 480px) {
+  .MainTodo {
+    padding: 40px 0;
   }
 }
 

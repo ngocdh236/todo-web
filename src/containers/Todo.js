@@ -26,7 +26,6 @@ class Todo extends React.Component {
     this.onCancelCreateOrUpdate = this.onCancelCreateOrUpdate.bind(this)
     this.onShowInfo = this.onShowInfo.bind(this)
     this.onTitleChange = this.onTitleChange.bind(this)
-    this.onInfoTitleChange = this.onInfoTitleChange.bind(this)
 
     this.todoElement = React.createRef()
   }
@@ -85,7 +84,7 @@ class Todo extends React.Component {
 
           this.setState({
             ...this.state,
-            todo: this.state.todo,
+            todo: todo,
             updateTodo: false,
             alert: false,
             showInfo: false
@@ -117,14 +116,7 @@ class Todo extends React.Component {
   onShowInfo() {
     this.setState({
       ...this.state,
-      showInfo: true
-    })
-  }
-
-  onInfoTitleChange(title) {
-    this.setState({
-      ...this.state,
-      todo: { ...this.state.todo, title: title }
+      showInfo: !this.state.showInfo
     })
   }
 
@@ -184,7 +176,6 @@ class Todo extends React.Component {
             todo={this.props.todo}
             categories={this.props.categories}
             onInfoDoneClick={this.onCreateOrUpdate}
-            onInfoTitleChange={this.onInfoTitleChange}
           />
         ) : null}
       </div>

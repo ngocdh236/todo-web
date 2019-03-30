@@ -1,12 +1,13 @@
 .MainCategory {
-  padding: 40px 0 80px 0;
+  padding: 25px 0;
 
   .new-category {
+    display: flex;
     input {
       border: 1px solid gainsboro;
       border-radius: 1mm;
       height: 40px;
-      width: 50%;
+      width: 100%;
       padding: 0 20px;
     }
   }
@@ -31,6 +32,12 @@
 
   .TodoList {
     width: 100%;
+  }
+}
+
+@media only screen and (min-width: 480px) {
+  .MainCategory {
+    padding: 40px 0;
   }
 }
 
