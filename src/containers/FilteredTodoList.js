@@ -2,7 +2,6 @@ import { connect } from 'react-redux'
 
 import TodoList from '../components/TodoList'
 import { Filters } from '../actions'
-import isEmpty from '../validation/is-empty'
 
 const getTodos = (todos, todosFilter) => {
   switch (todosFilter.filter) {
@@ -13,7 +12,7 @@ const getTodos = (todos, todosFilter) => {
     case Filters.SHOW_UNDONE:
       return todos.filter(todo => !todo.done)
     case Filters.SHOW_DUE_SOON:
-      return todos.filter(todo => !isEmpty(todo.deadline))
+      return todos.filter(todo => todo.deadline)
     default:
       throw new Error('Unknown filter: ' + todosFilter.filter)
   }

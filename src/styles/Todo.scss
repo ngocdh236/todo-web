@@ -2,7 +2,7 @@
 
 .Todo {
   .todo {
-    padding: 20px;
+    padding: 10px;
     @extend %y-centered;
     width: 100%;
     height: 60px;
@@ -34,11 +34,6 @@
       -webkit-transform: rotate(45deg);
       -ms-transform: rotate(45deg);
       transform: rotate(45deg);
-    }
-
-    input {
-      margin: 0 20px;
-      width: 100%;
     }
   }
 }

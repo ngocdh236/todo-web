@@ -15,26 +15,45 @@
 
   input {
     margin: 0 10px;
+    width: 100%;
   }
 
   textarea {
     width: 100%;
     margin: 0;
     padding: 0;
-    height: auto;
   }
 
   .dropdown {
     .newCategoryName {
       @extend %y-centered;
-      
     }
+  }
+
+  .deadline {
+    display: none;
   }
 }
 
 @media only screen and (min-width: 480px) {
   .TodoInfo {
     width: 80%;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .TodoInfo {
+    .deadline {
+      display: table-row;
+
+      .date-picker {
+        border: 1px solid gainsboro;
+        border-radius: 1mm;
+        margin: 0;
+        min-width: 250px;
+        padding: 0 10px;
+      }
+    }
   }
 }
 

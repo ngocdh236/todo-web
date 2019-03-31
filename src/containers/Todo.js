@@ -138,6 +138,16 @@ class Todo extends React.Component {
       <div id='checkbox-checkmark' onClick={this.onDoneChange} />
     )
 
+    const deadline = (() => {
+      if (this.state.todo.deadline) {
+        var deadline = new Date(this.state.todo.deadline)
+        var deadlineString = deadline.toLocaleString()
+
+        return <p className='text-secondary'>{deadlineString}</p>
+      }
+      return null
+    })()
+
     return (
       <div className='Todo'>
         <div className='todo'>
@@ -146,11 +156,14 @@ class Todo extends React.Component {
             {done ? checkMark : null}
           </div>
 
-          <input
-            type='text'
-            value={this.state.todo.title}
-            onChange={this.onTitleChange}
-          />
+          <div className='d-flex flex-column mx-3' style={{ width: '100%' }}>
+            <input
+              type='text'
+              value={this.state.todo.title}
+              onChange={this.onTitleChange}
+            />
+            {deadline}
+          </div>
 
           {this.state.updateTodo ? (
             <div style={{ display: 'flex' }}>

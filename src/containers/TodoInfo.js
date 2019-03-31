@@ -3,6 +3,8 @@ import '../styles/TodoInfo.scss'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 import { deleteTodo } from '../actions/todoActions'
 
@@ -15,6 +17,7 @@ class TodoInfo extends React.Component {
     this.onTitleChange = this.onTitleChange.bind(this)
     this.onDescriptionChange = this.onDescriptionChange.bind(this)
     this.onCategoryChange = this.onCategoryChange.bind(this)
+    this.onDeadlineChange = this.onDeadlineChange.bind(this)
   }
 
   onTitleChange(e) {
@@ -32,10 +35,15 @@ class TodoInfo extends React.Component {
   onCategoryChange = category => {
     return () => {
       this.setState({
-        todo: { ...this.state.todo, category: category },
-        addNewCategory: false
+        todo: { ...this.state.todo, category: category }
       })
     }
+  }
+
+  onDeadlineChange(e) {
+    this.setState({
+      todo: { ...this.state.todo, deadline: e }
+    })
   }
 
   render() {
@@ -63,6 +71,7 @@ class TodoInfo extends React.Component {
 
         <table className='table table-borderless'>
           <tbody>
+            {/* Description */}
             <tr>
               <td className='text-secondary'>Description</td>
               <td>
@@ -75,6 +84,7 @@ class TodoInfo extends React.Component {
               </td>
             </tr>
 
+            {/* Category */}
             <tr>
               <td className='text-secondary'>Category</td>
               <td>
@@ -89,6 +99,29 @@ class TodoInfo extends React.Component {
                     <button onClick={this.onCategoryChange(null)}>None</button>
                   </div>
                 </div>
+              </td>
+            </tr>
+
+            {/* Deadline */}
+            <tr className='deadline'>
+              <td className='text-secondary'>Deadline</td>
+              <td>
+                <DatePicker
+                  todayButton={'Today'}
+                  className='date-picker'
+                  selected={
+                    this.state.todo.deadline
+                      ? new Date(this.state.todo.deadline)
+                      : null
+                  }
+                  onChange={this.onDeadlineChange}
+                  showTimeSelect
+                  timeFormat='HH:mm'
+                  timeIntervals={15}
+                  dateFormat='MMMM d, yyyy h:mm aa'
+                  timeCaption='Time'
+                  isClearable={true}
+                />
               </td>
             </tr>
           </tbody>
