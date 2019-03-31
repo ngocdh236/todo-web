@@ -12,7 +12,7 @@ const getTodos = (todos, todosFilter) => {
     case Filters.SHOW_UNDONE:
       return todos.filter(todo => !todo.done)
     case Filters.SHOW_DUE_SOON:
-      return todos.filter(todo => todo.deadline)
+      return todos.filter(todo => !todo.done && todo.deadline )
     default:
       throw new Error('Unknown filter: ' + todosFilter.filter)
   }
