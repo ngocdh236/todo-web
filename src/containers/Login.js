@@ -39,6 +39,12 @@ class Login extends Component {
     this.props.loginUser(userData)
   }
 
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/')
+    }
+  }
+
   componentDidUpdate(prevProps) {
     var error = this.props.error
     if (error !== prevProps.error) {
@@ -58,7 +64,7 @@ class Login extends Component {
       }
     }
 
-    if (this.props !== prevProps) {
+    if (this.props.auth !== prevProps.auth) {
       this.setState({
         ...this.state,
         redirect: true

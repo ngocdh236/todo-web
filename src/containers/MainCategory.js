@@ -20,7 +20,7 @@ class MainCategory extends Component {
     }
 
     this.toggleAddNewCategory = this.toggleAddNewCategory.bind(this)
-    this.onChange = this.onChange.bind(this)
+    this.onNewCategoryChange = this.onNewCategoryChange.bind(this)
     this.addNewCategory = this.addNewCategory.bind(this)
   }
 
@@ -36,7 +36,7 @@ class MainCategory extends Component {
       .then(this.setState({ ...this.state, newCategory: {} }))
   }
 
-  onChange(e) {
+  onNewCategoryChange(e) {
     this.setState({ ...this.state, newCategory: { name: e.target.value } })
   }
 
@@ -56,7 +56,7 @@ class MainCategory extends Component {
         <input
           className='mr-2'
           value={this.state.newCategory.name ? this.state.newCategory.name : ''}
-          onChange={this.onChange}
+          onChange={this.onNewCategoryChange}
         />
         <button className='btn btn-light' onClick={this.addNewCategory}>
           Add

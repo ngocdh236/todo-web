@@ -18,7 +18,7 @@ class Category extends React.Component {
           />
         </div>
         <div className='info'>
-          <p>{this.props.category.name}</p>
+          <label>{this.props.category.name}</label>
         </div>
       </button>
     )

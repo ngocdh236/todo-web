@@ -32,7 +32,8 @@ class TodoInfo extends React.Component {
   onCategoryChange = category => {
     return () => {
       this.setState({
-        todo: { ...this.state.todo, category: category }
+        todo: { ...this.state.todo, category: category },
+        addNewCategory: false
       })
     }
   }
@@ -81,7 +82,12 @@ class TodoInfo extends React.Component {
                   <button className='dropbtn'>
                     {category ? category.name : 'Choose category'}
                   </button>
-                  <div className='dropdown-content'>{categories}</div>
+
+                  <div className='dropdown-content'>
+                    {categories}
+                    <div className='horizontal-line mx-2' />
+                    <button onClick={this.onCategoryChange(null)}>None</button>
+                  </div>
                 </div>
               </td>
             </tr>
