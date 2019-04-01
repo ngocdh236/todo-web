@@ -82,10 +82,10 @@ class App extends Component {
           <div className='App'>
             <Nav />
             <div className='px-5'>
-              <Route exact path='/register' component={Register} />
-              <Route exact path='/login' component={Login} />
-              <PrivateRoute exact path='/' component={MainTodo} />
-              <PrivateRoute exact path='/category' component={MainCategory} />
+              <Route exact path='/register' basename='/register' component={Register} />
+              <Route exact path='/login' basename='/login' component={Login} />
+              <PrivateRoute exact path='/' basename='/' component={MainTodo} />
+              <PrivateRoute exact path='/category' basename='/category' component={MainCategory} />
               {/* <PrivateRoute exact path='/schedule' component={MainSchedule} /> */}
 
               <button id='button-mode' onClick={this.onClick}>
