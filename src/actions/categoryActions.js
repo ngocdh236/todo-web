@@ -1,17 +1,19 @@
-import axios from 'axios'
+import customAxios from './customAxios'
 
 import { Types, Filters } from '.'
 
+const categoryURL = '/categories'
+
 export const getCategories = () => dispatch => {
-  axios
-    .get('/api/categories')
+  customAxios
+    .get(categoryURL)
     .then(res => dispatch({ type: Types.SET_CATEGORIES, categories: res.data }))
     .catch(err => console.log(err))
 }
 
 export const createCategory = category => async dispatch => {
-  return axios
-    .post('/api/categories', category)
+  return customAxios
+    .post(categoryURL, category)
     .then(res => {
       dispatch({ type: Types.CREATE_CATEGORY, category: res.data })
       return res

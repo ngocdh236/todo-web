@@ -35,12 +35,6 @@
   }
 }
 
-@media only screen and (min-width: 480px) {
-  .TodoInfo {
-    width: 80%;
-  }
-}
-
 @media only screen and (min-width: 600px) {
   .TodoInfo {
     .deadline {
@@ -50,14 +44,19 @@
         border: 1px solid gainsboro;
         border-radius: 1mm;
         margin: 0;
-        min-width: 250px;
         padding: 0 10px;
       }
     }
   }
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 992px) {
+  .TodoInfo {
+    width: 80%;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
   .TodoInfo {
     width: 60%;
   }

@@ -1,17 +1,17 @@
-import axios from 'axios'
 import jwt_decoce from 'jwt-decode'
 
+import customAxios from './customAxios'
 import { Types } from '.'
 import setAuthToken from '../utils/setAuthToken'
 import { getTodos } from '../actions/todoActions'
 import { getCategories } from '../actions/categoryActions'
 
-const signUpUrl = '/api/auth/signup'
-const signInUrl = '/api/auth/signin'
+const signUpURL = '/auth/signup'
+const signInURL = '/auth/signin'
 
 export const registerUser = (userData, history) => dispatch => {
-  axios
-    .post(signUpUrl, userData)
+  customAxios
+    .post(signUpURL, userData)
     .then(res => {
       dispatch({
         type: Types.GET_NOTIFICATION,
@@ -28,8 +28,8 @@ export const registerUser = (userData, history) => dispatch => {
 }
 
 export const loginUser = userData => dispatch => {
-  axios
-    .post(signInUrl, userData)
+  customAxios
+    .post(signInURL, userData)
     .then(res => {
       const { accessToken } = res.data
       localStorage.setItem('token', accessToken)
@@ -42,7 +42,7 @@ export const loginUser = userData => dispatch => {
     .catch(err =>
       dispatch({
         type: Types.GET_ERRORS,
-        payload: err.response
+        payload: err.response.data
       })
     )
 }

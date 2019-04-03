@@ -1,11 +1,11 @@
-import axios from 'axios'
+import customAxios from '../actions/customAxios'
 
 const setAuthToken = token => {
   if (token) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-    axios.defaults.headers.common['Content-Type'] = 'application/json'
+    customAxios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    customAxios.defaults.headers.common['Content-Type'] = 'application/json'
   } else {
-    delete axios.defaults.headers.common['Authorization']
+    delete customAxios.defaults.headers.common['Authorization']
   }
 }
 

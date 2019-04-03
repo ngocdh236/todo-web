@@ -16,17 +16,29 @@ class MainTodo extends Component {
           filter={Filters.SHOW_ALL}
         />
         <FilteredTodoLink
-          category={{ id: -2, name: 'Done', gradientColor: '#417505' }}
+          category={{
+            id: -2,
+            name: 'Done',
+            gradientColor: 'linear-gradient(to right, #a8e063, #56ab2f)'
+          }}
           icon='far fa-check-circle'
           filter={Filters.SHOW_DONE}
         />
         <FilteredTodoLink
-          category={{ id: -3, name: 'Due Soon', gradientColor: '#D0021B' }}
+          category={{
+            id: -3,
+            name: 'Due Soon',
+            gradientColor: 'linear-gradient(to right, #ef473a, #cb2d3e)'
+          }}
           icon='far fa-clock'
           filter={Filters.SHOW_DUE_SOON}
         />
         <FilteredTodoLink
-          category={{ id: -4, name: 'Todo', gradientColor: '#F8E71C' }}
+          category={{
+            id: -4,
+            name: 'Todo',
+            gradientColor: 'linear-gradient(to right, #ffe259, #ffcc33)'
+          }}
           icon='far fa-times-circle'
           filter={Filters.SHOW_UNDONE}
         />
