@@ -20,6 +20,7 @@ class TodoList extends Component {
             done: false,
             title: ""
           }}
+          categoryId={this.props.categoryId}
         />
       </div>
     )
@@ -27,7 +28,8 @@ class TodoList extends Component {
 }
 
 TodoList.propTypes = {
-  todos: PropTypes.array
+  todos: PropTypes.array,
+  categoryId: PropTypes.number
 }
 
 export default TodoList

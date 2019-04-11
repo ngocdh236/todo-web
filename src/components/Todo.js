@@ -28,9 +28,21 @@ class Todo extends React.Component {
     this.todoElement = React.createRef()
   }
 
+  componentDidMount() {
+    var categoryId = this.props.categoryId
+    if (categoryId) {
+      if (categoryId >= 0) {
+        this.setState({
+          ...this.state,
+          todo: { ...this.state.todo, categoryId: categoryId }
+        })
+      }
+    }
+  }
+
   componentDidUpdate(prevProps) {
-    var categoryId = this.props.todosCategoryFilter.category.id
-    if (categoryId !== prevProps.todosCategoryFilter.category.id) {
+    var categoryId = this.props.categoryId
+    if (categoryId !== prevProps.categoryId) {
       if (categoryId >= 0) {
         this.setState({
           ...this.state,
@@ -202,8 +214,7 @@ Todo.propTypes = {
   todo: PropTypes.object,
   categoryId: PropTypes.number,
   createTodo: PropTypes.func,
-  updateTodo: PropTypes.func,
-  todosCategoryFilter: PropTypes.object
+  updateTodo: PropTypes.func
 }
 
 Todo.defaultProps = {
