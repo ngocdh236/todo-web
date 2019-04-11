@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import CategorizedTodoList from './CategorizedTodoList'
-import CategorizedTodoLink from './CategorizedTodoLink'
+import CategoryLink from './CategoryLink'
 import { createCategory } from '../actions/categoryActions'
 import { Filters } from '../actions'
 
@@ -43,7 +43,7 @@ class MainCategory extends Component {
   render() {
     var categories = this.props.categories.map(category => {
       return (
-        <CategorizedTodoLink
+        <CategoryLink
           key={category.id}
           category={category}
           filter={Filters.SHOW_BY_CATEGORY}
@@ -76,11 +76,11 @@ class MainCategory extends Component {
         <br />
 
         <div className='dropdown'>
-          <button className='dropbtn' style={{minWidth: '100px', height: '40px'}}>
+          <button className='dropbtn' style={{ minWidth: '100px', height: '40px' }}>
             {this.props.todosCategoryFilter.category.name}
           </button>
           <div className='dropdown-content'>
-            <CategorizedTodoLink
+            <CategoryLink
               category={{ id: -1, name: 'All', gradientColor: 'white' }}
               icon=''
               filter={Filters.SHOW_ALL}
@@ -91,7 +91,7 @@ class MainCategory extends Component {
 
         <div className='d-flex'>
           <div className='category-list'>
-            <CategorizedTodoLink
+            <CategoryLink
               category={{ id: -1, name: 'All', gradientColor: 'white' }}
               icon=''
               filter={Filters.SHOW_ALL}

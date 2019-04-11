@@ -2,12 +2,10 @@ import '../styles/Todo.scss'
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 
 import { getTodoById } from '../actions/todoActions'
-import TodoInfo from './TodoInfo'
+import TodoInfoLink from '../containers/TodoInfoLink'
 import isEmpty from '../validation/is-empty'
-import { createTodo, updateTodo } from '../actions/todoActions'
 
 class Todo extends React.Component {
   constructor(props) {
@@ -28,17 +26,6 @@ class Todo extends React.Component {
     this.onTitleChange = this.onTitleChange.bind(this)
 
     this.todoElement = React.createRef()
-  }
-
-  componentDidMount() {
-    var categoryId = this.props.todosCategoryFilter.category.id
-
-    if (categoryId >= 0) {
-      this.setState({
-        ...this.state,
-        todo: { ...this.state.todo, categoryId: categoryId }
-      })
-    }
   }
 
   componentDidUpdate(prevProps) {
@@ -75,7 +62,7 @@ class Todo extends React.Component {
 
   onCreateOrUpdate = todo => {
     return () => {
-      if (isEmpty(this.state.todo.title)) {
+      if (isEmpty(todo.title)) {
         this.setState({
           ...this.state,
           alert: true,
@@ -110,6 +97,7 @@ class Todo extends React.Component {
       this.setState({
         ...this.state,
         updateTodo: false,
+        alert: false,
         todo: this.props.todo
       })
     } else {
@@ -118,7 +106,8 @@ class Todo extends React.Component {
           ...this.state,
           updateTodo: false,
           todo: todo,
-          showInfo: false
+          showInfo: false,
+          alert: false
         })
       })
     }
@@ -127,7 +116,8 @@ class Todo extends React.Component {
   onShowInfo() {
     this.setState({
       ...this.state,
-      showInfo: !this.state.showInfo
+      showInfo: !this.state.showInfo,
+      alert: false
     })
   }
 
@@ -196,7 +186,7 @@ class Todo extends React.Component {
         ) : null}
 
         {this.state.showInfo ? (
-          <TodoInfo
+          <TodoInfoLink
             todo={this.props.todo}
             categories={this.props.categories}
             onInfoDoneClick={this.onCreateOrUpdate}
@@ -220,13 +210,4 @@ Todo.defaultProps = {
   newTodo: false
 }
 
-const mapStateToProps = state => ({
-  todos: state.todos,
-  errors: state.errors,
-  todosCategoryFilter: state.todosCategoryFilter
-})
-
-export default connect(
-  mapStateToProps,
-  { createTodo, updateTodo }
-)(Todo)
+export default Todo

@@ -2,11 +2,8 @@ import '../styles/TodoInfo.scss'
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-
-import { deleteTodo } from '../actions/todoActions'
 
 class TodoInfo extends React.Component {
   constructor(props) {
@@ -152,11 +149,4 @@ TodoInfo.propTypes = {
   deleteTodo: PropTypes.func
 }
 
-const mapStateToProps = state => ({
-  categories: state.categories
-})
-
-export default connect(
-  mapStateToProps,
-  { deleteTodo }
-)(TodoInfo)
+export default TodoInfo

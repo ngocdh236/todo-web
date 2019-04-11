@@ -1,24 +1,24 @@
-import '../styles/TodoList.scss'
+import "../styles/TodoList.scss"
 
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from "react"
+import PropTypes from "prop-types"
 
-import Todo from '../containers/Todo'
+import TodoLink from "../containers/TodoLink"
 
 class TodoList extends Component {
   render() {
     var todos = this.props.todos.map(todo => {
-      return <Todo key={todo.id} todo={todo} />
+      return <TodoLink key={todo.id} todo={todo} />
     })
 
     return (
-      <div className='TodoList'>
+      <div className="TodoList">
         {todos}
-        <Todo
+        <TodoLink
           newTodo={true}
           todo={{
             done: false,
-            title: ''
+            title: ""
           }}
         />
       </div>

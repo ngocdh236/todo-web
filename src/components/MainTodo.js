@@ -3,19 +3,19 @@ import '../styles/MainTodo.scss'
 import React, { Component } from 'react'
 
 import FilteredTodoList from '../containers/FilteredTodoList'
-import FilteredTodoLink from '../containers/FilteredTodoLink'
+import FilterLink from '../containers/FilterLink'
 import { Filters } from '../actions'
 
 class MainTodo extends Component {
   render() {
     const header = (
       <div className='header d-flex'>
-        <FilteredTodoLink
+        <FilterLink
           category={{ id: -1, name: 'All', gradientColor: 'white' }}
           icon=''
           filter={Filters.SHOW_ALL}
         />
-        <FilteredTodoLink
+        <FilterLink
           category={{
             id: -2,
             name: 'Done',
@@ -24,7 +24,7 @@ class MainTodo extends Component {
           icon='far fa-check-circle'
           filter={Filters.SHOW_DONE}
         />
-        <FilteredTodoLink
+        <FilterLink
           category={{
             id: -3,
             name: 'Due Soon',
@@ -33,7 +33,7 @@ class MainTodo extends Component {
           icon='far fa-clock'
           filter={Filters.SHOW_DUE_SOON}
         />
-        <FilteredTodoLink
+        <FilterLink
           category={{
             id: -4,
             name: 'Todo',
