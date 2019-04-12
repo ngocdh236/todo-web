@@ -19,6 +19,8 @@ class MainCategory extends Component {
       newCategory: {}
     }
 
+    this.newCategoryInput = React.createRef()
+
     this.toggleAddNewCategory = this.toggleAddNewCategory.bind(this)
     this.onNewCategoryChange = this.onNewCategoryChange.bind(this)
     this.addNewCategory = this.addNewCategory.bind(this)
@@ -27,6 +29,10 @@ class MainCategory extends Component {
   toggleAddNewCategory() {
     this.setState({
       addNewCategory: !this.state.addNewCategory
+    }, () => {
+      if (this.state.addNewCategory) {
+        this.newCategoryInput.current.focus()
+      }
     })
   }
 
@@ -57,6 +63,7 @@ class MainCategory extends Component {
           className='mr-2'
           value={this.state.newCategory.name ? this.state.newCategory.name : ''}
           onChange={this.onNewCategoryChange}
+          ref={this.newCategoryInput}
         />
         <button className='btn btn-light' onClick={this.addNewCategory}>
           Add
