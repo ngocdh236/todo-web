@@ -1,24 +1,24 @@
-import "../styles/Category.scss"
+import '../styles/Category.scss'
 
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
 class Category extends React.Component {
   render() {
     var gradientColor = this.props.category.gradientColor
     return (
       <button
-        className="Category"
+        className='Category'
         disabled={this.props.active}
         onClick={this.props.onClick}
       >
-        <div className="icon" style={{ background: gradientColor }}>
+        <div className='icon' style={{ background: gradientColor }}>
           <i
             className={this.props.icon}
-            style={{ color: "white", fontSize: "20px" }}
+            style={{ color: 'white', fontSize: '20px' }}
           />
         </div>
-        <div className="info">
+        <div className='info'>
           <label>{this.props.category.name}</label>
         </div>
       </button>

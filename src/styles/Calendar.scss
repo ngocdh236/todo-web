@@ -1,0 +1,19 @@
+@import '../App.scss';
+
+.Calendar {
+  box-shadow: var(--box-shadow);
+  border-radius: 2mm;
+  padding: 10px;
+
+  table {
+    width: 100%;
+    text-align: center;
+    th,
+    td {
+      padding: 20px 0;
+    }
+    .today {
+      background: red;
+    }
+  }
+}

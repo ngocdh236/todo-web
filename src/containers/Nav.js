@@ -36,11 +36,11 @@ class Nav extends Component {
             Category
           </Link>
         </li>
-        {/* <li className='nav-item'>
+        <li className='nav-item'>
           <Link className='nav-link' to='/schedule'>
             Schedule
           </Link>
-        </li> */}
+        </li>
         <li className='nav-item'>
           <label className='nav-link' onClick={this.onLogoutClick.bind(this)}>
             Logout
@@ -58,13 +58,15 @@ class Nav extends Component {
           className='navbar-toggler'
           type='button'
           data-toggle='collapse'
-          data-target='#mobile-nav'>
+          data-target='#mobile-nav'
+        >
           <i className='fas fa-bars' />
         </button>
 
         <div
           className='collapse navbar-collapse navbar-default'
-          id='mobile-nav'>
+          id='mobile-nav'
+        >
           {isAuthenticated ? authLinks : guestLinks}
         </div>
       </nav>

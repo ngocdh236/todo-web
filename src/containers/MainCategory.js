@@ -27,13 +27,16 @@ class MainCategory extends Component {
   }
 
   toggleAddNewCategory() {
-    this.setState({
-      addNewCategory: !this.state.addNewCategory
-    }, () => {
-      if (this.state.addNewCategory) {
-        this.newCategoryInput.current.focus()
+    this.setState(
+      {
+        addNewCategory: !this.state.addNewCategory
+      },
+      () => {
+        if (this.state.addNewCategory) {
+          this.newCategoryInput.current.focus()
+        }
       }
-    })
+    )
   }
 
   addNewCategory() {
@@ -75,7 +78,8 @@ class MainCategory extends Component {
       <div className='MainCategory'>
         <button
           className='btn btn-light mb-4'
-          onClick={this.toggleAddNewCategory}>
+          onClick={this.toggleAddNewCategory}
+        >
           + Add new
         </button>
         {this.state.addNewCategory ? newCategory : null}
@@ -83,7 +87,10 @@ class MainCategory extends Component {
         <br />
 
         <div className='dropdown'>
-          <button className='dropbtn' style={{ minWidth: '100px', height: '40px' }}>
+          <button
+            className='dropbtn'
+            style={{ minWidth: '100px', height: '40px' }}
+          >
             {this.props.todosCategoryFilter.category.name}
           </button>
           <div className='dropdown-content'>

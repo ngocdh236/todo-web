@@ -1,9 +1,9 @@
-import "../styles/TodoList.scss"
+import '../styles/TodoList.scss'
 
-import React, { Component } from "react"
-import PropTypes from "prop-types"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import TodoLink from "../containers/TodoLink"
+import TodoLink from '../containers/TodoLink'
 
 class TodoList extends Component {
   render() {
@@ -12,13 +12,13 @@ class TodoList extends Component {
     })
 
     return (
-      <div className="TodoList">
+      <div className='TodoList'>
         {todos}
         <TodoLink
           newTodo={true}
           todo={{
             done: false,
-            title: ""
+            title: ''
           }}
           categoryId={this.props.categoryId}
         />
