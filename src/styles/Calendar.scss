@@ -2,17 +2,26 @@
 
 .Calendar {
   box-shadow: var(--box-shadow);
-  border-radius: 2mm;
   padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
 
-  table {
+  .year {
     width: 100%;
-    text-align: center;
-    th,
-    td {
-      padding: 20px 0;
-    }
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .month {
+    margin-bottom: 20px;
+  }
+
+  .day {
+    margin: 20px 0;
+    width: 14%;
     .today {
+      width: 50%;
       background: red;
     }
   }

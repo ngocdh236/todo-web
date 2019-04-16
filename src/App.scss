@@ -46,6 +46,12 @@ textarea {
   resize: none;
   border: none;
   background: inherit;
+  padding: 0;
+}
+
+.a-active {
+  color: skyblue;
+  border-bottom: 1px solid skyblue;
 }
 
 button {

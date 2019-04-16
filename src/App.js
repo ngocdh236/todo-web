@@ -96,7 +96,12 @@ class App extends Component {
                 basename='/category'
                 component={MainCategory}
               />
-              <PrivateRoute exact path='/schedule' component={MainSchedule} />
+              <PrivateRoute
+                exact
+                path='/schedule'
+                basename='/schedule'
+                component={MainSchedule}
+              />
 
               <button id='button-mode' onClick={this.onClick}>
                 {this.state.theme === 'Light' ? (

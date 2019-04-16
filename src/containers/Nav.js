@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
@@ -17,14 +17,18 @@ class Nav extends Component {
     const guestLinks = (
       <ul className='navbar-nav ml-auto'>
         <li className='nav-item'>
-          <Link className='nav-link' to='/login'>
+          <NavLink className='nav-link' activeClassName='a-active' to='/login'>
             Login
-          </Link>
+          </NavLink>
         </li>
         <li className='nav-item'>
-          <Link className='nav-link' to='/register'>
+          <NavLink
+            className='nav-link'
+            activeClassName='a-active'
+            to='/register'
+          >
             Sign Up
-          </Link>
+          </NavLink>
         </li>
       </ul>
     )
@@ -32,14 +36,24 @@ class Nav extends Component {
     const authLinks = (
       <ul className='navbar-nav ml-auto'>
         <li className='nav-item'>
-          <Link className='nav-link' to='/category'>
+          <NavLink
+            exact
+            className='nav-link'
+            activeClassName='a-active'
+            to='/category'
+          >
             Category
-          </Link>
+          </NavLink>
         </li>
         <li className='nav-item'>
-          <Link className='nav-link' to='/schedule'>
+          <NavLink
+            exact
+            className='nav-link'
+            activeClassName='a-active'
+            to='/schedule'
+          >
             Schedule
-          </Link>
+          </NavLink>
         </li>
         <li className='nav-item'>
           <label className='nav-link' onClick={this.onLogoutClick.bind(this)}>
@@ -51,9 +65,14 @@ class Nav extends Component {
 
     return (
       <nav className='Nav navbar navbar-expand-sm'>
-        <Link className='navbar-brand' to='/'>
+        <NavLink
+          exact
+          className='navbar-brand'
+          activeClassName='a-active'
+          to='/'
+        >
           TODO
-        </Link>
+        </NavLink>
         <button
           className='navbar-toggler'
           type='button'
@@ -83,7 +102,9 @@ const mapStateToProps = state => ({
   auth: state.auth
 })
 
-export default connect(
-  mapStateToProps,
-  { logoutUser }
-)(Nav)
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { logoutUser }
+  )(Nav)
+)

@@ -8,15 +8,11 @@ class Calendar extends Component {
     super(props)
     this.state = {
       dateObject: moment(),
-      allmonths: moment.months(),
-      showMonthTable: false
+      allmonths: moment.months()
     }
-  }
 
-  showMonth = (e, month) => {
-    this.setState({
-      showMonthTable: !this.state.showMonthTable
-    })
+    // this.previousYear = this.previousYear.bind(this)
+    // this.nextYear = this.nextYear.bind(this)
   }
 
   setMonth = month => {
@@ -29,25 +25,54 @@ class Calendar extends Component {
     })
   }
 
-  MonthList = props => {
-    let months = []
-    props.data.map(data => {
-      months.push(
-        <td
-          onClick={e => {
-            this.setMonth(data)
+  MonthPicker = props => {
+    let months = props.months.map(month => {
+      return (
+        <div
+          key={month}
+          className='month'
+          onClick={() => {
+            this.setMonth(month)
           }}
         >
-          <span>{data}</span>
-        </td>
+          {month}
+        </div>
       )
+    })
+
+    return <div className='month-list'>{months}</div>
+  }
+
+  getYears(startYear, stopYear) {
+    var years = []
+    var currentYear = moment(startYear)
+    var endYear = moment(stopYear)
+    while (currentYear < endYear) {
+      years.push(moment(currentYear).format('YYYY'))
+      currentYear = moment(currentYear).add(1, 'year')
+    }
+    return years
+  }
+
+  YearPicker = props => {
+    let years = []
+    let next = moment()
+      .set('year', props)
+      .add('year', 12)
+      .format('Y')
+    console.log(props)
+    console.log(next)
+    let twelveyears = this.getYears(props, next)
+
+    twelveyears.map(data => {
+      years.push(<td key={data}>{data}</td>)
     })
 
     let rows = []
     let cells = []
 
-    months.forEach((cell, i) => {
-      if (i % 3 !== 0 || i == 0) {
+    years.forEach((cell, i) => {
+      if (i % 3 !== 0 || i === 0) {
         cells.push(cell)
       } else {
         rows.push(cells)
@@ -58,25 +83,28 @@ class Calendar extends Component {
 
     rows.push(cells)
 
-    let monthlist = rows.map((d, i) => {
+    let yearlist = rows.map((d, i) => {
       return <tr>{d}</tr>
     })
 
     return (
       <table>
-        <thead>
-          <tr>
-            <th colSpan='4'>Select a Month</th>
-          </tr>
-        </thead>
-        <tbody>{monthlist}</tbody>
+        <tbody>{yearlist}</tbody>
       </table>
     )
   }
 
+  previousYear() {}
+
+  nextYear() {}
+
   render() {
     let weekdayshortname = moment.weekdaysShort().map(day => {
-      return <th className='week-day'>{day}</th>
+      return (
+        <p key={day} className='lead' style={{ width: '14%' }}>
+          <strong>{day}</strong>
+        </p>
+      )
     })
 
     let firstDayOfMonth = moment(this.state.dateObject)
@@ -85,55 +113,47 @@ class Calendar extends Component {
 
     let blanks = []
     for (let i = 0; i < firstDayOfMonth; i++) {
-      blanks.push(<td>{''}</td>)
+      blanks.push(<label>{''}</label>)
     }
 
-    let daysInMonth = []
+    let days = []
     for (let d = 1; d <= this.state.dateObject.daysInMonth(); d++) {
       let currentDay =
         d === Number(this.state.dateObject.format('D')) ? 'today' : ''
-      daysInMonth.push(<td className={currentDay}>{d}</td>)
+      days.push(<label className={currentDay}>{d}</label>)
     }
 
-    var totalSlots = [...blanks, ...daysInMonth]
-    let rows = []
-    let cells = []
+    var totalSlots = [...blanks, ...days]
 
-    totalSlots.forEach((cell, i) => {
-      if (i % 7 !== 0) {
-        cells.push(cell)
-      } else {
-        rows.push(cells)
-        cells = []
-        cells.push(cell)
-      }
-      if (i === totalSlots.length - 1) {
-        rows.push(cells)
-      }
-    })
-
-    let daysinmonth = rows.map((d, i) => {
-      return <tr>{d}</tr>
+    let daysinmonth = totalSlots.map((slot, i) => {
+      return (
+        <div key={i} className='day'>
+          {slot}
+        </div>
+      )
     })
 
     return (
       <div className='Calendar'>
-        <div
-          className='h4 text-center'
-          onClick={e => {
-            this.showMonth()
-          }}
-        >
-          {this.state.dateObject.format('MMMM')}
+        {/* <this.YearPicker props={this.state.dateObject.format('Y')} /> */}
+
+        <div className='d-flex flex-column' style={{ width: '25%' }}>
+          <div className='year mb-4'>
+            <i className='fas fa-chevron-left' onClick={this.previousYear} />
+            {this.state.dateObject.format('Y')}
+            <i className='fas fa-chevron-right' onClick={this.nextYear} />
+          </div>
+          <this.MonthPicker months={moment.months()} />
         </div>
 
-        {this.state.showMonthTable && <this.MonthList data={moment.months()} />}
-        <table>
-          <thead>
-            <tr>{weekdayshortname}</tr>
-          </thead>
-          <tbody>{daysinmonth}</tbody>
-        </table>
+        <div style={{ width: '70%' }}>
+          <div className='h4 mb-4'>{this.state.dateObject.format('MMMM')}</div>
+
+          <div>
+            <div className='d-flex'>{weekdayshortname}</div>
+            <div className='d-flex flex-wrap'>{daysinmonth}</div>
+          </div>
+        </div>
       </div>
     )
   }
