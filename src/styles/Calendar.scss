@@ -1,7 +1,6 @@
 @import '../App.scss';
 
 .Calendar {
-  // box-shadow: var(--box-shadow);
   padding: 10px;
   display: flex;
   justify-content: space-between;
@@ -17,12 +16,19 @@
     margin-bottom: 20px;
   }
 
+  .chosen-month {
+    color: red;
+  }
+
   .day {
-    margin: 20px 0;
+    padding: 35px 0;
     width: 14%;
-    .today {
-      width: 50%;
-      background: red;
+    height: 100%;
+    border-right: 0.5px solid gainsboro;
+    border-bottom: 0.5px solid gainsboro;
+
+    .chosen-day {
+      color: red;
     }
   }
 }

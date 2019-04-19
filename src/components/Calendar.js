@@ -2,6 +2,7 @@ import '../styles/Calendar.scss'
 
 import React, { Component } from 'react'
 import moment from 'moment'
+import classnames from 'classnames'
 
 class Calendar extends Component {
   constructor(props) {
@@ -27,10 +28,13 @@ class Calendar extends Component {
 
   MonthPicker = props => {
     let months = props.months.map(month => {
+      let chosenMonth = this.state.dateObject.format('MMMM') === String(month)
       return (
         <div
           key={month}
-          className='month'
+          className={classnames('month', {
+            'chosen-month': chosenMonth
+          })}
           onClick={() => {
             this.setMonth(month)
           }}
@@ -101,9 +105,9 @@ class Calendar extends Component {
 
     let days = []
     for (let d = 1; d <= this.state.dateObject.daysInMonth(); d++) {
-      let currentDay =
-        d === Number(this.state.dateObject.format('D')) ? 'today' : ''
-      days.push(<label className={currentDay}>{d}</label>)
+      let chosenDay =
+        d === Number(this.state.dateObject.format('D')) ? 'chosen-day' : ''
+      days.push(<label className={chosenDay}>{d}</label>)
     }
 
     var totalSlots = [...blanks, ...days]
@@ -143,8 +147,15 @@ class Calendar extends Component {
           </div>
 
           <div>
-            <div className='d-flex'>{weekdayshortname}</div>
-            <div className='d-flex flex-wrap'>{daysinmonth}</div>
+            <div className='d-flex mb-2'>{weekdayshortname}</div>
+            <div
+              className='d-flex flex-wrap'
+              style={{
+                borderLeft: '0.5px solid gainsboro'
+              }}
+            >
+              {daysinmonth}
+            </div>
           </div>
         </div>
       </div>
