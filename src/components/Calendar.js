@@ -7,21 +7,21 @@ class Calendar extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      dateObject: moment(),
-      allmonths: moment.months()
+      dateObject: moment()
     }
 
-    // this.previousYear = this.previousYear.bind(this)
-    // this.nextYear = this.nextYear.bind(this)
+    this.previousYear = this.previousYear.bind(this)
+    this.nextYear = this.nextYear.bind(this)
+    this.previousMonth = this.previousMonth.bind(this)
+    this.nextMonth = this.nextMonth.bind(this)
   }
 
   setMonth = month => {
-    let monthNumber = this.state.allmonths.indexOf(month)
+    let monthNumber = moment.months().indexOf(month)
     let dateObject = Object.assign({}, this.state.dateObject)
     dateObject = moment(dateObject).set('month', monthNumber)
     this.setState({
-      dateObject: dateObject,
-      showMonthTable: !this.state.showMonthTable
+      dateObject: dateObject
     })
   }
 
@@ -43,60 +43,43 @@ class Calendar extends Component {
     return <div className='month-list'>{months}</div>
   }
 
-  getYears(startYear, stopYear) {
-    var years = []
-    var currentYear = moment(startYear)
-    var endYear = moment(stopYear)
-    while (currentYear < endYear) {
-      years.push(moment(currentYear).format('YYYY'))
-      currentYear = moment(currentYear).add(1, 'year')
-    }
-    return years
+  previousYear() {
+    let year = Number(this.state.dateObject.format('YYYY'))
+    let dateObject = Object.assign({}, this.state.dateObject)
+    dateObject = moment(dateObject).set('year', year - 1)
+    this.setState({
+      dateObject: dateObject
+    })
   }
 
-  YearPicker = props => {
-    let years = []
-    let next = moment()
-      .set('year', props)
-      .add('year', 12)
-      .format('Y')
-    console.log(props)
-    console.log(next)
-    let twelveyears = this.getYears(props, next)
-
-    twelveyears.map(data => {
-      years.push(<td key={data}>{data}</td>)
+  nextYear() {
+    let year = Number(this.state.dateObject.format('YYYY'))
+    let dateObject = Object.assign({}, this.state.dateObject)
+    dateObject = moment(dateObject).set('year', year + 1)
+    this.setState({
+      dateObject: dateObject
     })
-
-    let rows = []
-    let cells = []
-
-    years.forEach((cell, i) => {
-      if (i % 3 !== 0 || i === 0) {
-        cells.push(cell)
-      } else {
-        rows.push(cells)
-        cells = []
-        cells.push(cell)
-      }
-    })
-
-    rows.push(cells)
-
-    let yearlist = rows.map((d, i) => {
-      return <tr>{d}</tr>
-    })
-
-    return (
-      <table>
-        <tbody>{yearlist}</tbody>
-      </table>
-    )
   }
 
-  previousYear() {}
+  previousMonth() {
+    let month = this.state.dateObject.format('MMMM')
+    let monthNumber = moment.months().indexOf(month)
+    let dateObject = Object.assign({}, this.state.dateObject)
+    dateObject = moment(dateObject).set('month', monthNumber - 1)
+    this.setState({
+      dateObject: dateObject
+    })
+  }
 
-  nextYear() {}
+  nextMonth() {
+    let month = this.state.dateObject.format('MMMM')
+    let monthNumber = moment.months().indexOf(month)
+    let dateObject = Object.assign({}, this.state.dateObject)
+    dateObject = moment(dateObject).set('month', monthNumber + 1)
+    this.setState({
+      dateObject: dateObject
+    })
+  }
 
   render() {
     let weekdayshortname = moment.weekdaysShort().map(day => {
@@ -135,19 +118,29 @@ class Calendar extends Component {
 
     return (
       <div className='Calendar'>
-        {/* <this.YearPicker props={this.state.dateObject.format('Y')} /> */}
-
         <div className='d-flex flex-column' style={{ width: '25%' }}>
           <div className='year mb-4'>
-            <i className='fas fa-chevron-left' onClick={this.previousYear} />
-            {this.state.dateObject.format('Y')}
-            <i className='fas fa-chevron-right' onClick={this.nextYear} />
+            <button onClick={this.previousYear}>
+              <i className='fas fa-chevron-left' />
+            </button>
+            <div className='h4'>{this.state.dateObject.format('Y')}</div>
+            <button onClick={this.nextYear}>
+              <i className='fas fa-chevron-right' />
+            </button>
           </div>
           <this.MonthPicker months={moment.months()} />
         </div>
 
         <div style={{ width: '70%' }}>
-          <div className='h4 mb-4'>{this.state.dateObject.format('MMMM')}</div>
+          <div className='mb-4 d-flex justify-content-around'>
+            <button onClick={this.previousMonth}>
+              <i className='fas fa-chevron-left' />
+            </button>
+            <div className='h4'>{this.state.dateObject.format('MMMM')}</div>
+            <button onClick={this.nextMonth}>
+              <i className='fas fa-chevron-right' />
+            </button>
+          </div>
 
           <div>
             <div className='d-flex'>{weekdayshortname}</div>

@@ -53,6 +53,10 @@ textarea {
   color: palevioletred;
 }
 
+a:hover {
+  color: palevioletred;
+}
+
 button {
   @extend %button-default;
 }
