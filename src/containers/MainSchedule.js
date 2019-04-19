@@ -1,26 +1,69 @@
 import '../styles/MainSchedule.scss'
 
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import moment from 'moment'
 import classnames from 'classnames'
+
+import TodoInfo from '../components/TodoInfo'
+import { createTodo } from '../actions/todoActions'
+import isEmpty from '../validation/is-empty'
 
 class MainSchedule extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      dateObject: moment()
+      dateObject: moment(),
+      addNewTodo: false,
+      alert: false,
+      warning: ''
     }
 
+    this.toggleAddNewTodo = this.toggleAddNewTodo.bind(this)
+    this.onInfoDoneClick = this.onInfoDoneClick.bind(this)
     this.today = this.today.bind(this)
     this.previousYear = this.previousYear.bind(this)
     this.nextYear = this.nextYear.bind(this)
     this.previousMonth = this.previousMonth.bind(this)
     this.nextMonth = this.nextMonth.bind(this)
+    console.log(this.state.dateObject)
+  }
+
+  toggleAddNewTodo() {
+    this.setState({
+      ...this.state,
+      addNewTodo: !this.state.addNewTodo,
+      alert: false
+    })
+  }
+
+  onInfoDoneClick(todo) {
+    return () => {
+      if (isEmpty(todo.title)) {
+        this.setState({
+          ...this.state,
+          alert: true,
+          warning: 'Title must not be blank'
+        })
+      } else {
+        this.props.createTodo(todo)
+        this.toggleAddNewTodo()
+      }
+    }
+  }
+
+  setDay = day => {
+    let dateObject = this.state.dateObject
+    dateObject = moment(dateObject).set('date', day)
+    this.setState({
+      dateObject: dateObject
+    })
   }
 
   setMonth = month => {
     let monthNumber = moment.months().indexOf(month)
-    let dateObject = Object.assign({}, this.state.dateObject)
+    let dateObject = this.state.dateObject
     dateObject = moment(dateObject).set('month', monthNumber)
     this.setState({
       dateObject: dateObject
@@ -57,7 +100,7 @@ class MainSchedule extends Component {
 
   previousYear() {
     let year = Number(this.state.dateObject.format('YYYY'))
-    let dateObject = Object.assign({}, this.state.dateObject)
+    let dateObject = this.state.dateObject
     dateObject = moment(dateObject).set('year', year - 1)
     this.setState({
       dateObject: dateObject
@@ -66,7 +109,7 @@ class MainSchedule extends Component {
 
   nextYear() {
     let year = Number(this.state.dateObject.format('YYYY'))
-    let dateObject = Object.assign({}, this.state.dateObject)
+    let dateObject = this.state.dateObject
     dateObject = moment(dateObject).set('year', year + 1)
     this.setState({
       dateObject: dateObject
@@ -76,7 +119,7 @@ class MainSchedule extends Component {
   previousMonth() {
     let month = this.state.dateObject.format('MMMM')
     let monthNumber = moment.months().indexOf(month)
-    let dateObject = Object.assign({}, this.state.dateObject)
+    let dateObject = this.state.dateObject
     dateObject = moment(dateObject).set('month', monthNumber - 1)
     this.setState({
       dateObject: dateObject
@@ -86,7 +129,7 @@ class MainSchedule extends Component {
   nextMonth() {
     let month = this.state.dateObject.format('MMMM')
     let monthNumber = moment.months().indexOf(month)
-    let dateObject = Object.assign({}, this.state.dateObject)
+    let dateObject = this.state.dateObject
     dateObject = moment(dateObject).set('month', monthNumber + 1)
     this.setState({
       dateObject: dateObject
@@ -115,7 +158,16 @@ class MainSchedule extends Component {
     for (let d = 1; d <= this.state.dateObject.daysInMonth(); d++) {
       let chosenDay =
         d === Number(this.state.dateObject.format('D')) ? 'chosen-day' : ''
-      days.push(<label className={chosenDay}>{d}</label>)
+      days.push(
+        <label
+          className={chosenDay}
+          onClick={() => {
+            this.setDay(d)
+          }}
+        >
+          {d}
+        </label>
+      )
     }
 
     var totalSlots = [...blanks, ...days]
@@ -128,9 +180,34 @@ class MainSchedule extends Component {
       )
     })
 
+    let newTodo = (
+      <div className='d-flex justify-content-center'>
+        <div className='new-todo-container' onClick={this.toggleAddNewTodo} />
+        <TodoInfo
+          todo={{
+            title: '',
+            deadline: moment
+              .utc(this.state.dateObject)
+              .format('YYYY-MM-DDTHH:mm:ss.SSSZ')
+          }}
+          categories={this.props.categories}
+          newTodo={true}
+          onInfoDoneClick={this.onInfoDoneClick}
+          cancelNewTodo={this.toggleAddNewTodo}
+        />
+        {this.state.alert ? (
+          <div className='mt-3 alert alert-danger' role='alert'>
+            {this.state.warning}
+          </div>
+        ) : null}
+      </div>
+    )
+
     return (
       <div className='MainSchedule'>
-        <button className='btn btn-light mb-4'>+ Add new</button>
+        <button className='btn btn-light mb-4' onClick={this.toggleAddNewTodo}>
+          + Add new
+        </button>
 
         <div className='d-flex flex-wrap justify-content-between text-center'>
           <button
@@ -177,8 +254,23 @@ class MainSchedule extends Component {
             </div>
           </div>
         </div>
+        {this.state.addNewTodo ? newTodo : null}
       </div>
     )
   }
 }
-export default MainSchedule
+
+MainSchedule.propTypes = {
+  todos: PropTypes.array,
+  categories: PropTypes.array.isRequired
+}
+
+const mapStateToProps = state => ({
+  todos: state.todos,
+  categories: state.categories
+})
+
+export default connect(
+  mapStateToProps,
+  { createTodo }
+)(MainSchedule)

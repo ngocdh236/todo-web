@@ -1,9 +1,6 @@
 @import '../App.scss';
 
 .TodoInfo {
-  width: 100%;
-  margin-top: 20px;
-  margin-left: auto;
   box-shadow: var(--box-shadow);
   border-radius: 2mm;
   display: flex;
@@ -15,7 +12,6 @@
 
   input {
     margin: 0 10px;
-    width: 100%;
   }
 
   textarea {
@@ -45,6 +41,7 @@
         border-radius: 1mm;
         margin: 0;
         padding: 0 10px;
+        min-width: 250px;
       }
     }
   }

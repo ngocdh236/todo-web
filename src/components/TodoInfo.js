@@ -9,7 +9,8 @@ class TodoInfo extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      todo: props.todo
+      todo: props.todo,
+      newTodo: props.newTodo
     }
     this.onTitleChange = this.onTitleChange.bind(this)
     this.onDescriptionChange = this.onDescriptionChange.bind(this)
@@ -106,7 +107,7 @@ class TodoInfo extends React.Component {
             timeIntervals={15}
             dateFormat='MMMM d, yyyy h:mm aa'
             timeCaption='Time'
-            isClearable={true}
+            isClearable={this.state.newTodo ? false : true}
           />
         </td>
       </tr>
@@ -132,12 +133,21 @@ class TodoInfo extends React.Component {
         </table>
 
         <div className='buttons'>
-          <button
-            className='btn btn-danger ml-1'
-            onClick={this.props.deleteTodo(this.props.todo.id)}
-          >
-            Delete
-          </button>
+          {!this.state.newTodo ? (
+            <button
+              className='btn btn-danger ml-1'
+              onClick={this.props.deleteTodo(this.props.todo.id)}
+            >
+              Delete
+            </button>
+          ) : (
+            <button
+              className='btn btn-danger ml-1'
+              onClick={this.props.cancelNewTodo}
+            >
+              Cancel
+            </button>
+          )}
           <button
             className='btn btn-light ml-1'
             onClick={this.props.onInfoDoneClick(this.state.todo)}
@@ -151,11 +161,16 @@ class TodoInfo extends React.Component {
 }
 
 TodoInfo.propTypes = {
-  todo: PropTypes.object,
+  todo: PropTypes.object.isRequired,
   categories: PropTypes.array,
   onInfoDoneClick: PropTypes.func,
-  updateTodo: PropTypes.func,
-  deleteTodo: PropTypes.func
+  deleteTodo: PropTypes.func,
+  newTodo: PropTypes.bool,
+  cancelNewTodo: PropTypes.func
+}
+
+TodoInfo.defaultProps = {
+  newTodo: false
 }
 
 export default TodoInfo
