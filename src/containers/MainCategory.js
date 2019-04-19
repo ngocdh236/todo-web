@@ -77,7 +77,7 @@ class MainCategory extends Component {
     return (
       <div className='MainCategory'>
         <button
-          className='btn btn-light mb-4'
+          className='btn btn-light mb-4 ml-auto'
           onClick={this.toggleAddNewCategory}
         >
           + Add new
