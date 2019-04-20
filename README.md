@@ -1,12 +1,13 @@
 # TODO-web
-A todo web application
+>A todo web applicatiom
+
 Check it out [here](http://www.titekapps.com)
 
 ## Features
-[x] Sign up, login
-[x] Create, edit, delete, sort todo
-[x] Create category
-[x] Create schedule
+- Sign up, login
+- Create, edit, delete, sort todo
+- Create category
+- Create schedule
 
 ## Installation
 1. Clone project
@@ -20,13 +21,13 @@ Check it out [here](http://www.titekapps.com)
 		`node -v`
 
 		`npm -v`
-		
+
 3. Run
 
 	`npm install`
 
 	Install the dependencies in the local node_modules folder
-	
+
 4. In the project directory, you can run:
 
 	`npm start`
@@ -50,3 +51,6 @@ Check it out [here](http://www.titekapps.com)
 
 ## API Reference 
 * Backend was NOT built by me. Documentation [here](http://muzify.eu/swagger-ui.html#/)
+
+## Author
+* Ngoc Doan (ngocdh236@gmail.com)
