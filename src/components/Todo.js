@@ -3,7 +3,6 @@ import '../styles/Todo.scss'
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { getTodoById } from '../actions/todoActions'
 import TodoInfoLink from '../containers/TodoInfoLink'
 import isEmpty from '../validation/is-empty'
 
@@ -72,57 +71,43 @@ class Todo extends React.Component {
     }
   }
 
-  onCreateOrUpdate = todo => {
-    return () => {
-      if (isEmpty(todo.title)) {
+  onCreateOrUpdate() {
+    let todo = this.state.todo
+    if (isEmpty(todo.title)) {
+      this.setState({
+        ...this.state,
+        alert: true,
+        warning: 'Title must not be blank'
+      })
+    } else {
+      if (this.state.newTodo) {
+        this.props.createTodo(todo)
         this.setState({
-          ...this.state,
-          alert: true,
-          warning: 'Title must not be blank'
+          updateTodo: false,
+          newTodo: true,
+          todo: this.props.todo,
+          alert: false
         })
       } else {
-        if (this.state.newTodo) {
-          this.props.createTodo(todo)
-          this.setState({
-            updateTodo: false,
-            newTodo: this.props.newTodo,
-            todo: this.props.todo,
-            alert: false
-          })
-        } else {
-          this.props.updateTodo(todo)
-
-          this.setState({
-            ...this.state,
-            todo: todo,
-            updateTodo: false,
-            alert: false,
-            showInfo: false
-          })
-        }
+        this.props.updateTodo(todo)
+        this.setState({
+          ...this.state,
+          updateTodo: false,
+          alert: false,
+          showInfo: false
+        })
       }
     }
   }
 
   onCancelCreateOrUpdate() {
-    if (this.state.newTodo) {
-      this.setState({
-        ...this.state,
-        updateTodo: false,
-        alert: false,
-        todo: this.props.todo
-      })
-    } else {
-      getTodoById(this.state.todo.id).then(todo => {
-        this.setState({
-          ...this.state,
-          updateTodo: false,
-          todo: todo,
-          showInfo: false,
-          alert: false
-        })
-      })
-    }
+    this.setState({
+      ...this.state,
+      updateTodo: false,
+      todo: this.props.todo,
+      showInfo: false,
+      alert: false
+    })
   }
 
   onShowInfo() {
@@ -169,7 +154,7 @@ class Todo extends React.Component {
 
           {this.state.updateTodo ? (
             <div style={{ display: 'flex' }}>
-              <button onClick={this.onCreateOrUpdate(this.state.todo)}>
+              <button onClick={this.onCreateOrUpdate}>
                 <i
                   className='far fa-check-circle'
                   style={{ fontSize: '25px' }}
@@ -198,11 +183,7 @@ class Todo extends React.Component {
         ) : null}
 
         {this.state.showInfo ? (
-          <TodoInfoLink
-            todo={this.props.todo}
-            categories={this.props.categories}
-            onInfoDoneClick={this.onCreateOrUpdate}
-          />
+          <TodoInfoLink todo={this.props.todo} onShowInfo={this.onShowInfo} />
         ) : null}
       </div>
     )

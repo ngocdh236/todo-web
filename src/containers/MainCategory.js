@@ -80,7 +80,7 @@ class MainCategory extends Component {
           className='btn btn-light mb-4 ml-auto'
           onClick={this.toggleAddNewCategory}
         >
-          + Add new
+          + New Category
         </button>
         {this.state.addNewCategory ? newCategory : null}
 

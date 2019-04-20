@@ -5,17 +5,22 @@ import PropTypes from 'prop-types'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
+import isEmpty from '../validation/is-empty'
+
 class TodoInfo extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       todo: props.todo,
-      newTodo: props.newTodo
+      newTodo: props.newTodo,
+      alert: false,
+      warning: ''
     }
     this.onTitleChange = this.onTitleChange.bind(this)
     this.onDescriptionChange = this.onDescriptionChange.bind(this)
     this.onCategoryChange = this.onCategoryChange.bind(this)
     this.onDeadlineChange = this.onDeadlineChange.bind(this)
+    this.onDoneClick = this.onDoneClick.bind(this)
   }
 
   onTitleChange(e) {
@@ -42,6 +47,32 @@ class TodoInfo extends React.Component {
     this.setState({
       todo: { ...this.state.todo, deadline: e }
     })
+  }
+
+  onDoneClick() {
+    let todo = this.state.todo
+    if (isEmpty(todo.title)) {
+      this.setState({
+        ...this.state,
+        alert: true,
+        warning: 'Title must not be blank'
+      })
+    } else {
+      if (this.state.newTodo) {
+        if (todo.category) {
+          let newTodo = Object.assign(todo, {
+            categoryId: todo.category.id
+          })
+          this.props.createTodo(newTodo)
+        } else {
+          this.props.createTodo(todo)
+        }
+        this.props.cancelNewTodo()
+      } else {
+        this.props.updateTodo(todo)
+        this.props.onShowInfo()
+      }
+    }
   }
 
   render() {
@@ -124,6 +155,12 @@ class TodoInfo extends React.Component {
 
         <div className='horizontal-line my-3' />
 
+        {this.state.alert ? (
+          <div className='mt-3 alert alert-danger' role='alert'>
+            {this.state.warning}
+          </div>
+        ) : null}
+
         <table className='table table-borderless'>
           <tbody>
             {descriptionInfo}
@@ -148,10 +185,7 @@ class TodoInfo extends React.Component {
               Cancel
             </button>
           )}
-          <button
-            className='btn btn-light ml-1'
-            onClick={this.props.onInfoDoneClick(this.state.todo)}
-          >
+          <button className='btn btn-light ml-1' onClick={this.onDoneClick}>
             Done
           </button>
         </div>
@@ -163,10 +197,12 @@ class TodoInfo extends React.Component {
 TodoInfo.propTypes = {
   todo: PropTypes.object.isRequired,
   categories: PropTypes.array,
-  onInfoDoneClick: PropTypes.func,
+  createTodo: PropTypes.func,
+  updateTodo: PropTypes.func,
   deleteTodo: PropTypes.func,
   newTodo: PropTypes.bool,
-  cancelNewTodo: PropTypes.func
+  cancelNewTodo: PropTypes.func,
+  onShowInfo: PropTypes.func
 }
 
 TodoInfo.defaultProps = {

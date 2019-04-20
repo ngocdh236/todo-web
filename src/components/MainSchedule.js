@@ -1,56 +1,32 @@
 import '../styles/MainSchedule.scss'
 
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import moment from 'moment'
 import classnames from 'classnames'
 
-import TodoInfo from '../components/TodoInfo'
-import { createTodo } from '../actions/todoActions'
-import isEmpty from '../validation/is-empty'
+import NewTodo from './NewTodo'
 
 class MainSchedule extends Component {
   constructor(props) {
     super(props)
     this.state = {
       dateObject: moment(),
-      addNewTodo: false,
-      alert: false,
-      warning: ''
+      addNewTodo: false
     }
 
     this.toggleAddNewTodo = this.toggleAddNewTodo.bind(this)
-    this.onInfoDoneClick = this.onInfoDoneClick.bind(this)
     this.today = this.today.bind(this)
     this.previousYear = this.previousYear.bind(this)
     this.nextYear = this.nextYear.bind(this)
     this.previousMonth = this.previousMonth.bind(this)
     this.nextMonth = this.nextMonth.bind(this)
-    console.log(this.state.dateObject)
   }
 
   toggleAddNewTodo() {
     this.setState({
       ...this.state,
-      addNewTodo: !this.state.addNewTodo,
-      alert: false
+      addNewTodo: !this.state.addNewTodo
     })
-  }
-
-  onInfoDoneClick(todo) {
-    return () => {
-      if (isEmpty(todo.title)) {
-        this.setState({
-          ...this.state,
-          alert: true,
-          warning: 'Title must not be blank'
-        })
-      } else {
-        this.props.createTodo(todo)
-        this.toggleAddNewTodo()
-      }
-    }
   }
 
   setDay = day => {
@@ -180,33 +156,10 @@ class MainSchedule extends Component {
       )
     })
 
-    let newTodo = (
-      <div className='d-flex justify-content-center'>
-        <div className='new-todo-container' onClick={this.toggleAddNewTodo} />
-        <TodoInfo
-          todo={{
-            title: '',
-            deadline: moment
-              .utc(this.state.dateObject)
-              .format('YYYY-MM-DDTHH:mm:ss.SSSZ')
-          }}
-          categories={this.props.categories}
-          newTodo={true}
-          onInfoDoneClick={this.onInfoDoneClick}
-          cancelNewTodo={this.toggleAddNewTodo}
-        />
-        {this.state.alert ? (
-          <div className='mt-3 alert alert-danger' role='alert'>
-            {this.state.warning}
-          </div>
-        ) : null}
-      </div>
-    )
-
     return (
       <div className='MainSchedule'>
         <button className='btn btn-light mb-4' onClick={this.toggleAddNewTodo}>
-          + Add new
+          + New Todo
         </button>
 
         <div className='d-flex flex-wrap justify-content-between text-center'>
@@ -254,23 +207,17 @@ class MainSchedule extends Component {
             </div>
           </div>
         </div>
-        {this.state.addNewTodo ? newTodo : null}
+        {this.state.addNewTodo ? (
+          <NewTodo
+            toggleAddNewTodo={this.toggleAddNewTodo}
+            deadline={moment
+              .utc(this.state.dateObject)
+              .format('YYYY-MM-DDTHH:mm:ss.SSSZ')}
+          />
+        ) : null}
       </div>
     )
   }
 }
 
-MainSchedule.propTypes = {
-  todos: PropTypes.array,
-  categories: PropTypes.array.isRequired
-}
-
-const mapStateToProps = state => ({
-  todos: state.todos,
-  categories: state.categories
-})
-
-export default connect(
-  mapStateToProps,
-  { createTodo }
-)(MainSchedule)
+export default MainSchedule

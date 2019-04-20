@@ -6,7 +6,26 @@ import FilteredTodoList from '../containers/FilteredTodoList'
 import FilterLink from '../containers/FilterLink'
 import { Filters } from '../actions'
 
+import NewTodo from '../components/NewTodo'
+
 class MainTodo extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      addNewTodo: false
+    }
+
+    this.toggleAddNewTodo = this.toggleAddNewTodo.bind(this)
+  }
+
+  toggleAddNewTodo() {
+    this.setState({
+      ...this.state,
+      addNewTodo: !this.state.addNewTodo
+    })
+  }
+
   render() {
     const header = (
       <div className='header d-flex'>
@@ -46,8 +65,14 @@ class MainTodo extends Component {
     )
     return (
       <div className='MainTodo'>
+        <button className='btn btn-light mb-4' onClick={this.toggleAddNewTodo}>
+          + New Todo
+        </button>
         {header}
         <FilteredTodoList />
+        {this.state.addNewTodo ? (
+          <NewTodo toggleAddNewTodo={this.toggleAddNewTodo} />
+        ) : null}
       </div>
     )
   }

@@ -1,0 +1,19 @@
+@import '../App.scss';
+
+.NewTodo {
+  .new-todo-container {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .TodoInfo {
+    position: fixed;
+    background: white;
+    top: 20%;
+    box-shadow: none;
+  }
+}
