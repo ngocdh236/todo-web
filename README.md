@@ -1,23 +1,52 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# TODO-web
+A todo web application
+Check it out [here](http://www.titekapps.com)
 
-## Clone project
+## Features
+[x] Sign up, login
+[x] Create, edit, delete, sort todo
+[x] Create category
+[x] Create schedule
 
-## Make sure you have installed Node.js and npm
+## Installation
+1. Clone project
 
-[https://nodejs.org/en/download/]
+2. Make sure you have installed Node.js and npm
 
-Test by 
+	* [Download Node.js](https://nodejs.org/en/download/)
 
-`node -v`
-`npm-v`
+	* Check with commands
 
-## Run
+		`node -v`
 
-### `npm install`
+		`npm -v`
+		
+3. Run
 
-## In the project directory, you can run:
+	`npm install`
 
-### `npm start`
+	Install the dependencies in the local node_modules folder
+	
+4. In the project directory, you can run:
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+	`npm start`
+
+	Runs the app in the development mode
+
+5. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+## Languages
+* HTML
+* SCSS
+* JSX
+* JavaScript
+
+## Libraries
+* [React](https://reactjs.org)
+* [Redux](https://redux.js.org)
+* [ReactJS Datepicker](https://reactdatepicker.com)
+* [Moment](https://momentjs.com)
+...
+
+## API Reference 
+* Backend was NOT built by me. Documentation [here](http://muzify.eu/swagger-ui.html#/)
