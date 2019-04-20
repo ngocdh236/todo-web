@@ -1,5 +1,5 @@
 # TODO-web
->A todo web applicatiom
+>A todo web application
 
 Check it out [here](http://www.titekapps.com)
 
@@ -22,13 +22,13 @@ Check it out [here](http://www.titekapps.com)
 
 		`npm -v`
 
-3. Run
+3. In the project directory, you can run
 
 	`npm install`
 
 	Install the dependencies in the local node_modules folder
 
-4. In the project directory, you can run:
+4. In the project directory, you can run
 
 	`npm start`
 
