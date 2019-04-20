@@ -49,6 +49,9 @@ Check it out [here](http://www.titekapps.com)
 * [Moment](https://momentjs.com)
 ...
 
+## Frameworks
+* [Bootstrap](https://getbootstrap.com)
+
 ## API Reference 
 * Backend was NOT built by me. Documentation [here](http://muzify.eu/swagger-ui.html#/)
 
