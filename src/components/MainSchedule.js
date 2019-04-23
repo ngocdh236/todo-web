@@ -5,6 +5,7 @@ import moment from 'moment'
 import classnames from 'classnames'
 
 import NewTodo from './NewTodo'
+import DayTodoList from '../containers/DayTodoList'
 
 class MainSchedule extends Component {
   constructor(props) {
@@ -57,8 +58,7 @@ class MainSchedule extends Component {
           })}
           onClick={() => {
             this.setMonth(month)
-          }}
-        >
+          }}>
           {month}
         </div>
       )
@@ -139,8 +139,7 @@ class MainSchedule extends Component {
           className={chosenDay}
           onClick={() => {
             this.setDay(d)
-          }}
-        >
+          }}>
           {d}
         </label>
       )
@@ -166,8 +165,7 @@ class MainSchedule extends Component {
           <button
             className='btn btn-light mb-5'
             onClick={this.today}
-            style={{ width: '100%' }}
-          >
+            style={{ width: '100%' }}>
             TODAY
           </button>
           <div className='d-flex flex-column' style={{ width: '25%' }}>
@@ -200,12 +198,17 @@ class MainSchedule extends Component {
                 className='d-flex flex-wrap'
                 style={{
                   borderLeft: '0.5px solid gainsboro'
-                }}
-              >
+                }}>
                 {daysinmonth}
               </div>
             </div>
           </div>
+          <DayTodoList
+            date={moment
+              .utc(this.state.dateObject)
+              .startOf('day')
+              .format()}
+          />
         </div>
         {this.state.addNewTodo ? (
           <NewTodo
