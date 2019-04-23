@@ -19,7 +19,8 @@ const getTodos = (todos, todosCategoryFilter) => {
 }
 
 const mapStateToProps = state => ({
-  todos: getTodos(state.todos, state.todosCategoryFilter)
+  todos: getTodos(state.todos, state.todosCategoryFilter),
+  categoryId: state.todosCategoryFilter.category.id
 })
 
 export default connect(mapStateToProps)(TodoList)

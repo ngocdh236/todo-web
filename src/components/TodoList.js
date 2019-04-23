@@ -3,23 +3,24 @@ import '../styles/TodoList.scss'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import Todo from '../containers/Todo'
+import TodoLink from '../containers/TodoLink'
 
 class TodoList extends Component {
   render() {
     var todos = this.props.todos.map(todo => {
-      return <Todo key={todo.id} todo={todo} />
+      return <TodoLink key={todo.id} todo={todo} />
     })
 
     return (
       <div className='TodoList'>
         {todos}
-        <Todo
+        <TodoLink
           newTodo={true}
           todo={{
             done: false,
             title: ''
           }}
+          categoryId={this.props.categoryId}
         />
       </div>
     )
@@ -27,7 +28,8 @@ class TodoList extends Component {
 }
 
 TodoList.propTypes = {
-  todos: PropTypes.array
+  todos: PropTypes.array,
+  categoryId: PropTypes.number
 }
 
 export default TodoList

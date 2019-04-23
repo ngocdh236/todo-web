@@ -10,7 +10,8 @@ class Category extends React.Component {
       <button
         className='Category'
         disabled={this.props.active}
-        onClick={this.props.onClick}>
+        onClick={this.props.onClick}
+      >
         <div className='icon' style={{ background: gradientColor }}>
           <i
             className={this.props.icon}

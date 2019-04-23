@@ -46,6 +46,15 @@ textarea {
   resize: none;
   border: none;
   background: inherit;
+  padding: 0;
+}
+
+.a-active {
+  color: palevioletred;
+}
+
+a:hover {
+  color: palevioletred;
 }
 
 button {

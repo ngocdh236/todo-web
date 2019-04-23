@@ -3,19 +3,38 @@ import '../styles/MainTodo.scss'
 import React, { Component } from 'react'
 
 import FilteredTodoList from '../containers/FilteredTodoList'
-import FilteredTodoLink from '../containers/FilteredTodoLink'
+import FilterLink from '../containers/FilterLink'
 import { Filters } from '../actions'
 
+import NewTodo from '../components/NewTodo'
+
 class MainTodo extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      addNewTodo: false
+    }
+
+    this.toggleAddNewTodo = this.toggleAddNewTodo.bind(this)
+  }
+
+  toggleAddNewTodo() {
+    this.setState({
+      ...this.state,
+      addNewTodo: !this.state.addNewTodo
+    })
+  }
+
   render() {
     const header = (
       <div className='header d-flex'>
-        <FilteredTodoLink
+        <FilterLink
           category={{ id: -1, name: 'All', gradientColor: 'white' }}
           icon=''
           filter={Filters.SHOW_ALL}
         />
-        <FilteredTodoLink
+        <FilterLink
           category={{
             id: -2,
             name: 'Done',
@@ -24,7 +43,7 @@ class MainTodo extends Component {
           icon='far fa-check-circle'
           filter={Filters.SHOW_DONE}
         />
-        <FilteredTodoLink
+        <FilterLink
           category={{
             id: -3,
             name: 'Due Soon',
@@ -33,7 +52,7 @@ class MainTodo extends Component {
           icon='far fa-clock'
           filter={Filters.SHOW_DUE_SOON}
         />
-        <FilteredTodoLink
+        <FilterLink
           category={{
             id: -4,
             name: 'Todo',
@@ -46,8 +65,14 @@ class MainTodo extends Component {
     )
     return (
       <div className='MainTodo'>
+        <button className='btn btn-light mb-4' onClick={this.toggleAddNewTodo}>
+          + New Todo
+        </button>
         {header}
         <FilteredTodoList />
+        {this.state.addNewTodo ? (
+          <NewTodo toggleAddNewTodo={this.toggleAddNewTodo} />
+        ) : null}
       </div>
     )
   }

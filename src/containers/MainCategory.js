@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import CategorizedTodoList from './CategorizedTodoList'
-import CategorizedTodoLink from './CategorizedTodoLink'
+import CategoryLink from './CategoryLink'
 import { createCategory } from '../actions/categoryActions'
 import { Filters } from '../actions'
 
@@ -19,15 +19,24 @@ class MainCategory extends Component {
       newCategory: {}
     }
 
+    this.newCategoryInput = React.createRef()
+
     this.toggleAddNewCategory = this.toggleAddNewCategory.bind(this)
     this.onNewCategoryChange = this.onNewCategoryChange.bind(this)
     this.addNewCategory = this.addNewCategory.bind(this)
   }
 
   toggleAddNewCategory() {
-    this.setState({
-      addNewCategory: !this.state.addNewCategory
-    })
+    this.setState(
+      {
+        addNewCategory: !this.state.addNewCategory
+      },
+      () => {
+        if (this.state.addNewCategory) {
+          this.newCategoryInput.current.focus()
+        }
+      }
+    )
   }
 
   addNewCategory() {
@@ -43,7 +52,7 @@ class MainCategory extends Component {
   render() {
     var categories = this.props.categories.map(category => {
       return (
-        <CategorizedTodoLink
+        <CategoryLink
           key={category.id}
           category={category}
           filter={Filters.SHOW_BY_CATEGORY}
@@ -57,6 +66,7 @@ class MainCategory extends Component {
           className='mr-2'
           value={this.state.newCategory.name ? this.state.newCategory.name : ''}
           onChange={this.onNewCategoryChange}
+          ref={this.newCategoryInput}
         />
         <button className='btn btn-light' onClick={this.addNewCategory}>
           Add
@@ -67,20 +77,24 @@ class MainCategory extends Component {
     return (
       <div className='MainCategory'>
         <button
-          className='btn btn-light mb-4'
-          onClick={this.toggleAddNewCategory}>
-          + Add new
+          className='btn btn-light mb-4 ml-auto'
+          onClick={this.toggleAddNewCategory}
+        >
+          + New Category
         </button>
         {this.state.addNewCategory ? newCategory : null}
 
         <br />
 
         <div className='dropdown'>
-          <button className='dropbtn' style={{minWidth: '100px', height: '40px'}}>
+          <button
+            className='dropbtn'
+            style={{ minWidth: '100px', height: '40px' }}
+          >
             {this.props.todosCategoryFilter.category.name}
           </button>
           <div className='dropdown-content'>
-            <CategorizedTodoLink
+            <CategoryLink
               category={{ id: -1, name: 'All', gradientColor: 'white' }}
               icon=''
               filter={Filters.SHOW_ALL}
@@ -91,7 +105,7 @@ class MainCategory extends Component {
 
         <div className='d-flex'>
           <div className='category-list'>
-            <CategorizedTodoLink
+            <CategoryLink
               category={{ id: -1, name: 'All', gradientColor: 'white' }}
               icon=''
               filter={Filters.SHOW_ALL}
