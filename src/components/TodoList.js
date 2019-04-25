@@ -22,7 +22,7 @@ class TodoList extends Component {
               this.props.categoryId && this.props.categoryId >= 0
                 ? this.props.categoryId
                 : null,
-            deadline: this.props.deadline ? this.props.deadline : null
+            deadline: this.props.deadline
           }}
         />
       </div>

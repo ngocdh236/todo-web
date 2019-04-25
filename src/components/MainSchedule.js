@@ -208,11 +208,11 @@ class MainSchedule extends Component {
 
           <div className='year-list d-flex flex-column'>
             <div className='year mb-4'>
-              <button onClick={this.previousYear}>
+              <button className='chevron' onClick={this.previousYear}>
                 <i className='fas fa-chevron-left' />
               </button>
               <div className='h4'>{this.state.dateObject.format('Y')}</div>
-              <button onClick={this.nextYear}>
+              <button className='chevron' onClick={this.nextYear}>
                 <i className='fas fa-chevron-right' />
               </button>
             </div>
@@ -221,11 +221,11 @@ class MainSchedule extends Component {
 
           <div className='day-list'>
             <div className='mb-4 d-flex justify-content-around'>
-              <button onClick={this.previousMonth}>
+              <button className='chevron' onClick={this.previousMonth}>
                 <i className='fas fa-chevron-left' />
               </button>
               <div className='h4'>{this.state.dateObject.format('MMMM')}</div>
-              <button onClick={this.nextMonth}>
+              <button className='chevron' onClick={this.nextMonth}>
                 <i className='fas fa-chevron-right' />
               </button>
             </div>

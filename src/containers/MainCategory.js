@@ -8,6 +8,7 @@ import CategorizedTodoList from './CategorizedTodoList'
 import CategoryLink from './CategoryLink'
 import { createCategory } from '../actions/categoryActions'
 import { Filters } from '../actions'
+import NewTodoForm from '../components/NewTodoForm'
 
 class MainCategory extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class MainCategory extends Component {
 
     this.state = {
       addNewCategory: false,
+      addNewTodo: false,
       newCategory: {}
     }
 
@@ -23,6 +25,7 @@ class MainCategory extends Component {
     this.toggleAddNewCategory = this.toggleAddNewCategory.bind(this)
     this.onNewCategoryChange = this.onNewCategoryChange.bind(this)
     this.addNewCategory = this.addNewCategory.bind(this)
+    this.toggleAddNewTodo = this.toggleAddNewTodo.bind(this)
   }
 
   toggleAddNewCategory() {
@@ -36,6 +39,13 @@ class MainCategory extends Component {
         }
       }
     )
+  }
+
+  toggleAddNewTodo() {
+    this.setState({
+      ...this.state,
+      addNewTodo: !this.state.addNewTodo
+    })
   }
 
   addNewCategory() {
@@ -75,12 +85,21 @@ class MainCategory extends Component {
 
     return (
       <div className='MainCategory'>
-        <button
-          className='btn btn-light mb-4 ml-auto'
-          onClick={this.toggleAddNewCategory}
-        >
-          + New Category
-        </button>
+        <div className='d-flex justify-content-between'>
+          <button
+            className='btn btn-light mb-4'
+            onClick={this.toggleAddNewCategory}
+          >
+            + New Category
+          </button>
+
+          <button
+            className='btn btn-light mb-4'
+            onClick={this.toggleAddNewTodo}
+          >
+            + New Todo
+          </button>
+        </div>
         {this.state.addNewCategory ? newCategory : null}
 
         <br />
@@ -98,6 +117,7 @@ class MainCategory extends Component {
               icon=''
               filter={Filters.SHOW_ALL}
             />
+            <div className='horizontal-line' style={{ margin: '0 8px' }} />
             {categories}
           </div>
         </div>
@@ -109,10 +129,20 @@ class MainCategory extends Component {
               icon=''
               filter={Filters.SHOW_ALL}
             />
+            <div
+              className='horizontal-line'
+              style={{ height: '30px', margin: '0 8px' }}
+            />
             {categories}
           </div>
           <CategorizedTodoList />
         </div>
+        {this.state.addNewTodo ? (
+          <NewTodoForm
+            toggleAddNewTodo={this.toggleAddNewTodo}
+            category={this.props.todosCategoryFilter.category}
+          />
+        ) : null}
       </div>
     )
   }

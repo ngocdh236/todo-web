@@ -1,4 +1,4 @@
-import '../styles/NewTodo.scss'
+import '../styles/NewTodoForm.scss'
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
@@ -16,7 +16,7 @@ class NewTodoForm extends Component {
 
   render() {
     return (
-      <div className='NewTodo d-flex justify-content-center'>
+      <div className='NewTodoForm d-flex justify-content-center'>
         <div
           className='new-todo-container'
           onClick={this.props.toggleAddNewTodo}
@@ -24,7 +24,11 @@ class NewTodoForm extends Component {
         <TodoInfoLink
           todo={{
             title: '',
-            deadline: this.props.deadline
+            deadline: this.props.deadline,
+            category:
+              this.props.category && this.props.category.id >= 0
+                ? this.props.category
+                : null
           }}
           newTodo={true}
           cancelNewTodo={this.props.toggleAddNewTodo}
@@ -36,7 +40,8 @@ class NewTodoForm extends Component {
 
 NewTodoForm.propTypes = {
   toggleAddNewTodo: PropTypes.func.isRequired,
-  deadline: PropTypes.string
+  deadline: PropTypes.string,
+  category: PropTypes.object
 }
 
 NewTodoForm.defaultProps = {

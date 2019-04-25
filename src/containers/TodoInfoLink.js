@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import { createTodo, updateTodo, deleteTodo } from '../actions/todoActions'
 import TodoInfo from '../components/TodoInfo'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   categories: state.categories
 })
 
