@@ -2,6 +2,7 @@ import '../styles/Todo.scss'
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 
 import TodoInfoLink from '../containers/TodoInfoLink'
 import isEmpty from '../validation/is-empty'
@@ -10,7 +11,6 @@ class Todo extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      newTodo: props.newTodo,
       todo: props.todo,
       updateTodo: false,
       showInfo: false,
@@ -19,50 +19,10 @@ class Todo extends React.Component {
     }
 
     this.onDoneChange = this.onDoneChange.bind(this)
-    this.onCreateOrUpdate = this.onCreateOrUpdate.bind(this)
-    this.onCancelCreateOrUpdate = this.onCancelCreateOrUpdate.bind(this)
+    this.onUpdate = this.onUpdate.bind(this)
+    this.onCancelUpdate = this.onCancelUpdate.bind(this)
     this.onShowInfo = this.onShowInfo.bind(this)
     this.onTitleChange = this.onTitleChange.bind(this)
-
-    this.todoElement = React.createRef()
-  }
-
-  componentDidMount() {
-    // var categoryId = this.props.categoryId
-    // if (categoryId) {
-    //   if (categoryId >= 0) {
-    //     this.setState({
-    //       ...this.state,
-    //       todo: { ...this.state.todo, categoryId: categoryId }
-    //     })
-    //   }
-    // }
-
-    if (this.props.categorizedTodo) {
-      this.setState({
-        ...this.state,
-        todo: { ...this.state.todo, categoryId: this.props.categoryId }
-      })
-    }
-
-    if (this.props.scheduledTodo) {
-      this.setState({
-        ...this.state,
-        todo: { ...this.state.todo, deadline: this.props.deadline }
-      })
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    var categoryId = this.props.categoryId
-    if (categoryId !== prevProps.categoryId) {
-      if (categoryId >= 0) {
-        this.setState({
-          ...this.state,
-          todo: { ...this.state.todo, categoryId: categoryId }
-        })
-      }
-    }
   }
 
   onTitleChange(e) {
@@ -74,18 +34,16 @@ class Todo extends React.Component {
   }
 
   onDoneChange() {
-    if (!this.state.newTodo) {
-      this.setState(
-        {
-          ...this.state,
-          todo: { ...this.state.todo, done: !this.state.todo.done }
-        },
-        () => this.props.updateTodo(this.state.todo)
-      )
-    }
+    this.setState(
+      {
+        ...this.state,
+        todo: { ...this.state.todo, done: !this.state.todo.done }
+      },
+      () => this.props.updateTodo(this.state.todo)
+    )
   }
 
-  onCreateOrUpdate() {
+  onUpdate() {
     let todo = this.state.todo
     if (isEmpty(todo.title)) {
       this.setState({
@@ -94,27 +52,17 @@ class Todo extends React.Component {
         warning: 'Title must not be blank'
       })
     } else {
-      if (this.state.newTodo) {
-        this.props.createTodo(todo)
-        this.setState({
-          updateTodo: false,
-          newTodo: true,
-          todo: this.props.todo,
-          alert: false
-        })
-      } else {
-        this.props.updateTodo(todo)
-        this.setState({
-          ...this.state,
-          updateTodo: false,
-          alert: false,
-          showInfo: false
-        })
-      }
+      this.props.updateTodo(todo)
+      this.setState({
+        ...this.state,
+        updateTodo: false,
+        alert: false,
+        showInfo: false
+      })
     }
   }
 
-  onCancelCreateOrUpdate() {
+  onCancelUpdate() {
     this.setState({
       ...this.state,
       updateTodo: false,
@@ -141,10 +89,11 @@ class Todo extends React.Component {
 
     const deadline = (() => {
       if (this.state.todo.deadline) {
-        var deadline = new Date(this.state.todo.deadline)
-        var deadlineString = deadline.toLocaleString()
+        var deadline = moment
+          .utc(this.state.todo.deadline)
+          .format('DD/MM/YYYY, HH:mm')
 
-        return <p className='text-secondary'>{deadlineString}</p>
+        return <p className='text-secondary'>{deadline}</p>
       }
       return null
     })()
@@ -168,13 +117,13 @@ class Todo extends React.Component {
 
           {this.state.updateTodo ? (
             <div style={{ display: 'flex' }}>
-              <button onClick={this.onCreateOrUpdate}>
+              <button onClick={this.onUpdate}>
                 <i
                   className='far fa-check-circle'
                   style={{ fontSize: '25px' }}
                 />
               </button>
-              <button onClick={this.onCancelCreateOrUpdate}>
+              <button onClick={this.onCancelUpdate}>
                 <i
                   className='far fa-times-circle'
                   style={{ fontSize: '25px' }}
@@ -183,11 +132,9 @@ class Todo extends React.Component {
             </div>
           ) : null}
 
-          {!this.state.newTodo ? (
-            <button onClick={this.onShowInfo}>
-              <i className='fas fa-info-circle' />
-            </button>
-          ) : null}
+          <button onClick={this.onShowInfo}>
+            <i className='fas fa-info-circle' />
+          </button>
         </div>
 
         {this.state.alert ? (
@@ -205,15 +152,8 @@ class Todo extends React.Component {
 }
 
 Todo.propTypes = {
-  newTodo: PropTypes.bool,
-  todo: PropTypes.object,
-  categoryId: PropTypes.number,
-  createTodo: PropTypes.func,
-  updateTodo: PropTypes.func
-}
-
-Todo.defaultProps = {
-  newTodo: false
+  todo: PropTypes.object.isRequired,
+  updateTodo: PropTypes.func.isRequired
 }
 
 export default Todo

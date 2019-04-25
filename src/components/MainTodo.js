@@ -6,7 +6,7 @@ import FilteredTodoList from '../containers/FilteredTodoList'
 import FilterLink from '../containers/FilterLink'
 import { Filters } from '../actions'
 
-import NewTodo from '../components/NewTodo'
+import NewTodoForm from '../components/NewTodoForm'
 
 class MainTodo extends Component {
   constructor(props) {
@@ -30,13 +30,12 @@ class MainTodo extends Component {
     const header = (
       <div className='header d-flex'>
         <FilterLink
-          category={{ id: -1, name: 'All', gradientColor: 'white' }}
+          category={{ name: 'All', gradientColor: 'white' }}
           icon=''
           filter={Filters.SHOW_ALL}
         />
         <FilterLink
           category={{
-            id: -2,
             name: 'Done',
             gradientColor: 'linear-gradient(to right, #a8e063, #56ab2f)'
           }}
@@ -45,7 +44,6 @@ class MainTodo extends Component {
         />
         <FilterLink
           category={{
-            id: -3,
             name: 'Due Soon',
             gradientColor: 'linear-gradient(to right, #ef473a, #cb2d3e)'
           }}
@@ -54,7 +52,6 @@ class MainTodo extends Component {
         />
         <FilterLink
           category={{
-            id: -4,
             name: 'Todo',
             gradientColor: 'linear-gradient(to right, #ffe259, #ffcc33)'
           }}
@@ -71,7 +68,7 @@ class MainTodo extends Component {
         {header}
         <FilteredTodoList />
         {this.state.addNewTodo ? (
-          <NewTodo toggleAddNewTodo={this.toggleAddNewTodo} />
+          <NewTodoForm toggleAddNewTodo={this.toggleAddNewTodo} />
         ) : null}
       </div>
     )

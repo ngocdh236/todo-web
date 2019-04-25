@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import TodoLink from '../containers/TodoLink'
+import NewTodoLink from '../containers/NewTodoLink'
 
 class TodoList extends Component {
   render() {
@@ -14,15 +15,15 @@ class TodoList extends Component {
     return (
       <div className='TodoList'>
         {todos}
-        <TodoLink
-          newTodo={true}
+        <NewTodoLink
           todo={{
-            done: false,
-            title: ''
+            title: '',
+            categoryId:
+              this.props.categoryId && this.props.categoryId >= 0
+                ? this.props.categoryId
+                : null,
+            deadline: this.props.deadline ? this.props.deadline : null
           }}
-          // categoryId={this.props.categoryId}
-          categorizedTodo={this.props.categorizedTodo}
-          scheduledTodo={this.props.scheduledTodo}
         />
       </div>
     )
@@ -31,7 +32,8 @@ class TodoList extends Component {
 
 TodoList.propTypes = {
   todos: PropTypes.array,
-  categoryId: PropTypes.number
+  categoryId: PropTypes.number,
+  deadline: PropTypes.string
 }
 
 export default TodoList

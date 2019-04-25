@@ -14,7 +14,6 @@ class MainCategory extends Component {
     super(props)
 
     this.state = {
-      todos: props.todos,
       addNewCategory: false,
       newCategory: {}
     }
@@ -120,14 +119,12 @@ class MainCategory extends Component {
 }
 
 MainCategory.propTypes = {
-  todos: PropTypes.array.isRequired,
   categories: PropTypes.array.isRequired,
   errors: PropTypes.object,
   todosCategoryFilter: PropTypes.object
 }
 
 const mapStateToProps = state => ({
-  todos: state.todos,
   categories: state.categories,
   errors: state.errors,
   todosCategoryFilter: state.todosCategoryFilter

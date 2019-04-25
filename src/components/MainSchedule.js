@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import classnames from 'classnames'
 
-import NewTodo from './NewTodo'
+import NewTodoForm from './NewTodoForm'
 import ScheduledTodoList from '../containers/ScheduledTodoList'
 
 class MainSchedule extends Component {
@@ -206,20 +206,18 @@ class MainSchedule extends Component {
                 {daysinmonth}
               </div>
             </div>
+            <ScheduledTodoList
+              date={moment
+                .utc(this.state.dateObject)
+                .startOf('day')
+                .format()}
+            />
           </div>
-          <ScheduledTodoList
-            date={moment
-              .utc(this.state.dateObject)
-              .startOf('day')
-              .format()}
-          />
         </div>
         {this.state.addNewTodo ? (
-          <NewTodo
+          <NewTodoForm
             toggleAddNewTodo={this.toggleAddNewTodo}
-            deadline={moment
-              .utc(this.state.dateObject)
-              .format('YYYY-MM-DDTHH:mm:ss.SSSZ')}
+            deadline={moment.utc(this.state.dateObject).format()}
           />
         ) : null}
       </div>
