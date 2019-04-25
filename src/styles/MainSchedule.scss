@@ -9,8 +9,20 @@
     justify-content: space-around;
   }
 
+  .year-list {
+    width: 100%;
+  }
+
   .month {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+  }
+
+  .month-list {
+    display: none;
+  }
+
+  .day-list {
+    width: 100%;
   }
 
   .chosen-day,
@@ -35,13 +47,36 @@
 
   .TodoList {
     width: 100%;
-    margin-top: 10%;
+    margin-top: 80px;
     text-align: start;
+  }
+
+  .dropdown {
+    .dropdown-content button {
+      padding: 8px;
+      margin: 0;
+    }
   }
 }
 
-@media only screen and (min-width: 480px) {
+@media only screen and (min-width: 768px) {
   .MainSchedule {
     padding: 40px 0;
+
+    .year-list {
+      width: 25%;
+    }
+
+    .month-list {
+      display: block;
+    }
+
+    .day-list {
+      width: 70%;
+    }
+
+    .MonthsDropdown {
+      display: none;
+    }
   }
 }

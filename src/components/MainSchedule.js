@@ -68,6 +68,34 @@ class MainSchedule extends Component {
     return <div className='month-list'>{months}</div>
   }
 
+  MonthsDropdown = props => {
+    let months = props.months.map(month => {
+      return (
+        <button
+          key={month}
+          className='month'
+          onClick={() => {
+            this.setMonth(month)
+          }}
+        >
+          {month}
+        </button>
+      )
+    })
+
+    return (
+      <div className='MonthsDropdown dropdown'>
+        <button
+          className='dropbtn'
+          style={{ minWidth: '100px', height: '40px' }}
+        >
+          {this.state.dateObject.format('MMMM')}
+        </button>
+        <div className='dropdown-content'>{months}</div>
+      </div>
+    )
+  }
+
   today() {
     let dateObject = moment()
     this.setState({
@@ -159,19 +187,26 @@ class MainSchedule extends Component {
 
     return (
       <div className='MainSchedule'>
-        <button className='btn btn-light mb-4' onClick={this.toggleAddNewTodo}>
-          + New Todo
-        </button>
+        <div className='d-flex justify-content-between'>
+          <button
+            className='btn btn-light mb-4'
+            onClick={this.toggleAddNewTodo}
+          >
+            + New Todo
+          </button>
+          <this.MonthsDropdown months={moment.months()} />
+        </div>
 
         <div className='d-flex flex-wrap justify-content-between text-center'>
           <button
-            className='btn btn-light mb-5'
+            className='btn btn-light mb-4'
             onClick={this.today}
             style={{ width: '100%' }}
           >
             TODAY
           </button>
-          <div className='d-flex flex-column' style={{ width: '25%' }}>
+
+          <div className='year-list d-flex flex-column'>
             <div className='year mb-4'>
               <button onClick={this.previousYear}>
                 <i className='fas fa-chevron-left' />
@@ -184,7 +219,7 @@ class MainSchedule extends Component {
             <this.MonthPicker months={moment.months()} />
           </div>
 
-          <div style={{ width: '70%' }}>
+          <div className='day-list'>
             <div className='mb-4 d-flex justify-content-around'>
               <button onClick={this.previousMonth}>
                 <i className='fas fa-chevron-left' />

@@ -6,7 +6,11 @@ const mapDispatchToProps = dispatch => ({
   updateTodo: todo => dispatch(updateTodo(todo))
 })
 
+const mapStateToProps = state => ({
+  todos: state.todos
+})
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Todo)
