@@ -28,14 +28,28 @@ class Todo extends React.Component {
   }
 
   componentDidMount() {
-    var categoryId = this.props.categoryId
-    if (categoryId) {
-      if (categoryId >= 0) {
-        this.setState({
-          ...this.state,
-          todo: { ...this.state.todo, categoryId: categoryId }
-        })
-      }
+    // var categoryId = this.props.categoryId
+    // if (categoryId) {
+    //   if (categoryId >= 0) {
+    //     this.setState({
+    //       ...this.state,
+    //       todo: { ...this.state.todo, categoryId: categoryId }
+    //     })
+    //   }
+    // }
+
+    if (this.props.categorizedTodo) {
+      this.setState({
+        ...this.state,
+        todo: { ...this.state.todo, categoryId: this.props.categoryId }
+      })
+    }
+
+    if (this.props.scheduledTodo) {
+      this.setState({
+        ...this.state,
+        todo: { ...this.state.todo, deadline: this.props.deadline }
+      })
     }
   }
 

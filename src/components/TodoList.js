@@ -20,7 +20,9 @@ class TodoList extends Component {
             done: false,
             title: ''
           }}
-          categoryId={this.props.categoryId}
+          // categoryId={this.props.categoryId}
+          categorizedTodo={this.props.categorizedTodo}
+          scheduledTodo={this.props.scheduledTodo}
         />
       </div>
     )
