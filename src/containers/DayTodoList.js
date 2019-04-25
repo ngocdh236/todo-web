@@ -14,7 +14,8 @@ const getTodos = (todos, date) => {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  todos: getTodos(state.todos, ownProps.date)
+  todos: getTodos(state.todos, ownProps.date),
+  deadline: ownProps.date
 })
 
 export default connect(mapStateToProps)(TodoList)

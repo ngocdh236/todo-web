@@ -202,13 +202,13 @@ class MainSchedule extends Component {
                 {daysinmonth}
               </div>
             </div>
+            <DayTodoList
+              date={moment
+                .utc(this.state.dateObject)
+                .startOf('day')
+                .format()}
+            />
           </div>
-          <DayTodoList
-            date={moment
-              .utc(this.state.dateObject)
-              .startOf('day')
-              .format()}
-          />
         </div>
         {this.state.addNewTodo ? (
           <NewTodo

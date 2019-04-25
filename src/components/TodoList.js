@@ -21,6 +21,7 @@ class TodoList extends Component {
             title: ''
           }}
           categoryId={this.props.categoryId}
+          deadline={this.props.deadline}
         />
       </div>
     )

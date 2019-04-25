@@ -29,26 +29,48 @@ class Todo extends React.Component {
 
   componentDidMount() {
     var categoryId = this.props.categoryId
+    var deadline = this.props.deadline
+
+    console.log(deadline)
+
     if (categoryId) {
       if (categoryId >= 0) {
         this.setState({
           ...this.state,
-          todo: { ...this.state.todo, categoryId: categoryId }
+          todo: {
+            ...this.state.todo,
+            categoryId: categoryId,
+            deadline: deadline
+          }
         })
       }
     }
+
+    console.log(this.state.todo)
   }
 
   componentDidUpdate(prevProps) {
     var categoryId = this.props.categoryId
-    if (categoryId !== prevProps.categoryId) {
+    var deadline = this.props.deadline
+
+    console.log(deadline)
+
+    if (
+      categoryId !== prevProps.categoryId ||
+      deadline !== prevProps.deadline
+    ) {
       if (categoryId >= 0) {
         this.setState({
           ...this.state,
-          todo: { ...this.state.todo, categoryId: categoryId }
+          todo: {
+            ...this.state.todo,
+            categoryId: categoryId,
+            deadline: deadline
+          }
         })
       }
     }
+    console.log(this.state.todo)
   }
 
   onTitleChange(e) {
