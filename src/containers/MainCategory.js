@@ -87,16 +87,13 @@ class MainCategory extends Component {
       <div className='MainCategory'>
         <div className='d-flex justify-content-between'>
           <button
-            className='btn btn-light mb-4'
+            className='button-light mb-4'
             onClick={this.toggleAddNewCategory}
           >
             + New Category
           </button>
 
-          <button
-            className='btn btn-light mb-4'
-            onClick={this.toggleAddNewTodo}
-          >
+          <button className='button-light mb-4' onClick={this.toggleAddNewTodo}>
             + New Todo
           </button>
         </div>

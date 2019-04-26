@@ -62,7 +62,7 @@ class MainTodo extends Component {
     )
     return (
       <div className='MainTodo'>
-        <button className='btn btn-light mb-4' onClick={this.toggleAddNewTodo}>
+        <button className='button-light mb-4' onClick={this.toggleAddNewTodo}>
           + New Todo
         </button>
         {header}

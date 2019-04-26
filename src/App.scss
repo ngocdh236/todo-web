@@ -4,16 +4,9 @@
   --text-primary: white;
   --box-shadow: white;
   --text-secondary: white;
-}
-
-%button-default {
-  color: var(--text-primary);
-  background: transparent;
-  &:focus {
-    outline: 0;
-  }
-  border: none;
-  border-radius: 1mm;
+  --color-danger: white;
+  --color-light: white;
+  --color-secondary: white;
 }
 
 %xy-centered {
@@ -36,6 +29,20 @@
   background-position: left top;
   min-height: 100vh;
   color: var(--text-primary);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label,
+p,
+button,
+textarea {
+  margin: 0;
+  padding: 0;
 }
 
 a,
@@ -62,7 +69,28 @@ a:hover {
 }
 
 button {
-  @extend %button-default;
+  color: var(--text-primary);
+  background: transparent;
+  &:focus {
+    outline: 0;
+  }
+  border: none;
+  border-radius: 1mm;
+}
+
+.button-danger {
+  background: var(--color-danger);
+  padding: 8px;
+  color: white;
+}
+
+.button-light {
+  background: var(--color-light);
+  padding: 8px;
+
+  &:hover {
+    background: var(--color-secondary);
+  }
 }
 
 #button-mode {

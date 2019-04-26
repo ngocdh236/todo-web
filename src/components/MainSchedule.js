@@ -188,10 +188,7 @@ class MainSchedule extends Component {
     return (
       <div className='MainSchedule'>
         <div className='d-flex justify-content-between'>
-          <button
-            className='btn btn-light mb-4'
-            onClick={this.toggleAddNewTodo}
-          >
+          <button className='button-light mb-4' onClick={this.toggleAddNewTodo}>
             + New Todo
           </button>
           <this.MonthsDropdown months={moment.months()} />
@@ -199,7 +196,7 @@ class MainSchedule extends Component {
 
         <div className='d-flex flex-wrap justify-content-between text-center'>
           <button
-            className='btn btn-light mb-4'
+            className='button-light mb-4'
             onClick={this.today}
             style={{ width: '100%' }}
           >
