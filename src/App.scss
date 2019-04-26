@@ -41,6 +41,10 @@
 a,
 input,
 textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
   color: var(--text-primary);
   outline: none;
   resize: none;
