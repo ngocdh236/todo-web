@@ -67,6 +67,7 @@ button {
   position: fixed;
   bottom: 10px;
   right: 10px;
+  padding: 0 5px;
 }
 
 .Nav {
@@ -93,9 +94,8 @@ button {
 
   .dropbtn {
     background-color: gainsboro;
-    border: none;
-    cursor: pointer;
     color: black;
+    padding: 0 8px;
   }
 
   .dropdown-content {
@@ -115,15 +115,21 @@ button {
     color: black;
   }
 
-  .dropdown-content button:hover {
-    background-color: #f1f1f1;
+  .dropdown-content {
+    button:hover {
+      background-color: #f1f1f1;
+    }
   }
 
-  &:hover .dropdown-content {
-    display: block;
+  &:hover {
+    .dropdown-content {
+      display: block;
+    }
   }
 
-  &:hover .dropbtn {
-    background-color: gray;
+  &:hover {
+    .dropbtn {
+      background-color: gray;
+    }
   }
 }
