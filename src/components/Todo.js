@@ -118,16 +118,10 @@ class Todo extends React.Component {
           {this.state.updateTodo ? (
             <div style={{ display: 'flex' }}>
               <button onClick={this.onUpdate}>
-                <i
-                  className='far fa-check-circle'
-                  style={{ fontSize: '25px' }}
-                />
+                <i className='far fa-check-circle fa-lg' />
               </button>
               <button onClick={this.onCancelUpdate}>
-                <i
-                  className='far fa-times-circle'
-                  style={{ fontSize: '25px' }}
-                />
+                <i className='far fa-times-circle fa-lg' />
               </button>
             </div>
           ) : null}
