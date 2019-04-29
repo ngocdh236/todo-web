@@ -62,9 +62,11 @@ class MainTodo extends Component {
     )
     return (
       <div className='MainTodo'>
-        <button className='button-light mb-4' onClick={this.toggleAddNewTodo}>
-          + New Todo
-        </button>
+        <div className='d-flex justify-content-end'>
+          <button className='button-light mb-4' onClick={this.toggleAddNewTodo}>
+            + New Todo
+          </button>
+        </div>
         {header}
         <FilteredTodoList />
         {this.state.addNewTodo ? (
