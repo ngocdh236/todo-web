@@ -6,6 +6,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
 import isEmpty from '../validation/is-empty'
+import thunk from 'redux-thunk'
 
 class TodoInfo extends React.Component {
   constructor(props) {
@@ -16,11 +17,20 @@ class TodoInfo extends React.Component {
       alert: false,
       warning: ''
     }
+
+    this.todoTitleInput = React.createRef()
+
     this.onTitleChange = this.onTitleChange.bind(this)
     this.onDescriptionChange = this.onDescriptionChange.bind(this)
     this.onCategoryChange = this.onCategoryChange.bind(this)
     this.onDeadlineChange = this.onDeadlineChange.bind(this)
     this.onDoneClick = this.onDoneClick.bind(this)
+  }
+
+  componentDidMount() {
+    if (this.state.newTodo) {
+      this.todoTitleInput.current.focus()
+    }
   }
 
   onTitleChange(e) {
@@ -151,6 +161,7 @@ class TodoInfo extends React.Component {
           className='input font-weight-bold'
           value={this.state.todo.title}
           onChange={this.onTitleChange}
+          ref={this.todoTitleInput}
         />
 
         <div className='horizontal-line my-3' />
