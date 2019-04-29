@@ -40,7 +40,7 @@ class NewTodoForm extends Component {
 
 NewTodoForm.propTypes = {
   toggleAddNewTodo: PropTypes.func.isRequired,
-  deadline: PropTypes.string,
+  deadline: PropTypes.object,
   category: PropTypes.object
 }
 

@@ -33,7 +33,7 @@ class TodoList extends Component {
 TodoList.propTypes = {
   todos: PropTypes.array,
   categoryId: PropTypes.number,
-  deadline: PropTypes.string
+  deadline: PropTypes.object
 }
 
 export default TodoList
