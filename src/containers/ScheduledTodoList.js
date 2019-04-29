@@ -8,7 +8,10 @@ const getTodos = (todos, date) => {
     todo =>
       moment(todo.deadline)
         .startOf('day')
-        .format() === date
+        .format() ===
+      moment(date)
+        .startOf('day')
+        .format()
   )
 }
 

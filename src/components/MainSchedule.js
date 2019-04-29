@@ -241,17 +241,13 @@ class MainSchedule extends Component {
                 {daysinmonth}
               </div>
             </div>
-            <ScheduledTodoList
-              date={moment(this.state.dateObject)
-                .startOf('day')
-                .format()}
-            />
+            <ScheduledTodoList date={this.state.dateObject} />
           </div>
         </div>
         {this.state.addNewTodo ? (
           <NewTodoForm
             toggleAddNewTodo={this.toggleAddNewTodo}
-            deadline={moment.utc(this.state.dateObject).format()}
+            deadline={this.state.dateObject}
           />
         ) : null}
       </div>

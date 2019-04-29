@@ -51,7 +51,6 @@ class TodoInfo extends React.Component {
 
   onDoneClick() {
     let todo = this.state.todo
-    console.log(todo)
     if (isEmpty(todo.title)) {
       this.setState({
         ...this.state,
