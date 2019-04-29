@@ -6,8 +6,7 @@ import TodoList from '../components/TodoList'
 const getTodos = (todos, date) => {
   return todos.filter(
     todo =>
-      moment
-        .utc(todo.deadline)
+      moment(todo.deadline)
         .startOf('day')
         .format() === date
   )

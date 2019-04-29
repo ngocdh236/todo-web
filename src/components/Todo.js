@@ -98,9 +98,9 @@ class Todo extends React.Component {
 
     const deadline = (() => {
       if (this.state.todo.deadline) {
-        var deadline = moment
-          .utc(this.state.todo.deadline)
-          .format('DD/MM/YYYY, HH:mm')
+        var deadline = moment(this.state.todo.deadline).format(
+          'DD/MM/YYYY, HH:mm'
+        )
 
         return <p className='text-secondary'>{deadline}</p>
       }

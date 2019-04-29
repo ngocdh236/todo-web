@@ -242,8 +242,7 @@ class MainSchedule extends Component {
               </div>
             </div>
             <ScheduledTodoList
-              date={moment
-                .utc(this.state.dateObject)
+              date={moment(this.state.dateObject)
                 .startOf('day')
                 .format()}
             />
