@@ -25,6 +25,15 @@ class Todo extends React.Component {
     this.onTitleChange = this.onTitleChange.bind(this)
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.todo !== prevProps.todo) {
+      this.setState({
+        ...this.state,
+        todo: this.props.todo
+      })
+    }
+  }
+
   onTitleChange(e) {
     this.setState({
       ...this.state,
