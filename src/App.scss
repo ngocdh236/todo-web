@@ -1,14 +1,3 @@
-:root {
-  --background-primary: white;
-  --background-secondary: white;
-  --text-primary: white;
-  --box-shadow: white;
-  --text-secondary: white;
-  --color-danger: white;
-  --color-light: white;
-  --color-secondary: white;
-}
-
 %xy-centered {
   display: flex;
   justify-content: center;
@@ -28,7 +17,7 @@
   background-size: auto 100%;
   background-position: left top;
   min-height: 100vh;
-  color: var(--text-primary);
+  color: var(--color-primary);
 }
 
 h1,
@@ -52,7 +41,7 @@ textarea {
   -moz-appearance: none;
   appearance: none;
 
-  color: var(--text-primary);
+  color: var(--color-primary);
   outline: none;
   resize: none;
   border: none;
@@ -69,7 +58,7 @@ a:hover {
 }
 
 button {
-  color: var(--text-primary);
+  color: var(--color-primary);
   background: transparent;
   &:focus {
     outline: 0;
@@ -94,7 +83,7 @@ button {
 }
 
 #button-mode {
-  background: var(--text-primary);
+  background: var(--color-mode);
   color: var(--background-primary);
   position: fixed;
   bottom: 10px;
@@ -103,21 +92,22 @@ button {
 }
 
 .Nav {
-  border-bottom: 0.5px solid gainsboro;
+  border-bottom: 0.5px solid var(--background-secondary);
 }
 
 .vertical-line {
-  border-left: 1px solid gainsboro;
+  border-left: 1px solid var(--background-secondary);
   width: 1%;
 }
 
 .horizontal-line {
-  border-top: 1px solid gainsboro;
+  margin-top: 10px;
+  border-top: 1px solid var(--background-secondary);
   height: 10px;
 }
 
 .text-secondary {
-  color: var(--text-secondary);
+  color: var(--color-secondary);
 }
 
 .dropdown {
@@ -125,15 +115,15 @@ button {
   display: inline-block;
 
   .dropbtn {
-    background-color: gainsboro;
-    color: black;
+    background-color: var(--background-secondary);
+    color: var(--color-primary);
     padding: 0 8px;
   }
 
   .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
+    background-color: var(--color-light);
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
   }
@@ -144,12 +134,13 @@ button {
     display: block;
     width: 100%;
     text-align: start;
-    color: black;
+    color: var(--color-primary);
+    border-radius: 0;
   }
 
   .dropdown-content {
     button:hover {
-      background-color: #f1f1f1;
+      background-color: var(--color-secondary);
     }
   }
 
@@ -161,7 +152,7 @@ button {
 
   &:hover {
     .dropbtn {
-      background-color: gray;
+      background-color: var(--color-secondary);
     }
   }
 }

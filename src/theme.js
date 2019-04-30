@@ -1,38 +1,56 @@
 const light = {
   bgPrimary: 'white',
-  bgSecondary: 'linear-gradient(to right, #c4e0e5, #4ca1af)',
-  textPrimary: 'black',
-  textSecondary: 'gainsboro'
+  bgSecondary: 'gainsboro',
+  colorPrimary: 'black',
+  colorSecondary: 'gainsboro',
+  colorLight: '#f8f9fa',
+  shadowColor: '#f5f5f5'
 }
 
 const dark = {
-  bgPrimary: '#222222',
-  bgSecondary: '#37474f',
-  textPrimary: 'white'
+  bgPrimary: '#1c1c1c',
+  bgSecondary: '#2a2828',
+  colorPrimary: 'gray',
+  colorSecondary: 'gainsboro',
+  colorLight: '#454545',
+  shadowColor: 'gray'
 }
 
-const shadowBlur = '15px'
-const shadowColor = '#f5f5f5'
 const colorDanger = '#dc3545'
-const colorLight = '#f8f9fa'
-const colorSecondary = 'gainsboro'
+const shadowBlur = '15px'
 
 export const lightTheme = {
+  '--color-mode': 'black',
+
   '--background-primary': light.bgPrimary,
   '--background-secondary': light.bgSecondary,
-  '--text-primary': light.textPrimary,
-  '--text-secondary': light.textSecondary,
+
+  '--color-primary': light.colorPrimary,
+  '--color-secondary': light.colorSecondary,
+  '--color-light': light.colorLight,
   '--color-danger': colorDanger,
-  '--color-light': colorLight,
-  '--color-secondary': colorSecondary,
-  '--box-shadow': `1px 0 ${shadowBlur} ${shadowColor}, 0 1px ${shadowBlur} ${shadowColor}, -1px 0 ${shadowBlur} ${shadowColor}, 0 -1px ${shadowBlur} ${shadowColor}`
+
+  '--box-shadow': `1px 0 ${shadowBlur} ${
+    light.shadowColor
+  }, 0 1px ${shadowBlur} ${light.shadowColor}, -1px 0 ${shadowBlur} ${
+    light.shadowColor
+  }, 0 -1px ${shadowBlur} ${light.shadowColor}`
 }
 
 export const darkTheme = {
+  '--color-mode': 'white',
+
   '--background-primary': dark.bgPrimary,
   '--background-secondary': dark.bgSecondary,
+
+  '--color-primary': dark.colorPrimary,
+  '--color-secondary': dark.colorSecondary,
+  '--color-light': dark.colorLight,
   '--color-danger': colorDanger,
-  '--color-light': colorLight,
-  '--color-secondary': colorSecondary,
-  '--text-primary': dark.textPrimary
+
+  '--box-shadow': `1px 0 ${shadowBlur} ${
+    dark.shadowColor
+  }, 0 1px ${shadowBlur} ${dark.shadowColor}, -1px 0 ${shadowBlur} ${
+    dark.shadowColor
+  }, 0 -1px ${shadowBlur} ${dark.shadowColor}`
 }

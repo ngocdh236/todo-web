@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column;
   width: 90%;
+  background: var(--background-primary);
 
   .buttons {
     align-self: flex-end;
@@ -38,7 +39,7 @@
       display: table-row;
 
       .date-picker {
-        border: 1px solid gainsboro;
+        border: 1px solid var(--background-secondary);
         border-radius: 1mm;
         margin: 0;
         padding: 0 10px;
