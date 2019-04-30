@@ -77,7 +77,7 @@ class MainCategory extends Component {
           onChange={this.onNewCategoryChange}
           ref={this.newCategoryInput}
         />
-        <button className='btn btn-light' onClick={this.addNewCategory}>
+        <button className='button-light' onClick={this.addNewCategory}>
           Add
         </button>
       </div>
