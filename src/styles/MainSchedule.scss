@@ -35,8 +35,8 @@
   .day {
     height: 90px;
     width: 14%;
-    border-right: 0.5px solid gainsboro;
-    border-bottom: 0.5px solid gainsboro;
+    border-right: 0.5px solid var(--background-secondary);
+    border-bottom: 0.5px solid var(--background-secondary);
 
     label {
       @extend %xy-centered;

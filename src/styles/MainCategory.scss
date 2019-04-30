@@ -1,10 +1,12 @@
+@import '../App.scss';
+
 .MainCategory {
   padding: 25px 0;
 
   .new-category {
     display: flex;
     input {
-      border: 1px solid gainsboro;
+      border: 1px solid var(--background-secondary);
       border-radius: 1mm;
       height: 40px;
       width: 100%;

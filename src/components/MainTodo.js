@@ -30,7 +30,10 @@ class MainTodo extends Component {
     const header = (
       <div className='header d-flex'>
         <FilterLink
-          category={{ name: 'All', gradientColor: 'white' }}
+          category={{
+            name: 'All',
+            gradientColor: 'var(--background-primary)'
+          }}
           icon=''
           filter={Filters.SHOW_ALL}
         />

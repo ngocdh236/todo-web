@@ -235,7 +235,7 @@ class MainSchedule extends Component {
               <div
                 className='d-flex flex-wrap'
                 style={{
-                  borderLeft: '0.5px solid gainsboro'
+                  borderLeft: '0.5px solid var(--background-secondary)'
                 }}
               >
                 {daysinmonth}

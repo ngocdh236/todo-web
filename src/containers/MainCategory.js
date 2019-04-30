@@ -77,7 +77,7 @@ class MainCategory extends Component {
           onChange={this.onNewCategoryChange}
           ref={this.newCategoryInput}
         />
-        <button className='btn btn-light' onClick={this.addNewCategory}>
+        <button className='button-light' onClick={this.addNewCategory}>
           Add
         </button>
       </div>
@@ -110,11 +110,15 @@ class MainCategory extends Component {
           </button>
           <div className='dropdown-content'>
             <CategoryLink
-              category={{ id: -1, name: 'All', gradientColor: 'white' }}
+              category={{
+                id: -1,
+                name: 'All',
+                gradientColor: 'var(--background-primary)'
+              }}
               icon=''
               filter={Filters.SHOW_ALL}
             />
-            <div className='horizontal-line' style={{ margin: '0 8px' }} />
+            <div className='horizontal-line mx-1' />
             {categories}
           </div>
         </div>
@@ -122,7 +126,11 @@ class MainCategory extends Component {
         <div className='d-flex'>
           <div className='category-list'>
             <CategoryLink
-              category={{ id: -1, name: 'All', gradientColor: 'white' }}
+              category={{
+                id: -1,
+                name: 'All',
+                gradientColor: 'var(--background-primary)'
+              }}
               icon=''
               filter={Filters.SHOW_ALL}
             />
