@@ -45,6 +45,10 @@
     }
   }
 
+  .day-label:hover {
+    background: var(--color-light);
+  }
+
   .TodoList {
     width: 100%;
     margin-top: 80px;
@@ -68,7 +72,7 @@
     padding: 40px 0;
 
     .year-list {
-      width: 25%;
+      width: 10%;
     }
 
     .month-list {
@@ -76,7 +80,7 @@
     }
 
     .day-list {
-      width: 70%;
+      width: 85%;
     }
 
     .MonthsDropdown {

@@ -161,11 +161,10 @@ class MainSchedule extends Component {
 
     let days = []
     for (let d = 1; d <= this.state.dateObject.daysInMonth(); d++) {
-      let chosenDay =
-        d === Number(this.state.dateObject.format('D')) ? 'chosen-day' : ''
+      let chosenDay = d === Number(this.state.dateObject.format('D'))
       days.push(
         <label
-          className={chosenDay}
+          className={classnames('day-label', { 'chosen-day': chosenDay })}
           onClick={() => {
             this.setDay(d)
           }}
@@ -220,7 +219,7 @@ class MainSchedule extends Component {
           </div>
 
           <div className='day-list'>
-            <div className='mb-4 d-flex justify-content-around'>
+            <div className='mb-4 d-flex justify-content-between'>
               <button className='chevron' onClick={this.previousMonth}>
                 <i className='fas fa-chevron-left' />
               </button>

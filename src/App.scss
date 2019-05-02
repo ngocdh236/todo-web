@@ -106,6 +106,13 @@ button {
   height: 10px;
 }
 
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background: var(--background-secondary);
+}
+
 .text-secondary {
   color: var(--color-secondary);
 }
