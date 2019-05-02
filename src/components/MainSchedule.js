@@ -3,16 +3,20 @@ import '../styles/MainSchedule.scss'
 import React, { Component } from 'react'
 import moment from 'moment'
 import classnames from 'classnames'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 import NewTodoForm from './NewTodoForm'
 import ScheduledTodoList from '../containers/ScheduledTodoList'
+import isEmpty from '../validation/is-empty'
 
 class MainSchedule extends Component {
   constructor(props) {
     super(props)
     this.state = {
       dateObject: moment(),
-      addNewTodo: false
+      addNewTodo: false,
+      scheduledTodos: props.todos.filter(todo => !isEmpty(todo.deadline))
     }
 
     this.toggleAddNewTodo = this.toggleAddNewTodo.bind(this)
@@ -21,6 +25,15 @@ class MainSchedule extends Component {
     this.nextYear = this.nextYear.bind(this)
     this.previousMonth = this.previousMonth.bind(this)
     this.nextMonth = this.nextMonth.bind(this)
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.todos !== prevProps.todos) {
+      this.setState({
+        ...this.state,
+        scheduledTodos: this.props.todos.filter(todo => !isEmpty(todo.deadline))
+      })
+    }
   }
 
   toggleAddNewTodo() {
@@ -65,10 +78,10 @@ class MainSchedule extends Component {
       )
     })
 
-    return <div className='month-list'>{months}</div>
+    return <div className='MonthPicker'>{months}</div>
   }
 
-  MonthsDropdown = props => {
+  MonthDropdown = props => {
     let months = props.months.map(month => {
       return (
         <button
@@ -84,7 +97,7 @@ class MainSchedule extends Component {
     })
 
     return (
-      <div className='MonthsDropdown dropdown'>
+      <div className='MonthDropdown dropdown'>
         <button
           className='dropbtn'
           style={{ minWidth: '100px', height: '40px' }}
@@ -92,6 +105,56 @@ class MainSchedule extends Component {
           {this.state.dateObject.format('MMMM')}
         </button>
         <div className='dropdown-content'>{months}</div>
+      </div>
+    )
+  }
+
+  DayPicker = props => {
+    let firstDayOfMonth = moment(this.state.dateObject)
+      .startOf('month')
+      .format('d')
+
+    let blanks = []
+    for (let i = 0; i < firstDayOfMonth; i++) {
+      blanks.push(<label>{''}</label>)
+    }
+
+    let days = []
+    for (let d = 1; d <= this.state.dateObject.daysInMonth(); d++) {
+      let chosenDay = d === Number(this.state.dateObject.format('D'))
+      let dateObject = this.state.dateObject
+      dateObject = moment(dateObject).set('day', d)
+      console.log(dateObject)
+      days.push(
+        <label
+          className={classnames('day-label', { 'chosen-day': chosenDay })}
+          onClick={() => {
+            this.setDay(d)
+          }}
+        >
+          {d}
+        </label>
+      )
+    }
+
+    var totalSlots = [...blanks, ...days]
+
+    let daysinmonth = totalSlots.map((slot, i) => {
+      return (
+        <div key={i} className='day'>
+          {slot}
+        </div>
+      )
+    })
+
+    return (
+      <div
+        className='d-flex flex-wrap'
+        style={{
+          borderLeft: '0.5px solid var(--background-secondary)'
+        }}
+      >
+        {daysinmonth}
       </div>
     )
   }
@@ -144,7 +207,7 @@ class MainSchedule extends Component {
   render() {
     let weekdayshortname = moment.weekdaysShort().map(day => {
       return (
-        <p key={day} className='lead' style={{ width: '14%' }}>
+        <p key={day} className='lead' style={{ width: '14.285%' }}>
           <strong>{day}</strong>
         </p>
       )
@@ -161,17 +224,33 @@ class MainSchedule extends Component {
 
     let days = []
     for (let d = 1; d <= this.state.dateObject.daysInMonth(); d++) {
+      let dateTodos = []
+      this.state.scheduledTodos.forEach((todo, i) => {
+        if (
+          moment(todo.deadline)
+            .startOf('day')
+            .format() ===
+          moment(this.state.dateObject)
+            .date(d)
+            .startOf('day')
+            .format()
+        )
+          dateTodos.push(<div key={i} className='dot' />)
+      })
+
       let chosenDay =
         d === Number(this.state.dateObject.format('D')) ? 'chosen-day' : ''
+
       days.push(
-        <label
-          className={chosenDay}
+        <div
+          className='day-content'
           onClick={() => {
             this.setDay(d)
           }}
         >
-          {d}
-        </label>
+          <label className={chosenDay}>{d}</label>
+          <div className='date-todos'>{dateTodos}</div>
+        </div>
       )
     }
 
@@ -188,7 +267,7 @@ class MainSchedule extends Component {
     return (
       <div className='MainSchedule'>
         <div className='d-flex justify-content-between'>
-          <this.MonthsDropdown months={moment.months()} />
+          <this.MonthDropdown months={moment.months()} />
           <button
             className='button-light mb-4 ml-auto'
             onClick={this.toggleAddNewTodo}
@@ -206,7 +285,7 @@ class MainSchedule extends Component {
             TODAY
           </button>
 
-          <div className='year-list d-flex flex-column'>
+          <div className='aside-list d-flex flex-column'>
             <div className='year mb-4'>
               <button className='chevron' onClick={this.previousYear}>
                 <i className='fas fa-chevron-left' />
@@ -219,8 +298,8 @@ class MainSchedule extends Component {
             <this.MonthPicker months={moment.months()} />
           </div>
 
-          <div className='day-list'>
-            <div className='mb-4 d-flex justify-content-around'>
+          <div className='main-list'>
+            <div className='mb-4 d-flex justify-content-between'>
               <button className='chevron' onClick={this.previousMonth}>
                 <i className='fas fa-chevron-left' />
               </button>
@@ -255,4 +334,12 @@ class MainSchedule extends Component {
   }
 }
 
-export default MainSchedule
+MainSchedule.propTypes = {
+  todos: PropTypes.array
+}
+
+const mapStateToProps = state => ({
+  todos: state.todos
+})
+
+export default connect(mapStateToProps)(MainSchedule)

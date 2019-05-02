@@ -9,6 +9,7 @@ import CategoryLink from './CategoryLink'
 import { createCategory } from '../actions/categoryActions'
 import { Filters } from '../actions'
 import NewTodoForm from '../components/NewTodoForm'
+import isEmpty from '../validation/is-empty'
 
 class MainCategory extends Component {
   constructor(props) {
@@ -17,7 +18,9 @@ class MainCategory extends Component {
     this.state = {
       addNewCategory: false,
       addNewTodo: false,
-      newCategory: {}
+      newCategory: {},
+      alert: false,
+      warning: ''
     }
 
     this.newCategoryInput = React.createRef()
@@ -31,7 +34,9 @@ class MainCategory extends Component {
   toggleAddNewCategory() {
     this.setState(
       {
-        addNewCategory: !this.state.addNewCategory
+        addNewCategory: !this.state.addNewCategory,
+        alert: false,
+        warning: ''
       },
       () => {
         if (this.state.addNewCategory) {
@@ -49,9 +54,22 @@ class MainCategory extends Component {
   }
 
   addNewCategory() {
-    this.props
-      .createCategory(this.state.newCategory)
-      .then(this.setState({ ...this.state, newCategory: {} }))
+    if (isEmpty(this.state.newCategory.name)) {
+      this.setState({
+        ...this.state,
+        alert: true,
+        warning: 'Name must not be blank'
+      })
+    } else {
+      this.props.createCategory(this.state.newCategory).then(
+        this.setState({
+          ...this.state,
+          newCategory: {},
+          alert: false,
+          warning: ''
+        })
+      )
+    }
   }
 
   onNewCategoryChange(e) {
@@ -98,6 +116,11 @@ class MainCategory extends Component {
           </button>
         </div>
         {this.state.addNewCategory ? newCategory : null}
+        {this.state.alert ? (
+          <div className='mt-3 alert alert-danger' role='alert'>
+            {this.state.warning}
+          </div>
+        ) : null}
 
         <br />
 

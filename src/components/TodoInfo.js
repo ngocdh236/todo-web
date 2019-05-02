@@ -6,7 +6,6 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
 import isEmpty from '../validation/is-empty'
-import thunk from 'redux-thunk'
 
 class TodoInfo extends React.Component {
   constructor(props) {
