@@ -6,10 +6,10 @@
   .year {
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
   }
 
-  .year-list {
+  .aside-list {
     width: 100%;
   }
 
@@ -17,11 +17,11 @@
     margin-bottom: 25px;
   }
 
-  .month-list {
+  .MonthPicker {
     display: none;
   }
 
-  .day-list {
+  .main-list {
     width: 100%;
   }
 
@@ -29,17 +29,19 @@
   .chosen-month {
     color: red;
     font-weight: bold;
-    font-size: 150%;
+    font-size: 125%;
   }
 
   .day {
     height: 90px;
-    width: 14%;
+    width: 14.285%;
     border-right: 0.5px solid var(--background-secondary);
     border-bottom: 0.5px solid var(--background-secondary);
 
     label {
-      @extend %xy-centered;
+      display: flex;
+      justify-content: flex-end;
+      padding-right: 10px;
       width: 100%;
       height: 100%;
     }
@@ -67,23 +69,23 @@
   }
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1200px) {
   .MainSchedule {
     padding: 40px 0;
 
-    .year-list {
-      width: 10%;
+    .aside-list {
+      width: 15%;
     }
 
-    .month-list {
+    .MonthPicker {
       display: block;
     }
 
-    .day-list {
-      width: 85%;
+    .main-list {
+      width: 80%;
     }
 
-    .MonthsDropdown {
+    .MonthDropdown {
       display: none;
     }
   }

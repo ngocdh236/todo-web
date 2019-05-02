@@ -65,10 +65,10 @@ class MainSchedule extends Component {
       )
     })
 
-    return <div className='month-list'>{months}</div>
+    return <div className='MonthPicker'>{months}</div>
   }
 
-  MonthsDropdown = props => {
+  MonthDropdown = props => {
     let months = props.months.map(month => {
       return (
         <button
@@ -84,7 +84,7 @@ class MainSchedule extends Component {
     })
 
     return (
-      <div className='MonthsDropdown dropdown'>
+      <div className='MonthDropdown dropdown'>
         <button
           className='dropbtn'
           style={{ minWidth: '100px', height: '40px' }}
@@ -144,7 +144,7 @@ class MainSchedule extends Component {
   render() {
     let weekdayshortname = moment.weekdaysShort().map(day => {
       return (
-        <p key={day} className='lead' style={{ width: '14%' }}>
+        <p key={day} className='lead' style={{ width: '14.285%' }}>
           <strong>{day}</strong>
         </p>
       )
@@ -187,7 +187,7 @@ class MainSchedule extends Component {
     return (
       <div className='MainSchedule'>
         <div className='d-flex justify-content-between'>
-          <this.MonthsDropdown months={moment.months()} />
+          <this.MonthDropdown months={moment.months()} />
           <button
             className='button-light mb-4 ml-auto'
             onClick={this.toggleAddNewTodo}
@@ -205,7 +205,7 @@ class MainSchedule extends Component {
             TODAY
           </button>
 
-          <div className='year-list d-flex flex-column'>
+          <div className='aside-list d-flex flex-column'>
             <div className='year mb-4'>
               <button className='chevron' onClick={this.previousYear}>
                 <i className='fas fa-chevron-left' />
@@ -218,7 +218,7 @@ class MainSchedule extends Component {
             <this.MonthPicker months={moment.months()} />
           </div>
 
-          <div className='day-list'>
+          <div className='main-list'>
             <div className='mb-4 d-flex justify-content-between'>
               <button className='chevron' onClick={this.previousMonth}>
                 <i className='fas fa-chevron-left' />
