@@ -2,6 +2,7 @@
 
 .Category {
   @extend %y-centered;
+  border: var(--border);
 
   &:disabled {
     .icon {

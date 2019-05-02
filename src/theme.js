@@ -17,7 +17,7 @@ const dark = {
 }
 
 const colorDanger = '#dc3545'
-const shadowBlur = '15px'
+const shadowBlur = '5px'
 
 export const lightTheme = {
   '--color-mode': 'black',
@@ -30,6 +30,7 @@ export const lightTheme = {
   '--color-light': light.colorLight,
   '--color-danger': colorDanger,
 
+  '--border': 'none',
   '--box-shadow': `1px 0 ${shadowBlur} ${
     light.shadowColor
   }, 0 1px ${shadowBlur} ${light.shadowColor}, -1px 0 ${shadowBlur} ${
@@ -48,9 +49,6 @@ export const darkTheme = {
   '--color-light': dark.colorLight,
   '--color-danger': colorDanger,
 
-  '--box-shadow': `1px 0 ${shadowBlur} ${
-    dark.shadowColor
-  }, 0 1px ${shadowBlur} ${dark.shadowColor}, -1px 0 ${shadowBlur} ${
-    dark.shadowColor
-  }, 0 -1px ${shadowBlur} ${dark.shadowColor}`
+  '--border': '1px solid var(--background-secondary)',
+  '--box-shadow': 'none'
 }

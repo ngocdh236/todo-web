@@ -28,7 +28,7 @@ class MainSchedule extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.todos !== prevProps.todos) {
+    if (this.props !== prevProps) {
       this.setState({
         ...this.state,
         scheduledTodos: this.props.todos.filter(todo => !isEmpty(todo.deadline))
@@ -121,7 +121,7 @@ class MainSchedule extends Component {
 
     let days = []
     for (let d = 1; d <= this.state.dateObject.daysInMonth(); d++) {
-      let dayTodos = []
+      let dateTodos = []
       this.state.scheduledTodos.forEach((todo, i) => {
         if (
           moment(todo.deadline)
@@ -132,7 +132,7 @@ class MainSchedule extends Component {
             .startOf('day')
             .format()
         )
-          dayTodos.push(<div key={i} className='dot' />)
+          dateTodos.push(<div key={i} className='dot' />)
       })
 
       let chosenDay =
@@ -146,7 +146,7 @@ class MainSchedule extends Component {
           }}
         >
           <label className={chosenDay}>{d}</label>
-          <div className='date-todos'>{dayTodos}</div>
+          <div className='date-todos'>{dateTodos}</div>
         </div>
       )
     }
