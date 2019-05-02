@@ -3,16 +3,20 @@ import '../styles/MainSchedule.scss'
 import React, { Component } from 'react'
 import moment from 'moment'
 import classnames from 'classnames'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 import NewTodoForm from './NewTodoForm'
 import ScheduledTodoList from '../containers/ScheduledTodoList'
+import isEmpty from '../validation/is-empty'
 
 class MainSchedule extends Component {
   constructor(props) {
     super(props)
     this.state = {
       dateObject: moment(),
-      addNewTodo: false
+      addNewTodo: false,
+      scheduledTodos: props.todos.filter(todo => !isEmpty(todo.deadline))
     }
 
     this.toggleAddNewTodo = this.toggleAddNewTodo.bind(this)
@@ -21,6 +25,15 @@ class MainSchedule extends Component {
     this.nextYear = this.nextYear.bind(this)
     this.previousMonth = this.previousMonth.bind(this)
     this.nextMonth = this.nextMonth.bind(this)
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.todos !== prevProps.todos) {
+      this.setState({
+        ...this.state,
+        scheduledTodos: this.props.todos.filter(todo => !isEmpty(todo.deadline))
+      })
+    }
   }
 
   toggleAddNewTodo() {
@@ -96,6 +109,56 @@ class MainSchedule extends Component {
     )
   }
 
+  DayPicker = props => {
+    let firstDayOfMonth = moment(this.state.dateObject)
+      .startOf('month')
+      .format('d')
+
+    let blanks = []
+    for (let i = 0; i < firstDayOfMonth; i++) {
+      blanks.push(<label>{''}</label>)
+    }
+
+    let days = []
+    for (let d = 1; d <= this.state.dateObject.daysInMonth(); d++) {
+      let chosenDay = d === Number(this.state.dateObject.format('D'))
+      let dateObject = this.state.dateObject
+      dateObject = moment(dateObject).set('day', d)
+      console.log(dateObject)
+      days.push(
+        <label
+          className={classnames('day-label', { 'chosen-day': chosenDay })}
+          onClick={() => {
+            this.setDay(d)
+          }}
+        >
+          {d}
+        </label>
+      )
+    }
+
+    var totalSlots = [...blanks, ...days]
+
+    let daysinmonth = totalSlots.map((slot, i) => {
+      return (
+        <div key={i} className='day'>
+          {slot}
+        </div>
+      )
+    })
+
+    return (
+      <div
+        className='d-flex flex-wrap'
+        style={{
+          borderLeft: '0.5px solid var(--background-secondary)'
+        }}
+      >
+        {daysinmonth}
+      </div>
+    )
+  }
+
   today() {
     let dateObject = moment()
     this.setState({
@@ -161,16 +224,33 @@ class MainSchedule extends Component {
 
     let days = []
     for (let d = 1; d <= this.state.dateObject.daysInMonth(); d++) {
-      let chosenDay = d === Number(this.state.dateObject.format('D'))
+      let dateTodos = []
+      this.state.scheduledTodos.forEach((todo, i) => {
+        if (
+          moment(todo.deadline)
+            .startOf('day')
+            .format() ===
+          moment(this.state.dateObject)
+            .date(d)
+            .startOf('day')
+            .format()
+        )
+          dateTodos.push(<div key={i} className='dot' />)
+      })
+
+      let chosenDay =
+        d === Number(this.state.dateObject.format('D')) ? 'chosen-day' : ''
+
       days.push(
-        <label
-          className={classnames('day-label', { 'chosen-day': chosenDay })}
+        <div
+          className='day-content'
           onClick={() => {
             this.setDay(d)
           }}
         >
-          {d}
-        </label>
+          <label className={chosenDay}>{d}</label>
+          <div className='date-todos'>{dateTodos}</div>
+        </div>
       )
     }
 
@@ -254,4 +334,12 @@ class MainSchedule extends Component {
   }
 }
 
-export default MainSchedule
+MainSchedule.propTypes = {
+  todos: PropTypes.array
+}
+
+const mapStateToProps = state => ({
+  todos: state.todos
+})
+
+export default connect(mapStateToProps)(MainSchedule)
