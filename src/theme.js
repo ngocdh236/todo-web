@@ -2,17 +2,17 @@ const light = {
   bgPrimary: 'white',
   bgSecondary: 'gainsboro',
   colorPrimary: 'black',
-  colorSecondary: 'gainsboro',
+  colorSecondary: '#7a7a7a',
   colorLight: '#f8f9fa',
   shadowColor: '#f5f5f5'
 }
 
 const dark = {
   bgPrimary: '#1c1c1c',
-  bgSecondary: '#2a2828',
+  bgSecondary: '#3a3a3a',
   colorPrimary: 'gray',
   colorSecondary: 'gainsboro',
-  colorLight: '#454545',
+  colorLight: '#7a7a7a',
   shadowColor: 'gray'
 }
 

@@ -15,7 +15,7 @@ class Category extends React.Component {
         <div className='icon' style={{ background: gradientColor }}>
           <i
             className={this.props.icon}
-            style={{ color: 'white', fontSize: '20px' }}
+            style={{ color: 'var(--background-primary)', fontSize: '20px' }}
           />
         </div>
         <div className='info'>
