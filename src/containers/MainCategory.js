@@ -29,6 +29,7 @@ class MainCategory extends Component {
     this.onNewCategoryChange = this.onNewCategoryChange.bind(this)
     this.addNewCategory = this.addNewCategory.bind(this)
     this.toggleAddNewTodo = this.toggleAddNewTodo.bind(this)
+    this.onEnterPressed = this.onEnterPressed.bind(this)
   }
 
   toggleAddNewCategory() {
@@ -76,6 +77,12 @@ class MainCategory extends Component {
     this.setState({ ...this.state, newCategory: { name: e.target.value } })
   }
 
+  onEnterPressed(e) {
+    if (e.key === 'Enter') {
+      this.addNewCategory()
+    }
+  }
+
   render() {
     var categories = this.props.categories.map(category => {
       return (
@@ -94,6 +101,7 @@ class MainCategory extends Component {
           value={this.state.newCategory.name ? this.state.newCategory.name : ''}
           onChange={this.onNewCategoryChange}
           ref={this.newCategoryInput}
+          onKeyDown={this.onEnterPressed}
         />
         <button className='button-light' onClick={this.addNewCategory}>
           Add
