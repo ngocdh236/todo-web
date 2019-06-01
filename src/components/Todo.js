@@ -23,6 +23,7 @@ class Todo extends React.Component {
     this.onCancelUpdate = this.onCancelUpdate.bind(this)
     this.onShowInfo = this.onShowInfo.bind(this)
     this.onTitleChange = this.onTitleChange.bind(this)
+    this.onEnterPressed = this.onEnterPressed.bind(this)
   }
 
   componentDidUpdate(prevProps) {
@@ -89,6 +90,12 @@ class Todo extends React.Component {
     })
   }
 
+  onEnterPressed(e) {
+    if (e.key === 'Enter') {
+      this.onUpdate()
+    }
+  }
+
   render() {
     const done = this.state.todo.done
 
@@ -120,6 +127,7 @@ class Todo extends React.Component {
               type='text'
               value={this.state.todo.title}
               onChange={this.onTitleChange}
+              onKeyDown={this.onEnterPressed}
             />
             {deadline}
           </div>

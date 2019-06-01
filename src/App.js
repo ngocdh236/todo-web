@@ -11,7 +11,7 @@ import Register from './containers/Register'
 import Login from './containers/Login'
 import MainTodo from './components/MainTodo'
 import MainCategory from './containers/MainCategory'
-import MainSchedule from './components/MainSchedule'
+import MainSchedule from './containers/MainSchedule'
 import setAuthToken from './utils/setAuthToken'
 import { setCurrentUser, logoutUser } from './actions/authActions'
 import { setLightTheme, setDarkTheme } from './actions/themeActions'
@@ -60,11 +60,6 @@ class App extends Component {
   constructor() {
     super()
 
-    this.state = {
-      theme: localStorage.theme,
-      darkMode: localStorage.darkMode
-    }
-
     this.onClick = this.onClick.bind(this)
   }
 
@@ -72,7 +67,6 @@ class App extends Component {
     store.getState().theme.darkMode
       ? store.dispatch(setLightTheme())
       : store.dispatch(setDarkTheme())
-    this.setState({ theme: localStorage.theme })
   }
 
   render() {
@@ -104,10 +98,10 @@ class App extends Component {
               />
 
               <button id='button-mode' onClick={this.onClick}>
-                {this.state.theme === 'Light' ? (
-                  <label>Dark</label>
-                ) : (
+                {store.getState().theme.darkMode ? (
                   <label>Light</label>
+                ) : (
+                  <label>Dark</label>
                 )}
               </button>
             </div>

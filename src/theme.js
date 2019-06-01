@@ -2,22 +2,22 @@ const light = {
   bgPrimary: 'white',
   bgSecondary: 'gainsboro',
   colorPrimary: 'black',
-  colorSecondary: 'gainsboro',
+  colorSecondary: '#7a7a7a',
   colorLight: '#f8f9fa',
   shadowColor: '#f5f5f5'
 }
 
 const dark = {
   bgPrimary: '#1c1c1c',
-  bgSecondary: '#2a2828',
+  bgSecondary: '#3a3a3a',
   colorPrimary: 'gray',
   colorSecondary: 'gainsboro',
-  colorLight: '#454545',
+  colorLight: '#7a7a7a',
   shadowColor: 'gray'
 }
 
 const colorDanger = '#dc3545'
-const shadowBlur = '15px'
+const shadowBlur = '5px'
 
 export const lightTheme = {
   '--color-mode': 'black',
@@ -30,6 +30,7 @@ export const lightTheme = {
   '--color-light': light.colorLight,
   '--color-danger': colorDanger,
 
+  '--border': 'none',
   '--box-shadow': `1px 0 ${shadowBlur} ${
     light.shadowColor
   }, 0 1px ${shadowBlur} ${light.shadowColor}, -1px 0 ${shadowBlur} ${
@@ -48,9 +49,6 @@ export const darkTheme = {
   '--color-light': dark.colorLight,
   '--color-danger': colorDanger,
 
-  '--box-shadow': `1px 0 ${shadowBlur} ${
-    dark.shadowColor
-  }, 0 1px ${shadowBlur} ${dark.shadowColor}, -1px 0 ${shadowBlur} ${
-    dark.shadowColor
-  }, 0 -1px ${shadowBlur} ${dark.shadowColor}`
+  '--border': '1px solid var(--background-secondary)',
+  '--box-shadow': 'none'
 }

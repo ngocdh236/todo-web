@@ -6,8 +6,8 @@ import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import NewTodoForm from './NewTodoForm'
-import ScheduledTodoList from '../containers/ScheduledTodoList'
+import NewTodoForm from '../components/NewTodoForm'
+import ScheduledTodoList from './ScheduledTodoList'
 import isEmpty from '../validation/is-empty'
 
 class MainSchedule extends Component {
@@ -28,7 +28,7 @@ class MainSchedule extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.todos !== prevProps.todos) {
+    if (this.props !== prevProps) {
       this.setState({
         ...this.state,
         scheduledTodos: this.props.todos.filter(todo => !isEmpty(todo.deadline))
@@ -109,7 +109,7 @@ class MainSchedule extends Component {
     )
   }
 
-  DayPicker = props => {
+  DayPicker = () => {
     let firstDayOfMonth = moment(this.state.dateObject)
       .startOf('month')
       .format('d')
@@ -121,19 +121,33 @@ class MainSchedule extends Component {
 
     let days = []
     for (let d = 1; d <= this.state.dateObject.daysInMonth(); d++) {
-      let chosenDay = d === Number(this.state.dateObject.format('D'))
-      let dateObject = this.state.dateObject
-      dateObject = moment(dateObject).set('day', d)
-      console.log(dateObject)
+      let dateTodos = []
+      this.state.scheduledTodos.forEach((todo, i) => {
+        if (
+          moment(todo.deadline)
+            .startOf('day')
+            .format() ===
+          moment(this.state.dateObject)
+            .date(d)
+            .startOf('day')
+            .format()
+        )
+          dateTodos.push(<div key={i} className='dot' />)
+      })
+
+      let chosenDay =
+        d === Number(this.state.dateObject.format('D')) ? 'chosen-day' : ''
+
       days.push(
-        <label
-          className={classnames('day-label', { 'chosen-day': chosenDay })}
+        <div
+          className='day-content'
           onClick={() => {
             this.setDay(d)
           }}
         >
-          {d}
-        </label>
+          <label className={chosenDay}>{d}</label>
+          <div className='date-todos'>{dateTodos}</div>
+        </div>
       )
     }
 
@@ -213,57 +227,6 @@ class MainSchedule extends Component {
       )
     })
 
-    let firstDayOfMonth = moment(this.state.dateObject)
-      .startOf('month')
-      .format('d')
-
-    let blanks = []
-    for (let i = 0; i < firstDayOfMonth; i++) {
-      blanks.push(<label>{''}</label>)
-    }
-
-    let days = []
-    for (let d = 1; d <= this.state.dateObject.daysInMonth(); d++) {
-      let dateTodos = []
-      this.state.scheduledTodos.forEach((todo, i) => {
-        if (
-          moment(todo.deadline)
-            .startOf('day')
-            .format() ===
-          moment(this.state.dateObject)
-            .date(d)
-            .startOf('day')
-            .format()
-        )
-          dateTodos.push(<div key={i} className='dot' />)
-      })
-
-      let chosenDay =
-        d === Number(this.state.dateObject.format('D')) ? 'chosen-day' : ''
-
-      days.push(
-        <div
-          className='day-content'
-          onClick={() => {
-            this.setDay(d)
-          }}
-        >
-          <label className={chosenDay}>{d}</label>
-          <div className='date-todos'>{dateTodos}</div>
-        </div>
-      )
-    }
-
-    var totalSlots = [...blanks, ...days]
-
-    let daysinmonth = totalSlots.map((slot, i) => {
-      return (
-        <div key={i} className='day'>
-          {slot}
-        </div>
-      )
-    })
-
     return (
       <div className='MainSchedule'>
         <div className='d-flex justify-content-between'>
@@ -311,14 +274,7 @@ class MainSchedule extends Component {
 
             <div>
               <div className='d-flex mb-2'>{weekdayshortname}</div>
-              <div
-                className='d-flex flex-wrap'
-                style={{
-                  borderLeft: '0.5px solid var(--background-secondary)'
-                }}
-              >
-                {daysinmonth}
-              </div>
+              <this.DayPicker />
             </div>
             <ScheduledTodoList date={this.state.dateObject} />
           </div>

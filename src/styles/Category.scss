@@ -38,6 +38,7 @@
     height: 10vh;
     box-shadow: var(--box-shadow);
     border-radius: 5mm;
+    border: var(--border);
 
     &:disabled {
       box-shadow: none;

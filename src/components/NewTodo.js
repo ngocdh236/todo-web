@@ -19,6 +19,7 @@ class NewTodo extends React.Component {
     this.onCreate = this.onCreate.bind(this)
     this.onCancelCreate = this.onCancelCreate.bind(this)
     this.onTitleChange = this.onTitleChange.bind(this)
+    this.onEnterPressed = this.onEnterPressed.bind(this)
   }
 
   componentDidUpdate(prevProps) {
@@ -79,6 +80,12 @@ class NewTodo extends React.Component {
     })
   }
 
+  onEnterPressed(e) {
+    if (e.key === 'Enter') {
+      this.onCreate()
+    }
+  }
+
   render() {
     const deadline = (() => {
       if (this.state.todo.deadline) {
@@ -103,6 +110,7 @@ class NewTodo extends React.Component {
               type='text'
               value={this.state.todo.title}
               onChange={this.onTitleChange}
+              onKeyDown={this.onEnterPressed}
             />
             {deadline}
           </div>
