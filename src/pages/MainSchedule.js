@@ -16,7 +16,7 @@ class MainSchedule extends Component {
     this.state = {
       dateObject: moment(),
       addNewTodo: false,
-      scheduledTodos: props.todos.filter(todo => !isEmpty(todo.deadline))
+      scheduledTodos: props.todos.items.filter(todo => !isEmpty(todo.deadline))
     }
 
     this.toggleAddNewTodo = this.toggleAddNewTodo.bind(this)
@@ -291,7 +291,7 @@ class MainSchedule extends Component {
 }
 
 MainSchedule.propTypes = {
-  todos: PropTypes.array
+  todos: PropTypes.object
 }
 
 const mapStateToProps = state => ({

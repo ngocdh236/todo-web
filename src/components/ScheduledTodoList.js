@@ -4,7 +4,7 @@ import moment from 'moment'
 import TodoList from './TodoList'
 
 const getTodos = (todos, date) => {
-  return todos.filter(
+  return todos.items.filter(
     todo =>
       moment(todo.deadline)
         .startOf('day')

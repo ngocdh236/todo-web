@@ -1,156 +1,133 @@
-import React, { Component } from 'react'
+import React, { Component, useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 
-import { loginUser } from '../services/authService'
+import { AuthContext } from '../contexts/AuthContext'
+
 import { removeNotification } from '../services/notificationActions'
 import InputField from '../components/InputField'
 
-class Login extends Component {
-  constructor() {
-    super()
-    this.state = {
-      usernameOrEmail: '',
-      password: '',
-      errors: [],
-      errorMessage: '',
-      redirect: false
-    }
+function Login(props) {
+  const { auth, authService } = useContext(AuthContext)
 
-    this.onChange = this.onChange.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
+  const [inputValues, setInputValues] = useState({
+    usernameOrEmail: '',
+    password: ''
+  })
+
+  // const [errors, setErrors] = useState([])
+
+  // const [errorMessage, setErrorMessage] = useState('')
+
+  const { from } = props.location.state || {
+    from: { pathname: '/' }
   }
 
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value })
+  if (auth.isAuthenticated) {
+    return <Redirect to={from} />
   }
 
-  onSubmit(e) {
+  function onChange(e) {
+    setInputValues({ ...inputValues, [e.target.name]: e.target.value })
+  }
+
+  function onSubmit(e) {
     e.preventDefault()
 
-    this.props.removeNotification()
+    // props.removeNotification()
 
     const userData = {
-      usernameOrEmail: this.state.usernameOrEmail,
-      password: this.state.password
+      usernameOrEmail: inputValues.usernameOrEmail,
+      password: inputValues.password
     }
 
-    this.props.loginUser(userData)
+    authService.loginUser(userData)
   }
+  // componentDidUpdate(prevProps) {
+  //   var error = props.error
+  //   if (error !== prevProps.error) {
+  //     if (error.errors) {
+  //       this.setState({
+  //         ...this.state,
+  //         errors: error.errors,
+  //         errorMessage: ''
+  //       })
+  //     }
+  //     if (error.message) {
+  //       this.setState({
+  //         ...this.state,
+  //         errors: [],
+  //         errorMessage: error.message
+  //       })
+  //     }
+  //   }
 
-  componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/')
-    }
-  }
+  return (
+    <div className='Login mt-5 text-center'>
+      <div className='container'>
+        <div className='row'>
+          <div className='col-md-8 m-auto'>
+            <h1 className='display-4'>Log In</h1>
+            <form className='mt-5' noValidate onSubmit={onSubmit}>
+              <InputField
+                placeholder='Username or Email Address'
+                name='usernameOrEmail'
+                type='text'
+                value={inputValues.usernameOrEmail}
+                onChange={onChange}
+                error={
+                  props.errors
+                    ? props.errors.find(
+                        error => error.field === 'usernameOrEmail'
+                      )
+                    : null
+                }
+              />
 
-  componentDidUpdate(prevProps) {
-    var error = this.props.error
-    if (error !== prevProps.error) {
-      if (error.errors) {
-        this.setState({
-          ...this.state,
-          errors: error.errors,
-          errorMessage: ''
-        })
-      }
-      if (error.message) {
-        this.setState({
-          ...this.state,
-          errors: [],
-          errorMessage: error.message
-        })
-      }
-    }
+              <InputField
+                placeholder='Password'
+                name='password'
+                type='password'
+                value={inputValues.password}
+                onChange={onChange}
+                error={
+                  props.errors
+                    ? props.errors.find(error => error.field === 'password')
+                    : null
+                }
+              />
 
-    if (this.props.auth !== prevProps.auth) {
-      this.setState({
-        ...this.state,
-        redirect: true
-      })
-    }
-  }
-
-  render() {
-    const { from } = this.props.location.state || { from: { pathname: '/' } }
-    if (this.state.redirect) {
-      return <Redirect to={from} />
-    }
-
-    var usernameOrEmail = 'usernameOrEmail'
-    var password = 'password'
-    var errors = this.state.errors
-
-    return (
-      <div className='Login mt-5 text-center'>
-        <div className='container'>
-          <div className='row'>
-            <div className='col-md-8 m-auto'>
-              <h1 className='display-4'>Log In</h1>
-              <form className='mt-5' noValidate onSubmit={this.onSubmit}>
-                <InputField
-                  placeholder='Username or Email Address'
-                  name={usernameOrEmail}
-                  type='text'
-                  value={this.state.usernameOrEmail}
-                  onChange={this.onChange}
-                  error={
-                    errors
-                      ? errors.find(error => error.field === usernameOrEmail)
-                      : null
-                  }
-                />
-
-                <InputField
-                  placeholder='Password'
-                  name={password}
-                  type='password'
-                  value={this.state.password}
-                  onChange={this.onChange}
-                  error={
-                    errors
-                      ? errors.find(error => error.field === password)
-                      : null
-                  }
-                />
-
-                <input type='submit' className='btn btn-lg btn-light mt-5' />
-              </form>
-              <br />
-              <Link className='nav-link' to='/register'>
-                Don't have an account yet? Click here
-              </Link>
-            </div>
+              <input type='submit' className='btn btn-lg btn-light mt-5' />
+            </form>
+            <br />
+            <Link className='nav-link' to='/register'>
+              Don't have an account yet? Click here
+            </Link>
           </div>
-          <br />
-          {this.state.errorMessage ? (
-            <p className='lead text-danger'>{this.state.errorMessage}</p>
-          ) : null}
-          {this.props.notification.message ? (
-            <p className='lead text-success'>
-              {this.props.notification.message}
-            </p>
-          ) : null}
         </div>
+        <br />
+        {props.errorMessage ? (
+          <p className='lead text-danger'>{props.errorMessage}</p>
+        ) : null}
+        {props.notification.message ? (
+          <p className='lead text-success'>{props.notification.message}</p>
+        ) : null}
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 Login.propTypes = {
-  loginUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
   error: PropTypes.object
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth,
   error: state.error,
   notification: state.notification
 })
 
 export default connect(
   mapStateToProps,
-  { loginUser, removeNotification }
+  { removeNotification }
 )(Login)
