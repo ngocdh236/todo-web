@@ -7,6 +7,7 @@ import jwt_decode from 'jwt-decode'
 import store from './store'
 
 import { AuthContext } from './contexts/AuthContext'
+import { ThemeContext } from './contexts/ThemeContext'
 import Nav from './components/Nav'
 import Register from './pages/Register'
 import Login from './pages/Login'
@@ -14,21 +15,11 @@ import MainTodo from './pages/MainTodo'
 import MainCategory from './pages/MainCategory'
 import MainSchedule from './pages/MainSchedule'
 import { setAuthToken } from './services/setAuthToken'
-import { setLightTheme, setDarkTheme } from './services/themeActions'
-import { getTodos } from './services/todoService'
-import { getCategories } from './services/categoryService'
-
-// switch (localStorage.getItem('theme')) {
-//   case 'Dark':
-//     store.dispatch(setDarkTheme())
-//     break
-//   default:
-//     store.dispatch(setLightTheme())
-//     break
-// }
 
 export default function App() {
   const { auth, dispatchAuth, authService } = useContext(AuthContext)
+  const { theme, setLightTheme, setDarkTheme } = useContext(ThemeContext)
+
   let user
   const token = localStorage.token
 
@@ -39,14 +30,18 @@ export default function App() {
     const currentTime = Date.now() / 1000
     if (user.exp < currentTime) {
       authService.logoutUser()
-      window.location.href = '/login'
     }
   }
 
   useEffect(() => {
     dispatchAuth(authService.setCurrentUser(user))
-    // store.dispatch(getTodos())
-    // store.dispatch(getCategories())
+    switch (localStorage.getItem('theme')) {
+      case 'Dark':
+        setDarkTheme()
+        break
+      default:
+        setLightTheme()
+    }
   }, [])
 
   const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -65,9 +60,7 @@ export default function App() {
   )
 
   const onClick = () => {
-    store.getState().theme.darkMode
-      ? store.dispatch(setLightTheme())
-      : store.dispatch(setDarkTheme())
+    theme.darkMode ? setLightTheme() : setDarkTheme()
   }
 
   return (
@@ -98,11 +91,7 @@ export default function App() {
             />
 
             <button id='button-mode' onClick={onClick}>
-              {store.getState().theme.darkMode ? (
-                <label>Light</label>
-              ) : (
-                <label>Dark</label>
-              )}
+              {theme.darkMode ? <label>Light</label> : <label>Dark</label>}
             </button>
           </div>
         </div>

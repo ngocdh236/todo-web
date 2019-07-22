@@ -5,10 +5,13 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 
 import { AuthProvider } from './contexts/AuthContext'
+import { ThemeProvider } from './contexts/ThemeContext'
 
 ReactDOM.render(
   <AuthProvider>
-    <App />
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
   </AuthProvider>,
   document.getElementById('root')
 )
