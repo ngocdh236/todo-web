@@ -4,7 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
-import TodoInfoLink from '../containers/TodoInfoLink'
+import TodoInfoLink from './TodoInfoLink'
 import { isEmpty } from '../utils/isEmpty'
 
 class Todo extends React.Component {

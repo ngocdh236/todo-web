@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 
-import TodoList from '../components/TodoList'
+import TodoList from './TodoList'
 import { Filters } from '../services'
 
 const getTodos = (todos, todosFilter) => {

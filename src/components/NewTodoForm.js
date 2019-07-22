@@ -3,7 +3,7 @@ import '../styles/NewTodoForm.scss'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import TodoInfoLink from '../containers/TodoInfoLink'
+import TodoInfoLink from './TodoInfoLink'
 
 class NewTodoForm extends Component {
   constructor(props) {

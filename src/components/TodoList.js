@@ -3,8 +3,8 @@ import '../styles/TodoList.scss'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import TodoLink from '../containers/TodoLink'
-import NewTodoLink from '../containers/NewTodoLink'
+import TodoLink from './TodoLink'
+import NewTodoLink from './NewTodoLink'
 
 class TodoList extends Component {
   render() {

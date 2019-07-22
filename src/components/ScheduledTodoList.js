@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import moment from 'moment'
 
-import TodoList from '../components/TodoList'
+import TodoList from './TodoList'
 
 const getTodos = (todos, date) => {
   return todos.filter(

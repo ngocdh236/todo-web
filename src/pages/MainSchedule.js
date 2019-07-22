@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import NewTodoForm from '../components/NewTodoForm'
-import ScheduledTodoList from './ScheduledTodoList'
+import ScheduledTodoList from '../components/ScheduledTodoList'
 import { isEmpty } from '../utils/isEmpty'
 
 class MainSchedule extends Component {

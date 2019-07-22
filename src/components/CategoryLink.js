@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { setFilterCategory } from '../services/todoService'
-import Category from '../components/Category'
+import Category from './Category'
 
 const mapStateToProps = (state, ownProps) => ({
   active: ownProps.category.id === state.todosCategoryFilter.category.id

@@ -2,11 +2,10 @@ import '../styles/MainTodo.scss'
 
 import React, { Component } from 'react'
 
-import FilteredTodoList from '../containers/FilteredTodoList'
-import FilterLink from '../containers/FilterLink'
+import FilteredTodoList from '../components/FilteredTodoList'
+import NewTodoForm from '../components/NewTodoForm'
+import FilterLink from '../components/FilterLink'
 import { Filters } from '../services'
-
-import NewTodoForm from './NewTodoForm'
 
 class MainTodo extends Component {
   constructor(props) {
