@@ -3,7 +3,7 @@ import { setFilterCategory } from '../services/todoService'
 import Category from './Category'
 
 const mapStateToProps = (state, ownProps) => ({
-  active: ownProps.category.id === state.todosCategoryFilter.category.id
+  active: ownProps.category.id === state.todos.category.item.id
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

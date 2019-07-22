@@ -137,7 +137,7 @@ class MainCategory extends Component {
             className='dropbtn'
             style={{ minWidth: '100px', height: '40px' }}
           >
-            {this.props.todosCategoryFilter.category.name}
+            {this.props.todos.category.item.name}
           </button>
           <div className='dropdown-content'>
             <CategoryLink
@@ -185,15 +185,15 @@ class MainCategory extends Component {
 }
 
 MainCategory.propTypes = {
+  todos: PropTypes.object.isRequired,
   categories: PropTypes.array.isRequired,
-  errors: PropTypes.object,
-  todosCategoryFilter: PropTypes.object
+  errors: PropTypes.object
 }
 
 const mapStateToProps = state => ({
+  todos: state.todos,
   categories: state.categories,
-  errors: state.errors,
-  todosCategoryFilter: state.todosCategoryFilter
+  errors: state.errors
 })
 
 export default connect(

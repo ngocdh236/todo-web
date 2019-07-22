@@ -1,17 +1,46 @@
-import { Types } from '../services'
+import { Filters, Types } from '../services'
 
-const todos = (state = [], action) => {
+const initialState = {
+  filter: Filters.SHOW_ALL,
+  category: {
+    filter: Filters.SHOW_ALL,
+    item: {
+      id: -1,
+      name: 'All',
+      gradientColor: 'white'
+    }
+  },
+  items: []
+}
+
+const todos = (state = initialState, action) => {
   switch (action.type) {
     case Types.SET_TODOS:
-      return action.todos
+      return { ...state, items: action.payload }
     case Types.CREATE_TODO:
-      return [...state, action.todo]
+      return { ...state, items: [...state.items, action.payload] }
     case Types.DELETE_TODO:
-      return state.filter(todo => todo.id !== action.id)
+      return {
+        ...state,
+        items: state.items.filter(todo => todo.id !== action.payload)
+      }
     case Types.UPDATE_TODO:
-      return state.map(todo =>
-        todo.id === action.todo.id ? action.todo : todo
-      )
+      return {
+        ...state,
+        items: state.items.map(todo =>
+          todo.id === action.payload.id ? action.payload : todo
+        )
+      }
+    case Types.SET_FILTER:
+      return { ...state, filter: action.payload }
+    case Types.SET_FILTER_CATEGORY:
+      return {
+        ...state,
+        category: {
+          filter: action.payload.filter,
+          item: action.payload.category
+        }
+      }
     default:
       return state
   }
