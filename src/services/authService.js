@@ -2,7 +2,7 @@ import jwt_decoce from 'jwt-decode'
 
 import customAxios from './customAxios'
 import { Types } from '.'
-import setAuthToken from '../utils/setAuthToken'
+import { setAuthToken } from './setAuthToken'
 import { getTodos } from './todoService'
 import { getCategories } from './categoryService'
 
