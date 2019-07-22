@@ -4,7 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
-import isEmpty from '../validation/is-empty'
+import { isEmpty } from '../utils/isEmpty'
 
 class NewTodo extends React.Component {
   constructor(props) {

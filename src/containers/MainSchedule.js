@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 
 import NewTodoForm from '../components/NewTodoForm'
 import ScheduledTodoList from './ScheduledTodoList'
-import isEmpty from '../validation/is-empty'
+import { isEmpty } from '../utils/isEmpty'
 
 class MainSchedule extends Component {
   constructor(props) {

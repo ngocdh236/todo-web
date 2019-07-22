@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-import isEmpty from '../validation/is-empty'
+import { isEmpty } from '../utils/isEmpty'
 
 class TodoInfo extends React.Component {
   constructor(props) {

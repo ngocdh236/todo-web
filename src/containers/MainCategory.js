@@ -9,7 +9,7 @@ import CategoryLink from './CategoryLink'
 import { createCategory } from '../actions/categoryActions'
 import { Filters } from '../actions'
 import NewTodoForm from '../components/NewTodoForm'
-import isEmpty from '../validation/is-empty'
+import { isEmpty } from '../utils/isEmpty'
 
 class MainCategory extends Component {
   constructor(props) {

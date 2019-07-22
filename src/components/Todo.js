@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 
 import TodoInfoLink from '../containers/TodoInfoLink'
-import isEmpty from '../validation/is-empty'
+import { isEmpty } from '../utils/isEmpty'
 
 class Todo extends React.Component {
   constructor(props) {

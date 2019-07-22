@@ -1,5 +1,5 @@
 import { Types } from '../actions'
-import isEmpty from '../validation/is-empty'
+import { isEmpty } from '../utils/isEmpty'
 
 const initialState = {
   isAuthenticated: false,
