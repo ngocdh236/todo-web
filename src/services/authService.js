@@ -1,6 +1,6 @@
 import jwt_decoce from 'jwt-decode'
 
-import customAxios from './customAxios'
+import { customAxios } from './customAxios'
 import { Types } from '.'
 import { setAuthToken } from './setAuthToken'
 import { getTodos } from './todoService'

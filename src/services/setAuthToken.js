@@ -1,4 +1,4 @@
-import customAxios from './customAxios'
+import { customAxios } from './customAxios'
 
 export const setAuthToken = token => {
   if (token) {

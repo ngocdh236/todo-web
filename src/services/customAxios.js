@@ -1,5 +1,5 @@
 import axios from 'axios'
 
-export default axios.create({
+export const customAxios = axios.create({
   baseURL: 'http://muzify.eu/api'
 })

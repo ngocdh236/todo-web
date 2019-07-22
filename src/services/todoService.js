@@ -1,4 +1,4 @@
-import customAxios from './customAxios'
+import { customAxios } from './customAxios'
 
 import { Types } from '.'
 
