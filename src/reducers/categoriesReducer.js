@@ -1,4 +1,4 @@
-import { Types } from '../actions'
+import { Types } from '../services'
 
 const categories = (state = [], action) => {
   switch (action.type) {

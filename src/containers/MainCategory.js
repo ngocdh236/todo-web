@@ -6,8 +6,8 @@ import { connect } from 'react-redux'
 
 import CategorizedTodoList from './CategorizedTodoList'
 import CategoryLink from './CategoryLink'
-import { createCategory } from '../actions/categoryActions'
-import { Filters } from '../actions'
+import { createCategory } from '../services/categoryService'
+import { Filters } from '../services'
 import NewTodoForm from '../components/NewTodoForm'
 import { isEmpty } from '../utils/isEmpty'
 

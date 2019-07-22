@@ -4,9 +4,9 @@ import React, { Component } from 'react'
 
 import FilteredTodoList from '../containers/FilteredTodoList'
 import FilterLink from '../containers/FilterLink'
-import { Filters } from '../actions'
+import { Filters } from '../services'
 
-import NewTodoForm from '../components/NewTodoForm'
+import NewTodoForm from './NewTodoForm'
 
 class MainTodo extends Component {
   constructor(props) {

@@ -1,5 +1,4 @@
-import { Filters } from '../actions'
-import { Types } from '../actions'
+import { Filters, Types } from '../services'
 
 const initialState = {
   filter: Filters.SHOW_ALL

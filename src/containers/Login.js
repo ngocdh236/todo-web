@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 
-import { loginUser } from '../actions/authActions'
-import { removeNotification } from '../actions/notificationActions'
+import { loginUser } from '../services/authService'
+import { removeNotification } from '../services/notificationActions'
 import InputField from '../components/InputField'
 
 class Login extends Component {

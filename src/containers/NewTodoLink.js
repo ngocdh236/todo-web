@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { createTodo } from '../actions/todoActions'
+import { createTodo } from '../services/todoService'
 import NewTodo from '../components/NewTodo'
 
 const mapDispatchToProps = dispatch => ({

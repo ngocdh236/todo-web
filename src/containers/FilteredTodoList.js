@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 
 import TodoList from '../components/TodoList'
-import { Filters } from '../actions'
+import { Filters } from '../services'
 
 const getTodos = (todos, todosFilter) => {
   switch (todosFilter.filter) {

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { createTodo, updateTodo, deleteTodo } from '../actions/todoActions'
+import { createTodo, updateTodo, deleteTodo } from '../services/todoService'
 import TodoInfo from '../components/TodoInfo'
 
 const mapStateToProps = (state, ownProps) => ({

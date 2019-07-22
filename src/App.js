@@ -13,10 +13,10 @@ import MainTodo from './components/MainTodo'
 import MainCategory from './containers/MainCategory'
 import MainSchedule from './containers/MainSchedule'
 import setAuthToken from './utils/setAuthToken'
-import { setCurrentUser, logoutUser } from './actions/authActions'
-import { setLightTheme, setDarkTheme } from './actions/themeActions'
-import { getTodos } from './actions/todoActions'
-import { getCategories } from './actions/categoryActions'
+import { setCurrentUser, logoutUser } from './services/authService'
+import { setLightTheme, setDarkTheme } from './services/themeActions'
+import { getTodos } from './services/todoService'
+import { getCategories } from './services/categoryService'
 
 if (localStorage.token) {
   setAuthToken(localStorage.token)

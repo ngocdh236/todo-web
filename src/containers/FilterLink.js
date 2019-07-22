@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { setFilter } from '../actions/todoActions'
+import { setFilter } from '../services/todoService'
 import Category from '../components/Category'
 
 const mapStateToProps = (state, ownProps) => ({
