@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from 'react'
 
-import { Types } from '../services'
+import { Types } from '../reducers/actionTypes'
 import { lightTheme, darkTheme } from '../theme'
 
 const initialState = {

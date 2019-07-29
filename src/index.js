@@ -4,15 +4,18 @@ import './index.scss'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 
-import { AuthProvider } from './contexts/AuthContext'
 import { ThemeProvider } from './contexts/ThemeContext'
+import { AuthProvider } from './contexts/AuthContext'
+import { DataProvider } from './contexts/DataContext'
 
 ReactDOM.render(
-  <AuthProvider>
-    <ThemeProvider>
-      <App />
-    </ThemeProvider>
-  </AuthProvider>,
+  <ThemeProvider>
+    <AuthProvider>
+      <DataProvider>
+        <App />
+      </DataProvider>
+    </AuthProvider>
+  </ThemeProvider>,
   document.getElementById('root')
 )
 

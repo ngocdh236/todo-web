@@ -1,14 +1,12 @@
 import React, { useContext, useState } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 
 import { AuthContext } from '../contexts/AuthContext'
 
-import { removeNotification } from '../services/notificationActions'
 import InputField from '../components/InputField'
 
-function Login(props) {
+export default function Login(props) {
+  console.log('Login')
   const { auth, authService } = useContext(AuthContext)
 
   const [inputValues, setInputValues] = useState({
@@ -42,7 +40,7 @@ function Login(props) {
       password: inputValues.password
     }
 
-    authService.loginUser(userData)
+    authService.login(userData)
   }
   // componentDidUpdate(prevProps) {
   //   var error = props.error
@@ -107,27 +105,13 @@ function Login(props) {
           </div>
         </div>
         <br />
-        {props.errorMessage ? (
+        {/* {props.errorMessage ? (
           <p className='lead text-danger'>{props.errorMessage}</p>
         ) : null}
         {props.notification.message ? (
           <p className='lead text-success'>{props.notification.message}</p>
-        ) : null}
+        ) : null} */}
       </div>
     </div>
   )
 }
-
-Login.propTypes = {
-  error: PropTypes.object
-}
-
-const mapStateToProps = state => ({
-  error: state.error,
-  notification: state.notification
-})
-
-export default connect(
-  mapStateToProps,
-  { removeNotification }
-)(Login)

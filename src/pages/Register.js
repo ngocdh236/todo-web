@@ -27,7 +27,7 @@ export default function Register(props) {
       password: inputValues.password
     }
 
-    authService.registerUser(newUser, props.history)
+    authService.register(newUser, props.history)
   }
 
   // componentDidUpdate(prevProps) {
@@ -116,9 +116,9 @@ export default function Register(props) {
           </div>
         </div>
         <br />
-        {props.errorMessage ? (
+        {/* {props.errorMessage ? (
           <p className='lead text-danger'>{props.errorMessage}</p>
-        ) : null}
+        ) : null} */}
       </div>
     </div>
   )

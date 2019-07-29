@@ -1,4 +1,4 @@
-import { Types } from '../services'
+import { Types } from './actionTypes'
 
 const initialState = {
   notifications: [],

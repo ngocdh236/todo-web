@@ -1,16 +1,14 @@
 import jwt_decoce from 'jwt-decode'
 
 import { customAxios } from './customAxios'
-import { Types } from '.'
+import { Types } from '../reducers/actionTypes'
 import { setAuthToken } from './setAuthToken'
-import { getTodos } from './todoService'
-import { getCategories } from './categoryService'
 
 const signUpURL = '/auth/signup'
 const signInURL = '/auth/signin'
 
 export function useAuthService(auth, dispatch) {
-  const registerUser = (userData, history) => {
+  const register = (userData, history) => {
     customAxios
       .post(signUpURL, userData)
       .then(res => {
@@ -28,17 +26,15 @@ export function useAuthService(auth, dispatch) {
       )
   }
 
-  const loginUser = userData => {
+  const login = userData => {
     customAxios
       .post(signInURL, userData)
       .then(res => {
         const { accessToken } = res.data
         localStorage.setItem('token', accessToken)
         setAuthToken(accessToken)
-        const decoded = jwt_decoce(accessToken)
-        dispatch(setCurrentUser(decoded))
-        dispatch(getTodos())
-        dispatch(getCategories())
+        const user = jwt_decoce(accessToken)
+        setUser(user)
       })
       .catch(
         err => console.log(err)
@@ -49,19 +45,19 @@ export function useAuthService(auth, dispatch) {
       )
   }
 
-  const setCurrentUser = decoded => {
-    return {
-      type: Types.SET_CURRENT_USER,
-      payload: decoded
-    }
+  const setUser = user => {
+    dispatch({
+      type: Types.SET_USER,
+      user
+    })
   }
 
-  const logoutUser = () => {
+  const logout = () => {
     localStorage.removeItem('token')
     setAuthToken(false)
-    dispatch(setCurrentUser(null))
+    setUser(null)
     window.location.href = '/login'
   }
 
-  return { registerUser, loginUser, setCurrentUser, logoutUser }
+  return { register, login, setUser, logout }
 }

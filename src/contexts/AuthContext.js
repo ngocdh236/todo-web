@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from 'react'
 
-import { Types } from '../services'
+import { Types } from '../reducers/actionTypes'
 import { isEmpty } from '../utils/isEmpty'
 import { useAuthService } from '../services/authService'
 
@@ -10,12 +10,13 @@ const initialState = {
 }
 
 function reducer(state = initialState, action) {
+  const { user } = action
   switch (action.type) {
-    case Types.SET_CURRENT_USER:
+    case Types.SET_USER:
       return {
         ...state,
-        isAuthenticated: !isEmpty(action.payload),
-        user: action.payload
+        isAuthenticated: !isEmpty(user),
+        user
       }
     default:
       return state
