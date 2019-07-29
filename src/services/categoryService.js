@@ -1,28 +1,38 @@
 import { customAxios } from './customAxios'
 
-import { Types, Filters } from '.'
+import { Types } from '../reducers/actionTypes'
+import { Filters } from '../utils/todoFilters'
 
 const categoryURL = '/categories'
 
-export const getCategories = () => dispatch => {
-  customAxios
-    .get(categoryURL)
-    .then(res => dispatch({ type: Types.SET_CATEGORIES, payload: res.data }))
-    .catch(err => console.log(err))
-}
-
-export const createCategory = category => async dispatch => {
-  return customAxios
-    .post(categoryURL, category)
-    .then(res => {
-      dispatch({ type: Types.CREATE_CATEGORY, payload: res.data })
-      return res
-    })
-    .then(res => {
-      dispatch({
-        type: Types.SET_FILTER_CATEGORY,
-        payload: { filter: Filters.SHOW_BY_CATEGORY, category: res.data }
+export function useCategoryService(date, dispatch) {
+  const create = category => {
+    customAxios
+      .post(categoryURL, category)
+      .then(res => {
+        dispatch({ type: Types.CREATE_CATEGORY, category: res.data })
+        return res
       })
-    })
-    .catch(err => console.log(err.response.data))
+      .then(res => {
+        dispatch({
+          type: Types.SET_CATEGORY_FILTER,
+          categoryFilter: {
+            filter: Filters.SHOW_BY_CATEGORY,
+            categoryId: res.data.id
+          }
+        })
+      })
+      .catch(err => console.log(err))
+  }
+
+  const getAll = () => {
+    customAxios
+      .get(categoryURL)
+      .then(res =>
+        dispatch({ type: Types.SET_CATEGORIES, categories: res.data })
+      )
+      .catch(err => console.log(err))
+  }
+
+  return { create, getAll }
 }
