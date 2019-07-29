@@ -1,0 +1,8 @@
+export const Filters = Object.freeze({
+  SHOW_ALL: 'SHOW_ALL',
+  SHOW_DONE: 'SHOW_DONE',
+  SHOW_DUE_SOON: 'SHOW_DUE_SOON',
+  SHOW_UNDONE: 'SHOW_UNDONE',
+
+  SHOW_BY_CATEGORY: 'SHOW_BY_CATEGORY'
+})
