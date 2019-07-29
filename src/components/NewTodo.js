@@ -1,145 +1,110 @@
 import '../styles/Todo.scss'
 
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
 import { isEmpty } from '../utils/isEmpty'
 
-class NewTodo extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      todo: props.todo,
-      updateTodo: false,
-      alert: false,
-      warning: ''
-    }
+export default function NewTodo(props) {
+  const [todo, setTodo] = useState({})
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [showAlert, setShowAlert] = useState(false)
+  const [warning, setWarning] = useState('')
 
-    this.onCreate = this.onCreate.bind(this)
-    this.onCancelCreate = this.onCancelCreate.bind(this)
-    this.onTitleChange = this.onTitleChange.bind(this)
-    this.onEnterPressed = this.onEnterPressed.bind(this)
+  // componentDidUpdate(prevProps) {
+  //   var categoryId = props.todo.categoryId
+  //   var deadline = this.props.todo.deadline
+
+  //   if (
+  //     categoryId !== prevProps.todo.categoryId ||
+  //     deadline !== prevProps.todo.deadline
+  //   ) {
+  //     this.setState({
+  //       ...this.state,
+  //       todo: {
+  //         ...todo,
+  //         categoryId: categoryId && categoryId >= 0 ? categoryId : null,
+  //         deadline: deadline ? deadline : null
+  //       }
+  //     })
+  //   }
+  // }
+
+  const onTitleChange = e => {
+    setIsUpdating(true)
+    setTodo({ ...todo, title: e.target.value })
   }
 
-  componentDidUpdate(prevProps) {
-    var categoryId = this.props.todo.categoryId
-    var deadline = this.props.todo.deadline
-
-    if (
-      categoryId !== prevProps.todo.categoryId ||
-      deadline !== prevProps.todo.deadline
-    ) {
-      this.setState({
-        ...this.state,
-        todo: {
-          ...this.state.todo,
-          categoryId: categoryId && categoryId >= 0 ? categoryId : null,
-          deadline: deadline ? deadline : null
-        }
-      })
-    }
-  }
-
-  onTitleChange(e) {
-    this.setState({
-      ...this.state,
-      updateTodo: true,
-      todo: { ...this.state.todo, title: e.target.value }
-    })
-  }
-
-  onCreate() {
-    let todo = this.state.todo
-
+  const onCreate = () => {
     if (isEmpty(todo.title)) {
-      this.setState({
-        ...this.state,
-        alert: true,
-        warning: 'Title must not be blank'
-      })
+      setShowAlert(true)
+      setWarning('Title must not be blank')
     } else {
-      this.props.createTodo(todo)
-      this.setState({
-        ...this.state,
-        todo: this.props.todo,
-        updateTodo: false,
-        newTodo: true,
-        alert: false
-      })
+      props.todoService.create(todo)
+      setTodo(props.todo)
+      setIsUpdating(false)
+      setShowAlert(false)
     }
   }
 
-  onCancelCreate() {
-    this.setState({
-      ...this.state,
-      updateTodo: false,
-      todo: this.props.todo,
-      showInfo: false,
-      alert: false
-    })
+  const onCancelCreate = () => {
+    setIsUpdating(false)
+    setTodo(props.todo)
+    setShowAlert(false)
   }
 
-  onEnterPressed(e) {
+  const onEnterPressed = e => {
     if (e.key === 'Enter') {
-      this.onCreate()
+      onCreate()
     }
   }
 
-  render() {
-    const deadline = (() => {
-      if (this.state.todo.deadline) {
-        var deadline = moment(this.state.todo.deadline).format(
-          'DD/MM/YYYY, HH:mm'
-        )
+  const deadline = todo.deadline ? (
+    <p className='text-secondary'>
+      {moment(todo.deadline).format('DD/MM/YYYY, HH:mm')}
+    </p>
+  ) : null
 
-        return <p className='text-secondary'>{deadline}</p>
-      }
-      return null
-    })()
-
-    return (
-      <div className='Todo'>
-        <div className='todo'>
-          <div id='checkbox'>
-            <button id='checkbox-button' />
-          </div>
-
-          <div className='d-flex flex-column mx-3' style={{ width: '100%' }}>
-            <input
-              type='text'
-              value={this.state.todo.title}
-              onChange={this.onTitleChange}
-              onKeyDown={this.onEnterPressed}
-            />
-            {deadline}
-          </div>
-
-          {this.state.updateTodo ? (
-            <div style={{ display: 'flex' }}>
-              <button onClick={this.onCreate}>
-                <i className='far fa-check-circle fa-lg' />
-              </button>
-              <button onClick={this.onCancelCreate}>
-                <i className='far fa-times-circle fa-lg' />
-              </button>
-            </div>
-          ) : null}
+  return (
+    <div className='Todo'>
+      <div className='todo'>
+        <div id='checkbox'>
+          <button id='checkbox-button' />
         </div>
 
-        {this.state.alert ? (
-          <div className='mt-3 alert alert-danger' role='alert'>
-            {this.state.warning}
+        <div className='d-flex flex-column mx-3' style={{ width: '100%' }}>
+          <input
+            type='text'
+            value={todo.title}
+            onChange={onTitleChange}
+            onKeyDown={onEnterPressed}
+          />
+          {deadline}
+        </div>
+
+        {isUpdating ? (
+          <div style={{ display: 'flex' }}>
+            <button onClick={onCreate}>
+              <i className='far fa-check-circle fa-lg' />
+            </button>
+            <button onClick={onCancelCreate}>
+              <i className='far fa-times-circle fa-lg' />
+            </button>
           </div>
         ) : null}
       </div>
-    )
-  }
+
+      {showAlert ? (
+        <div className='mt-3 alert alert-danger' role='alert'>
+          {warning}
+        </div>
+      ) : null}
+    </div>
+  )
 }
 
 NewTodo.propTypes = {
   todo: PropTypes.object.isRequired,
-  createTodo: PropTypes.func.isRequired
+  todoService: PropTypes.object.isRequired
 }
-
-export default NewTodo

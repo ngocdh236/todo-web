@@ -1,24 +1,25 @@
 import './App.scss'
 
 import React, { useContext, useEffect } from 'react'
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
-import { Provider } from 'react-redux'
+import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import jwt_decode from 'jwt-decode'
-import store from './store'
 
-import { AuthContext } from './contexts/AuthContext'
 import { ThemeContext } from './contexts/ThemeContext'
+import { AuthContext } from './contexts/AuthContext'
 import Nav from './components/Nav'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import MainTodo from './pages/MainTodo'
-import MainCategory from './pages/MainCategory'
-import MainSchedule from './pages/MainSchedule'
+
+// import MainCategory from './pages/MainCategory'
+// import MainSchedule from './pages/MainSchedule'
 import { setAuthToken } from './services/setAuthToken'
 
 export default function App() {
-  const { auth, dispatchAuth, authService } = useContext(AuthContext)
   const { theme, setLightTheme, setDarkTheme } = useContext(ThemeContext)
+  const { auth, authService } = useContext(AuthContext)
+
+  console.log('App')
 
   let user
   const token = localStorage.token
@@ -29,12 +30,11 @@ export default function App() {
 
     const currentTime = Date.now() / 1000
     if (user.exp < currentTime) {
-      authService.logoutUser()
+      authService.logout()
     }
   }
 
   useEffect(() => {
-    dispatchAuth(authService.setCurrentUser(user))
     switch (localStorage.getItem('theme')) {
       case 'Dark':
         setDarkTheme()
@@ -42,6 +42,7 @@ export default function App() {
       default:
         setLightTheme()
     }
+    authService.setUser(user)
   }, [])
 
   const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -64,38 +65,36 @@ export default function App() {
   }
 
   return (
-    <Provider store={store}>
-      <Router>
-        <div className='App'>
-          <Nav />
-          <div className='px-5'>
-            <Route
-              exact
-              path='/register'
-              basename='/register'
-              component={Register}
-            />
-            <Route exact path='/login' basename='/login' component={Login} />
-            <PrivateRoute exact path='/' basename='/' component={MainTodo} />
-            <PrivateRoute
+    <BrowserRouter>
+      <div className='App'>
+        <Nav />
+        <div className='px-5'>
+          <Route
+            exact
+            path='/register'
+            basename='/register'
+            component={Register}
+          />
+          <Route exact path='/login' basename='/login' component={Login} />
+          <PrivateRoute exact path='/' basename='/' component={MainTodo} />
+          {/* <PrivateRoute
               exact
               path='/category'
               basename='/category'
               component={MainCategory}
-            />
-            <PrivateRoute
+            /> */}
+          {/* <PrivateRoute
               exact
               path='/schedule'
               basename='/schedule'
               component={MainSchedule}
-            />
+            /> */}
 
-            <button id='button-mode' onClick={onClick}>
-              {theme.darkMode ? <label>Light</label> : <label>Dark</label>}
-            </button>
-          </div>
+          <button id='button-mode' onClick={onClick}>
+            {theme.darkMode ? <label>Light</label> : <label>Dark</label>}
+          </button>
         </div>
-      </Router>
-    </Provider>
+      </div>
+    </BrowserRouter>
   )
 }

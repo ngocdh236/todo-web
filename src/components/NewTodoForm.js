@@ -3,7 +3,7 @@ import '../styles/NewTodoForm.scss'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import TodoInfoLink from './TodoInfoLink'
+import TodoInfo from './TodoInfo'
 
 class NewTodoForm extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class NewTodoForm extends Component {
           className='new-todo-container'
           onClick={this.props.toggleAddNewTodo}
         />
-        <TodoInfoLink
+        <TodoInfo
           todo={{
             title: '',
             deadline: this.props.deadline,

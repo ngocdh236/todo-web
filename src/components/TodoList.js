@@ -1,33 +1,30 @@
 import '../styles/TodoList.scss'
 
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
-import TodoLink from './TodoLink'
-import NewTodoLink from './NewTodoLink'
+import Todo from './Todo'
+import NewTodo from './NewTodo'
 
-class TodoList extends Component {
-  render() {
-    var todos = this.props.todos.map(todo => {
-      return <TodoLink key={todo.id} todo={todo} />
-    })
+export default function TodoList(props) {
+  const todos = props.todos.map(todo => {
+    return <Todo key={todo.id} todo={todo} todoService={props.todoService} />
+  })
 
-    return (
-      <div className='TodoList'>
-        {todos}
-        <NewTodoLink
-          todo={{
-            title: '',
-            categoryId:
-              this.props.categoryId && this.props.categoryId >= 0
-                ? this.props.categoryId
-                : null,
-            deadline: this.props.deadline
-          }}
-        />
-      </div>
-    )
-  }
+  return (
+    <div className='TodoList'>
+      {todos}
+      <NewTodo
+        todo={{
+          title: ''
+          // categoryId:
+          //   props.categoryId && props.categoryId >= 0 ? props.categoryId : null,
+          // deadline: props.deadline
+        }}
+        todoService={props.todoService}
+      />
+    </div>
+  )
 }
 
 TodoList.propTypes = {
@@ -35,5 +32,3 @@ TodoList.propTypes = {
   categoryId: PropTypes.number,
   deadline: PropTypes.object
 }
-
-export default TodoList
