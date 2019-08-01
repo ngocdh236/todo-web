@@ -1,6 +1,6 @@
 import '../styles/TodoInfo.scss'
 
-import React, { useState } from 'react'
+import React, { createRef, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -8,59 +8,52 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { isEmpty } from '../utils/isEmpty'
 
 export default function TodoInfo(props) {
-  const todoTitleInput = React.createRef()
+  const todoTitleInput = createRef()
 
   const [todo, setTodo] = useState(props.todo)
   const { isNewTodo } = props
   const [showAlert, setShowAlert] = useState(false)
   const [warning, setWarning] = useState('')
 
-  if (isNewTodo) {
-    todoTitleInput.current.focus()
+  useEffect(() => {
+    if (isNewTodo) {
+      todoTitleInput.current.focus()
+    }
+  }, [])
+
+  const handleTodoChange = e => {
+    const { name, value } = e.target
+    setTodo({ ...todo, [name]: value })
   }
 
-  const onTitleChange = e => {
-    setTodo({ ...todo, title: e.target.value })
-  }
-
-  const onDescriptionChange = e => {
-    setTodo({
-      ...todo,
-      description: e.target.value
-    })
-  }
-
-  const onCategoryChange = category => {
-    setTodo({ ...todo, category })
-  }
-
-  const onDeadlineChange = e => {
+  const handleDeadlineChange = e => {
     setTodo({ ...todo, deadline: e })
   }
 
-  const onDoneClick = () => {
+  const handleCategoryChange = category => {
+    setTodo({ ...todo, category })
+  }
+
+  const handleApprove = () => {
     if (isEmpty(todo.title)) {
       setShowAlert(true)
       setWarning('Title must not be blank')
     } else {
       if (isNewTodo) {
-        if (todo.category) {
-          const newTodo = { ...todo, categoryId: todo.category.id }
-          props.createTodo(newTodo)
-        } else {
-          props.createTodo(todo)
-        }
-        props.cancelNewTodo()
+        props.todoService.create(todo)
+        props.handleCancel()
       } else {
-        props.updateTodo(todo)
-        props.onShowInfo()
+        if (todo !== props.todo) {
+          props.todoService.update(todo)
+        }
+        props.handleCancel()
       }
     }
   }
 
-  var categories = props.categories.map(category => {
+  const categories = props.categories.map(category => {
     return (
-      <button key={category.id} onClick={onCategoryChange(category)}>
+      <button key={category.id} onClick={() => handleCategoryChange(category)}>
         {category.name}
       </button>
     )
@@ -74,7 +67,8 @@ export default function TodoInfo(props) {
           type='text'
           className='input autoExpand'
           value={todo.description ? todo.description : undefined}
-          onChange={onDescriptionChange}
+          name='description'
+          onChange={handleTodoChange}
         />
       </td>
     </tr>
@@ -92,7 +86,7 @@ export default function TodoInfo(props) {
           <div className='dropdown-content'>
             {categories}
             <div className='horizontal-line mx-2' />
-            <button onClick={onCategoryChange(null)}>None</button>
+            <button onClick={() => handleCategoryChange(null)}>None</button>
           </div>
         </div>
       </td>
@@ -104,10 +98,11 @@ export default function TodoInfo(props) {
       <td className='text-secondary'>Deadline</td>
       <td>
         <DatePicker
+          name='deadline'
           todayButton={'Today'}
           className='date-picker'
           selected={todo.deadline ? new Date(todo.deadline) : null}
-          onChange={onDeadlineChange}
+          onChange={handleDeadlineChange}
           showTimeSelect
           timeFormat='HH:mm'
           timeIntervals={15}
@@ -123,9 +118,10 @@ export default function TodoInfo(props) {
     <div className='TodoInfo p-2'>
       <input
         type='text'
+        name='title'
         className='input font-weight-bold'
         value={todo.title}
-        onChange={onTitleChange}
+        onChange={handleTodoChange}
         ref={todoTitleInput}
       />
 
@@ -149,16 +145,16 @@ export default function TodoInfo(props) {
         {!isNewTodo ? (
           <button
             className='button-danger ml-1'
-            onClick={props.deleteTodo(props.todo.id)}
+            onClick={() => props.todoService.remove(props.todo.id)}
           >
             Delete
           </button>
         ) : (
-          <button className='button-danger ml-1' onClick={props.cancelNewTodo}>
+          <button className='button-danger ml-1' onClick={props.handleCancel}>
             Cancel
           </button>
         )}
-        <button className='button-light ml-1' onClick={onDoneClick}>
+        <button className='button-light ml-1' onClick={handleApprove}>
           Done
         </button>
       </div>
@@ -166,17 +162,14 @@ export default function TodoInfo(props) {
   )
 }
 
-// TodoInfo.propTypes = {
-//   todo: PropTypes.object.isRequired,
-//   categories: PropTypes.array,
-//   createTodo: PropTypes.func,
-//   updateTodo: PropTypes.func,
-//   deleteTodo: PropTypes.func,
-//   newTodo: PropTypes.bool,
-//   cancelNewTodo: PropTypes.func,
-//   onShowInfo: PropTypes.func
-// }
+TodoInfo.propTypes = {
+  isNewTodo: PropTypes.bool.isRequired,
+  todo: PropTypes.object.isRequired,
+  categories: PropTypes.array,
+  todoService: PropTypes.object,
+  handleCancel: PropTypes.func
+}
 
 TodoInfo.defaultProps = {
-  newTodo: false
+  isNewTodo: false
 }
