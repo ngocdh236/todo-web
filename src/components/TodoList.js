@@ -1,20 +1,33 @@
 import '../styles/TodoList.scss'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 import Todo from './Todo'
-import NewTodo from './NewTodo'
 
 export default function TodoList(props) {
-  const todos = props.todos.map(todo => {
-    return <Todo key={todo.id} todo={todo} todoService={props.todoService} />
+  const [todos, setTodos] = useState(props.todos)
+
+  useEffect(() => {
+    setTodos(props.todos)
+  }, [props.todos])
+
+  const todoItems = todos.map(todo => {
+    return (
+      <Todo
+        key={todo.id}
+        todo={todo}
+        categories={props.categories}
+        todoService={props.todoService}
+      />
+    )
   })
 
   return (
     <div className='TodoList'>
-      {todos}
-      <NewTodo
+      {todoItems}
+      <Todo
+        isNewTodo={true}
         todo={{
           title: ''
           // categoryId:
@@ -22,6 +35,7 @@ export default function TodoList(props) {
           // deadline: props.deadline
         }}
         todoService={props.todoService}
+        categories={props.categories}
       />
     </div>
   )
@@ -29,6 +43,7 @@ export default function TodoList(props) {
 
 TodoList.propTypes = {
   todos: PropTypes.array,
+  categories: PropTypes.array,
   categoryId: PropTypes.number,
   deadline: PropTypes.object
 }

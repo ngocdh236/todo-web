@@ -6,17 +6,7 @@ import { AuthContext } from '../contexts/AuthContext'
 import InputField from '../components/InputField'
 
 export default function Login(props) {
-  console.log('Login')
   const { auth, authService } = useContext(AuthContext)
-
-  const [inputValues, setInputValues] = useState({
-    usernameOrEmail: '',
-    password: ''
-  })
-
-  // const [errors, setErrors] = useState([])
-
-  // const [errorMessage, setErrorMessage] = useState('')
 
   const { from } = props.location.state || {
     from: { pathname: '/' }
@@ -26,14 +16,21 @@ export default function Login(props) {
     return <Redirect to={from} />
   }
 
+  const [inputValues, setInputValues] = useState({
+    usernameOrEmail: '',
+    password: ''
+  })
+
+  const [hasError, setHasError] = useState(false)
+  const [error, setError] = useState('')
+  const [inputErrors, setInputErrors] = useState([])
+
   function onChange(e) {
     setInputValues({ ...inputValues, [e.target.name]: e.target.value })
   }
 
   function onSubmit(e) {
     e.preventDefault()
-
-    // props.removeNotification()
 
     const userData = {
       usernameOrEmail: inputValues.usernameOrEmail,
@@ -42,24 +39,6 @@ export default function Login(props) {
 
     authService.login(userData)
   }
-  // componentDidUpdate(prevProps) {
-  //   var error = props.error
-  //   if (error !== prevProps.error) {
-  //     if (error.errors) {
-  //       this.setState({
-  //         ...this.state,
-  //         errors: error.errors,
-  //         errorMessage: ''
-  //       })
-  //     }
-  //     if (error.message) {
-  //       this.setState({
-  //         ...this.state,
-  //         errors: [],
-  //         errorMessage: error.message
-  //       })
-  //     }
-  //   }
 
   return (
     <div className='Login mt-5 text-center'>
@@ -75,11 +54,8 @@ export default function Login(props) {
                 value={inputValues.usernameOrEmail}
                 onChange={onChange}
                 error={
-                  props.errors
-                    ? props.errors.find(
-                        error => error.field === 'usernameOrEmail'
-                      )
-                    : null
+                  inputErrors &&
+                  inputErrors.find(error => error.field === 'usernameOrEmail')
                 }
               />
 
@@ -90,9 +66,8 @@ export default function Login(props) {
                 value={inputValues.password}
                 onChange={onChange}
                 error={
-                  props.errors
-                    ? props.errors.find(error => error.field === 'password')
-                    : null
+                  inputErrors &&
+                  inputErrors.find(error => error.field === 'password')
                 }
               />
 
@@ -105,12 +80,8 @@ export default function Login(props) {
           </div>
         </div>
         <br />
-        {/* {props.errorMessage ? (
-          <p className='lead text-danger'>{props.errorMessage}</p>
-        ) : null}
-        {props.notification.message ? (
-          <p className='lead text-success'>{props.notification.message}</p>
-        ) : null} */}
+
+        {hasError && <p className='lead text-danger text-center'>{error}</p>}
       </div>
     </div>
   )

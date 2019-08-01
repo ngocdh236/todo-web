@@ -1,68 +1,44 @@
 import '../styles/MainSchedule.scss'
 
-import React, { Component } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import moment from 'moment'
 import classnames from 'classnames'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 
-import NewTodoForm from '../components/NewTodoForm'
-import ScheduledTodoList from '../components/ScheduledTodoList'
+import { DataContext } from '../contexts/DataContext'
+import TodoList from '../components/TodoList'
 import { isEmpty } from '../utils/isEmpty'
 
-class MainSchedule extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      dateObject: moment(),
-      addNewTodo: false,
-      scheduledTodos: props.todos.items.filter(todo => !isEmpty(todo.deadline))
-    }
+export default function MainSchedule() {
+  const { data, todoService } = useContext(DataContext)
 
-    this.toggleAddNewTodo = this.toggleAddNewTodo.bind(this)
-    this.today = this.today.bind(this)
-    this.previousYear = this.previousYear.bind(this)
-    this.nextYear = this.nextYear.bind(this)
-    this.previousMonth = this.previousMonth.bind(this)
-    this.nextMonth = this.nextMonth.bind(this)
+  const [todos, setTodos] = useState([])
+  const [dateObject, setDateObject] = useState(moment())
+
+  useEffect(() => {
+    const todoItems = data.todos.filter(
+      todo =>
+        moment(todo.deadline)
+          .startOf('day')
+          .format() ===
+        moment(dateObject)
+          .startOf('day')
+          .format()
+    )
+    setTodos(todoItems.filter(todo => !isEmpty(todo.deadline)))
+  }, [dateObject])
+
+  const setDay = day => {
+    setDateObject(moment(dateObject).set('date', day))
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props !== prevProps) {
-      this.setState({
-        ...this.state,
-        scheduledTodos: this.props.todos.filter(todo => !isEmpty(todo.deadline))
-      })
-    }
+  const setMonth = month => {
+    const monthNumber = moment.months().indexOf(month)
+    setDateObject(moment(dateObject).set('month', monthNumber))
   }
 
-  toggleAddNewTodo() {
-    this.setState({
-      ...this.state,
-      addNewTodo: !this.state.addNewTodo
-    })
-  }
-
-  setDay = day => {
-    let dateObject = this.state.dateObject
-    dateObject = moment(dateObject).set('date', day)
-    this.setState({
-      dateObject: dateObject
-    })
-  }
-
-  setMonth = month => {
-    let monthNumber = moment.months().indexOf(month)
-    let dateObject = this.state.dateObject
-    dateObject = moment(dateObject).set('month', monthNumber)
-    this.setState({
-      dateObject: dateObject
-    })
-  }
-
-  MonthPicker = props => {
-    let months = props.months.map(month => {
-      let chosenMonth = this.state.dateObject.format('MMMM') === String(month)
+  const MonthPicker = props => {
+    const months = props.months.map(month => {
+      const chosenMonth = dateObject.format('MMMM') === String(month)
       return (
         <div
           key={month}
@@ -70,7 +46,7 @@ class MainSchedule extends Component {
             'chosen-month': chosenMonth
           })}
           onClick={() => {
-            this.setMonth(month)
+            setMonth(month)
           }}
         >
           {month}
@@ -81,14 +57,14 @@ class MainSchedule extends Component {
     return <div className='MonthPicker'>{months}</div>
   }
 
-  MonthDropdown = props => {
-    let months = props.months.map(month => {
+  const MonthDropdown = props => {
+    const months = props.months.map(month => {
       return (
         <button
           key={month}
           className='month'
           onClick={() => {
-            this.setMonth(month)
+            setMonth(month)
           }}
         >
           {month}
@@ -102,32 +78,32 @@ class MainSchedule extends Component {
           className='dropbtn'
           style={{ minWidth: '100px', height: '40px' }}
         >
-          {this.state.dateObject.format('MMMM')}
+          {dateObject.format('MMMM')}
         </button>
         <div className='dropdown-content'>{months}</div>
       </div>
     )
   }
 
-  DayPicker = () => {
-    let firstDayOfMonth = moment(this.state.dateObject)
+  const DayPicker = () => {
+    const firstDayOfMonth = moment(dateObject)
       .startOf('month')
       .format('d')
 
-    let blanks = []
+    const blanks = []
     for (let i = 0; i < firstDayOfMonth; i++) {
       blanks.push(<label>{''}</label>)
     }
 
-    let days = []
-    for (let d = 1; d <= this.state.dateObject.daysInMonth(); d++) {
-      let dateTodos = []
-      this.state.scheduledTodos.forEach((todo, i) => {
+    const days = []
+    for (let d = 1; d <= dateObject.daysInMonth(); d++) {
+      const dateTodos = []
+      todos.forEach((todo, i) => {
         if (
           moment(todo.deadline)
             .startOf('day')
             .format() ===
-          moment(this.state.dateObject)
+          moment(dateObject)
             .date(d)
             .startOf('day')
             .format()
@@ -135,14 +111,13 @@ class MainSchedule extends Component {
           dateTodos.push(<div key={i} className='dot' />)
       })
 
-      let chosenDay =
-        d === Number(this.state.dateObject.format('D')) ? 'chosen-day' : ''
+      const chosenDay = d === Number(dateObject.format('D')) ? 'chosen-day' : ''
 
       days.push(
         <div
           className='day-content'
           onClick={() => {
-            this.setDay(d)
+            setDay(d)
           }}
         >
           <label className={chosenDay}>{d}</label>
@@ -151,9 +126,9 @@ class MainSchedule extends Component {
       )
     }
 
-    var totalSlots = [...blanks, ...days]
+    const totalSlots = [...blanks, ...days]
 
-    let daysinmonth = totalSlots.map((slot, i) => {
+    const daysinmonth = totalSlots.map((slot, i) => {
       return (
         <div key={i} className='day'>
           {slot}
@@ -173,129 +148,90 @@ class MainSchedule extends Component {
     )
   }
 
-  today() {
-    let dateObject = moment()
-    this.setState({
-      dateObject: dateObject
-    })
+  const today = () => {
+    setDateObject(moment())
   }
 
-  previousYear() {
-    let year = Number(this.state.dateObject.format('YYYY'))
-    let dateObject = this.state.dateObject
-    dateObject = moment(dateObject).set('year', year - 1)
-    this.setState({
-      dateObject: dateObject
-    })
+  const previousYear = () => {
+    const year = Number(dateObject.format('YYYY'))
+    setDateObject(moment(dateObject).set('year', year - 1))
   }
 
-  nextYear() {
-    let year = Number(this.state.dateObject.format('YYYY'))
-    let dateObject = this.state.dateObject
-    dateObject = moment(dateObject).set('year', year + 1)
-    this.setState({
-      dateObject: dateObject
-    })
+  const nextYear = () => {
+    const year = Number(dateObject.format('YYYY'))
+    setDateObject(moment(dateObject).set('year', year + 1))
   }
 
-  previousMonth() {
-    let month = this.state.dateObject.format('MMMM')
-    let monthNumber = moment.months().indexOf(month)
-    let dateObject = this.state.dateObject
-    dateObject = moment(dateObject).set('month', monthNumber - 1)
-    this.setState({
-      dateObject: dateObject
-    })
+  const previousMonth = () => {
+    const month = dateObject.format('MMMM')
+    const monthNumber = moment.months().indexOf(month)
+    setDateObject(moment(dateObject).set('month', monthNumber - 1))
   }
 
-  nextMonth() {
-    let month = this.state.dateObject.format('MMMM')
-    let monthNumber = moment.months().indexOf(month)
-    let dateObject = this.state.dateObject
-    dateObject = moment(dateObject).set('month', monthNumber + 1)
-    this.setState({
-      dateObject: dateObject
-    })
+  const nextMonth = () => {
+    const month = dateObject.format('MMMM')
+    const monthNumber = moment.months().indexOf(month)
+    setDateObject(moment(dateObject).set('month', monthNumber + 1))
   }
 
-  render() {
-    let weekdayshortname = moment.weekdaysShort().map(day => {
-      return (
-        <p key={day} className='lead' style={{ width: '14.285%' }}>
-          <strong>{day}</strong>
-        </p>
-      )
-    })
-
+  const weekdayshortname = moment.weekdaysShort().map(day => {
     return (
-      <div className='MainSchedule'>
-        <div className='d-flex justify-content-between'>
-          <this.MonthDropdown months={moment.months()} />
-          <button
-            className='button-light mb-4 ml-auto'
-            onClick={this.toggleAddNewTodo}
-          >
-            + New Todo
-          </button>
-        </div>
-
-        <div className='d-flex flex-wrap justify-content-between text-center'>
-          <button
-            className='button-light mb-4'
-            onClick={this.today}
-            style={{ width: '100%' }}
-          >
-            TODAY
-          </button>
-
-          <div className='aside-list d-flex flex-column'>
-            <div className='year mb-4'>
-              <button className='chevron' onClick={this.previousYear}>
-                <i className='fas fa-chevron-left' />
-              </button>
-              <div className='h4'>{this.state.dateObject.format('Y')}</div>
-              <button className='chevron' onClick={this.nextYear}>
-                <i className='fas fa-chevron-right' />
-              </button>
-            </div>
-            <this.MonthPicker months={moment.months()} />
-          </div>
-
-          <div className='main-list'>
-            <div className='mb-4 d-flex justify-content-between'>
-              <button className='chevron' onClick={this.previousMonth}>
-                <i className='fas fa-chevron-left' />
-              </button>
-              <div className='h4'>{this.state.dateObject.format('MMMM')}</div>
-              <button className='chevron' onClick={this.nextMonth}>
-                <i className='fas fa-chevron-right' />
-              </button>
-            </div>
-
-            <div>
-              <div className='d-flex mb-2'>{weekdayshortname}</div>
-              <this.DayPicker />
-            </div>
-            <ScheduledTodoList date={this.state.dateObject} />
-          </div>
-        </div>
-        {this.state.addNewTodo ? (
-          <NewTodoForm
-            toggleAddNewTodo={this.toggleAddNewTodo}
-            deadline={this.state.dateObject}
-          />
-        ) : null}
-      </div>
+      <p key={day} className='lead' style={{ width: '14.285%' }}>
+        <strong>{day}</strong>
+      </p>
     )
-  }
+  })
+
+  return (
+    <div className='MainSchedule'>
+      <div className='d-flex justify-content-between mb-4'>
+        <MonthDropdown months={moment.months()} />
+      </div>
+
+      <div className='d-flex flex-wrap justify-content-between text-center'>
+        <button
+          className='button-light mb-4'
+          onClick={today}
+          style={{ width: '100%' }}
+        >
+          TODAY
+        </button>
+
+        <div className='aside-list d-flex flex-column'>
+          <div className='year mb-4'>
+            <button className='chevron' onClick={previousYear}>
+              <i className='fas fa-chevron-left' />
+            </button>
+            <div className='h4'>{dateObject.format('Y')}</div>
+            <button className='chevron' onClick={nextYear}>
+              <i className='fas fa-chevron-right' />
+            </button>
+          </div>
+          <MonthPicker months={moment.months()} />
+        </div>
+
+        <div className='main-list'>
+          <div className='mb-4 d-flex justify-content-between'>
+            <button className='chevron' onClick={previousMonth}>
+              <i className='fas fa-chevron-left' />
+            </button>
+            <div className='h4'>{dateObject.format('MMMM')}</div>
+            <button className='chevron' onClick={nextMonth}>
+              <i className='fas fa-chevron-right' />
+            </button>
+          </div>
+
+          <div>
+            <div className='d-flex mb-2'>{weekdayshortname}</div>
+            <DayPicker />
+          </div>
+          <TodoList
+            todos={todos}
+            categories={data.categories}
+            todoService={todoService}
+          />
+        </div>
+      </div>
+    </div>
+  )
 }
-
-MainSchedule.propTypes = {
-  todos: PropTypes.object
-}
-
-const mapStateToProps = state => ({
-  todos: state.todos
-})
-
-export default connect(mapStateToProps)(MainSchedule)

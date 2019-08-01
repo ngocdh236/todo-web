@@ -1,8 +1,7 @@
 import jwt_decoce from 'jwt-decode'
 
-import { customAxios } from './customAxios'
+import { customAxios, setAuthToken } from './customAxios'
 import { Types } from '../reducers/actionTypes'
-import { setAuthToken } from './setAuthToken'
 
 const signUpURL = '/auth/signup'
 const signInURL = '/auth/signin'
@@ -12,18 +11,9 @@ export function useAuthService(auth, dispatch) {
     customAxios
       .post(signUpURL, userData)
       .then(res => {
-        dispatch({
-          type: Types.GET_NOTIFICATION,
-          message: res.data.message
-        })
         history.push('/login')
       })
-      .catch(err =>
-        dispatch({
-          type: Types.GET_ERRORS,
-          payload: err.response.data
-        })
-      )
+      .catch(err => console.log(err.response.data))
   }
 
   const login = userData => {
@@ -36,13 +26,7 @@ export function useAuthService(auth, dispatch) {
         const user = jwt_decoce(accessToken)
         setUser(user)
       })
-      .catch(
-        err => console.log(err)
-        // dispatch({
-        //   type: Types.GET_ERRORS,
-        //   payload: err.response.data
-        // })
-      )
+      .catch(err => console.log(err.response.data))
   }
 
   const setUser = user => {
@@ -55,7 +39,6 @@ export function useAuthService(auth, dispatch) {
   const logout = () => {
     localStorage.removeItem('token')
     setAuthToken(false)
-    setUser(null)
     window.location.href = '/login'
   }
 

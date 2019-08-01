@@ -1,25 +1,25 @@
 import './App.scss'
 
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import jwt_decode from 'jwt-decode'
 
 import { ThemeContext } from './contexts/ThemeContext'
 import { AuthContext } from './contexts/AuthContext'
-import Nav from './components/Nav'
+import { DataContext } from './contexts/DataContext'
+import TodoInfo from './components/TodoInfo'
+import Nav from './pages/Nav'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import MainTodo from './pages/MainTodo'
-
-// import MainCategory from './pages/MainCategory'
-// import MainSchedule from './pages/MainSchedule'
-import { setAuthToken } from './services/setAuthToken'
+import MainCategory from './pages/MainCategory'
+import MainSchedule from './pages/MainSchedule'
+import { setAuthToken } from './services/customAxios'
 
 export default function App() {
   const { theme, setLightTheme, setDarkTheme } = useContext(ThemeContext)
+  const { data, todoService, categoryService } = useContext(DataContext)
   const { auth, authService } = useContext(AuthContext)
-
-  console.log('App')
 
   let user
   const token = localStorage.token
@@ -34,6 +34,12 @@ export default function App() {
     }
   }
 
+  const [showAddNewTodo, setShowAddNewTodo] = useState(false)
+
+  const toggleAddNewTodo = () => {
+    setShowAddNewTodo(!showAddNewTodo)
+  }
+
   useEffect(() => {
     switch (localStorage.getItem('theme')) {
       case 'Dark':
@@ -44,6 +50,13 @@ export default function App() {
     }
     authService.setUser(user)
   }, [])
+
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      todoService.getAll()
+      categoryService.getAll()
+    }
+  }, [auth.isAuthenticated])
 
   const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route
@@ -64,10 +77,36 @@ export default function App() {
     theme.darkMode ? setLightTheme() : setDarkTheme()
   }
 
+  const ButtonAddNewTodo = () => (
+    <div className='d-flex justify-content-end mr-5'>
+      <button className='button-light mt-4' onClick={toggleAddNewTodo}>
+        + New Todo
+      </button>
+    </div>
+  )
+
+  const AddNewTodoPopUp = () => (
+    <div className='NewTodoForm d-flex justify-content-center'>
+      <div className='new-todo-container' onClick={toggleAddNewTodo} />
+      <TodoInfo
+        isNewTodo={true}
+        todo={{ title: '' }}
+        todoService={todoService}
+        categories={data.categories}
+        handleCancel={toggleAddNewTodo}
+      />
+    </div>
+  )
+
   return (
     <BrowserRouter>
       <div className='App'>
         <Nav />
+        <PrivateRoute
+          exact
+          path='/(|categories|schedule)'
+          component={ButtonAddNewTodo}
+        />
         <div className='px-5'>
           <Route
             exact
@@ -77,18 +116,26 @@ export default function App() {
           />
           <Route exact path='/login' basename='/login' component={Login} />
           <PrivateRoute exact path='/' basename='/' component={MainTodo} />
-          {/* <PrivateRoute
+          <PrivateRoute
+            exact
+            path='/categories'
+            basename='/categories'
+            component={MainCategory}
+          />
+          <PrivateRoute
+            exact
+            path='/schedule'
+            basename='/schedule'
+            component={MainSchedule}
+          />
+
+          {showAddNewTodo && (
+            <PrivateRoute
               exact
-              path='/category'
-              basename='/category'
-              component={MainCategory}
-            /> */}
-          {/* <PrivateRoute
-              exact
-              path='/schedule'
-              basename='/schedule'
-              component={MainSchedule}
-            /> */}
+              path='/(|categories|schedule)'
+              component={AddNewTodoPopUp}
+            />
+          )}
 
           <button id='button-mode' onClick={onClick}>
             {theme.darkMode ? <label>Light</label> : <label>Dark</label>}

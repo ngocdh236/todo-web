@@ -1,202 +1,160 @@
 import '../styles/MainCategory.scss'
 
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import React, { useContext, createRef, useState, useEffect } from 'react'
 
-import CategorizedTodoList from '../components/CategorizedTodoList'
-import CategoryLink from '../components/CategoryLink'
-import { createCategory } from '../services/categoryService'
-import { Filters } from '../services'
-import NewTodoForm from '../components/NewTodoForm'
+import FilterCard from '../components/FilterCard'
+import TodoList from '../components/TodoList'
+import { DataContext } from '../contexts/DataContext'
+import { Filters } from '../utils/todoFilters'
 import { isEmpty } from '../utils/isEmpty'
 
-class MainCategory extends Component {
-  constructor(props) {
-    super(props)
+export default function MainCategory() {
+  const { data, todoService, categoryService } = useContext(DataContext)
+  const newCategoryInput = createRef()
 
-    this.state = {
-      addNewCategory: false,
-      addNewTodo: false,
-      newCategory: {},
-      alert: false,
-      warning: ''
+  const [todos, setTodos] = useState([])
+  const [showAddNewCategory, setShowAddNewCategory] = useState(false)
+  const [newCategory, setNewCategory] = useState({})
+  const [showAlert, setShowAlert] = useState(false)
+  const [warning, setWarning] = useState(false)
+
+  useEffect(() => {
+    if (showAddNewCategory) {
+      newCategoryInput.current.focus()
     }
+  }, [showAddNewCategory])
 
-    this.newCategoryInput = React.createRef()
+  useEffect(() => {
+    const todoItems =
+      (data.categoryFilter.category.id === -1 && data.todos) ||
+      data.todos.filter(todo => todo.category === data.categoryFilter.category)
+    setTodos(todoItems)
+  }, [data.categoryFilter])
 
-    this.toggleAddNewCategory = this.toggleAddNewCategory.bind(this)
-    this.onNewCategoryChange = this.onNewCategoryChange.bind(this)
-    this.addNewCategory = this.addNewCategory.bind(this)
-    this.toggleAddNewTodo = this.toggleAddNewTodo.bind(this)
-    this.onEnterPressed = this.onEnterPressed.bind(this)
+  const toggleAddNewCategory = () => {
+    setShowAddNewCategory(!showAddNewCategory)
+    setNewCategory('')
+    setShowAlert(false)
+    setWarning('')
   }
 
-  toggleAddNewCategory() {
-    this.setState(
-      {
-        addNewCategory: !this.state.addNewCategory,
-        alert: false,
-        warning: ''
-      },
-      () => {
-        if (this.state.addNewCategory) {
-          this.newCategoryInput.current.focus()
-        }
-      }
-    )
-  }
-
-  toggleAddNewTodo() {
-    this.setState({
-      ...this.state,
-      addNewTodo: !this.state.addNewTodo
-    })
-  }
-
-  addNewCategory() {
-    if (isEmpty(this.state.newCategory.name)) {
-      this.setState({
-        ...this.state,
-        alert: true,
-        warning: 'Name must not be blank'
-      })
+  const handleCreateCategory = () => {
+    if (isEmpty(newCategory.name)) {
+      setShowAlert(true)
+      setWarning('Name must not be blank')
     } else {
-      this.props.createCategory(this.state.newCategory).then(
-        this.setState({
-          ...this.state,
-          newCategory: {},
-          alert: false,
-          warning: ''
-        })
-      )
+      categoryService.create(newCategory)
+      setNewCategory({})
+      setShowAlert(false)
+      setWarning('')
     }
   }
 
-  onNewCategoryChange(e) {
-    this.setState({ ...this.state, newCategory: { name: e.target.value } })
+  const handleNewCategoryInput = e => {
+    setNewCategory({ name: e.target.value })
   }
 
-  onEnterPressed(e) {
+  const onEnterPressed = e => {
     if (e.key === 'Enter') {
-      this.addNewCategory()
+      handleCreateCategory()
     }
   }
 
-  render() {
-    var categories = this.props.categories.map(category => {
-      return (
-        <CategoryLink
-          key={category.id}
-          category={category}
-          filter={Filters.SHOW_BY_CATEGORY}
-        />
-      )
+  const handleSetFilter = (filter, category) => {
+    todoService.setCategoryFilter({
+      filter,
+      category
     })
+  }
 
-    var newCategory = (
-      <div className='new-category'>
-        <input
-          className='mr-2'
-          value={this.state.newCategory.name ? this.state.newCategory.name : ''}
-          onChange={this.onNewCategoryChange}
-          ref={this.newCategoryInput}
-          onKeyDown={this.onEnterPressed}
-        />
-        <button className='button-light' onClick={this.addNewCategory}>
-          Add
+  const categories = data.categories.map(category => {
+    return (
+      <FilterCard
+        key={category.id}
+        category={category}
+        active={data.categoryFilter.category === category}
+        onClick={() => handleSetFilter(Filters.SHOW_BY_CATEGORY, category)}
+      />
+    )
+  })
+
+  return (
+    <div className='MainCategory'>
+      <div className='d-flex justify-content-between'>
+        <button className='button-light mb-4' onClick={toggleAddNewCategory}>
+          + New Category
         </button>
       </div>
-    )
-
-    return (
-      <div className='MainCategory'>
-        <div className='d-flex justify-content-between'>
-          <button
-            className='button-light mb-4'
-            onClick={this.toggleAddNewCategory}
-          >
-            + New Category
-          </button>
-
-          <button className='button-light mb-4' onClick={this.toggleAddNewTodo}>
-            + New Todo
-          </button>
-        </div>
-        {this.state.addNewCategory ? newCategory : null}
-        {this.state.alert ? (
-          <div className='mt-3 alert alert-danger' role='alert'>
-            {this.state.warning}
-          </div>
-        ) : null}
-
-        <br />
-
-        <div className='dropdown'>
-          <button
-            className='dropbtn'
-            style={{ minWidth: '100px', height: '40px' }}
-          >
-            {this.props.todos.category.item.name}
-          </button>
-          <div className='dropdown-content'>
-            <CategoryLink
-              category={{
-                id: -1,
-                name: 'All',
-                gradientColor: 'var(--background-primary)'
-              }}
-              icon=''
-              filter={Filters.SHOW_ALL}
-            />
-            <div className='horizontal-line mx-1' />
-            {categories}
-          </div>
-        </div>
-
-        <div className='d-flex'>
-          <div className='category-list'>
-            <CategoryLink
-              category={{
-                id: -1,
-                name: 'All',
-                gradientColor: 'var(--background-primary)'
-              }}
-              icon=''
-              filter={Filters.SHOW_ALL}
-            />
-            <div
-              className='horizontal-line'
-              style={{ height: '30px', margin: '0 8px' }}
-            />
-            {categories}
-          </div>
-          <CategorizedTodoList />
-        </div>
-        {this.state.addNewTodo ? (
-          <NewTodoForm
-            toggleAddNewTodo={this.toggleAddNewTodo}
-            category={this.props.todosCategoryFilter.category}
+      {showAddNewCategory && (
+        <div className='new-category'>
+          <input
+            className='mr-2'
+            value={newCategory.name ? newCategory.name : ''}
+            onChange={handleNewCategoryInput}
+            ref={newCategoryInput}
+            onKeyDown={onEnterPressed}
           />
-        ) : null}
+          <button className='button-light' onClick={handleCreateCategory}>
+            Add
+          </button>
+        </div>
+      )}
+      {showAlert && (
+        <div className='mt-3 alert alert-danger' role='alert'>
+          {warning}
+        </div>
+      )}
+
+      <br />
+
+      <div className='dropdown'>
+        <button
+          className='dropbtn'
+          style={{ minWidth: '100px', height: '40px' }}
+        >
+          {data.categoryFilter.category.name}
+        </button>
+        <div className='dropdown-content'>
+          <FilterCard
+            category={{
+              id: -1,
+              name: 'All',
+              gradientColor: 'var(--background-primary)'
+            }}
+            active={data.categoryFilter.category.id === -1}
+            onClick={() =>
+              handleSetFilter(Filters.SHOW_ALL, { id: -1, name: 'All' })
+            }
+          />
+          {categories}
+        </div>
       </div>
-    )
-  }
+
+      <div className='d-flex'>
+        <div className='category-list'>
+          <FilterCard
+            category={{
+              id: -1,
+              name: 'All',
+              gradientColor: 'var(--background-primary)'
+            }}
+            active={data.categoryFilter.category.id === -1}
+            onClick={() =>
+              handleSetFilter(Filters.SHOW_ALL, { id: -1, name: 'All' })
+            }
+          />
+          <div
+            className='horizontal-line'
+            style={{ height: '30px', margin: '0 8px' }}
+          />
+          {categories}
+        </div>
+        <TodoList
+          todos={todos}
+          todoService={todoService}
+          categories={data.categories}
+        />
+      </div>
+    </div>
+  )
 }
-
-MainCategory.propTypes = {
-  todos: PropTypes.object.isRequired,
-  categories: PropTypes.array.isRequired,
-  errors: PropTypes.object
-}
-
-const mapStateToProps = state => ({
-  todos: state.todos,
-  categories: state.categories,
-  errors: state.errors
-})
-
-export default connect(
-  mapStateToProps,
-  { createCategory }
-)(MainCategory)

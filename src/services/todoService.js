@@ -6,8 +6,11 @@ export function useTodoService(state, dispatch) {
   const todoURL = '/todos'
 
   const create = todo => {
+    const newTodo = todo.category
+      ? { ...todo, categoryId: todo.category.id }
+      : todo
     customAxios
-      .post(todoURL, todo)
+      .post(todoURL, newTodo)
       .then(res => dispatch({ type: Types.CREATE_TODO, todo: res.data }))
       .catch(err => console.log(err))
   }
@@ -37,10 +40,10 @@ export function useTodoService(state, dispatch) {
     dispatch({ type: Types.SET_FILTER, filter })
   }
 
-  const setCategoryFilter = (categoryFilter, categoryId) => {
+  const setCategoryFilter = categoryFilter => {
     dispatch({
       type: Types.SET_CATEGORY_FILTER,
-      categoryFilter: { categoryFilter, categoryId }
+      categoryFilter
     })
   }
 

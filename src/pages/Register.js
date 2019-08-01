@@ -6,12 +6,17 @@ import InputField from '../components/InputField'
 
 export default function Register(props) {
   const { authService } = useContext(AuthContext)
+
   const [inputValues, setInputValues] = useState({
     name: '',
     username: '',
     email: '',
     password: ''
   })
+
+  const [hasError, setHasError] = useState(false)
+  const [error, setError] = useState('')
+  const [inputErrors, setInputErrors] = useState([])
 
   const onChange = e => {
     setInputValues({ ...inputValues, [e.target.name]: e.target.value })
@@ -30,26 +35,6 @@ export default function Register(props) {
     authService.register(newUser, props.history)
   }
 
-  // componentDidUpdate(prevProps) {
-  //   var error = this.props.error
-  //   if (error !== prevProps.error) {
-  //     if (error.errors) {
-  //       this.setState({
-  //         ...this.state,
-  //         errors: error.errors,
-  //         message: ''
-  //       })
-  //     }
-  //     if (error.message) {
-  //       this.setState({
-  //         ...this.state,
-  //         errorMessage: error.message,
-  //         errors: []
-  //       })
-  //     }
-  //   }
-  // }
-
   return (
     <div className='Register mt-5 text-center'>
       <div className='container'>
@@ -63,8 +48,8 @@ export default function Register(props) {
                 value={inputValues.name}
                 onChange={onChange}
                 error={
-                  props.errors
-                    ? props.errors.find(error => error.field === 'name')
+                  inputErrors
+                    ? inputErrors.find(error => error.field === 'name')
                     : null
                 }
               />
@@ -75,8 +60,8 @@ export default function Register(props) {
                 value={inputValues.username}
                 onChange={onChange}
                 error={
-                  props.errors
-                    ? props.errors.find(error => error.field === 'username')
+                  inputErrors
+                    ? inputErrors.find(error => error.field === 'username')
                     : null
                 }
               />
@@ -88,8 +73,8 @@ export default function Register(props) {
                 value={inputValues.email}
                 onChange={onChange}
                 error={
-                  props.errors
-                    ? props.errors.find(error => error.field === 'email')
+                  inputErrors
+                    ? inputErrors.find(error => error.field === 'email')
                     : null
                 }
               />
@@ -101,8 +86,8 @@ export default function Register(props) {
                 value={inputValues.password}
                 onChange={onChange}
                 error={
-                  props.errors
-                    ? props.errors.find(error => error.field === 'password')
+                  inputErrors
+                    ? inputErrors.find(error => error.field === 'password')
                     : null
                 }
               />
@@ -116,9 +101,7 @@ export default function Register(props) {
           </div>
         </div>
         <br />
-        {/* {props.errorMessage ? (
-          <p className='lead text-danger'>{props.errorMessage}</p>
-        ) : null} */}
+        {hasError && <p className='lead text-danger text-center'>{error}</p>}
       </div>
     </div>
   )

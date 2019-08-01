@@ -28,7 +28,7 @@ export default function Nav() {
           exact
           className='nav-link'
           activeClassName='a-active'
-          to='/category'
+          to='/categories'
         >
           Category
         </NavLink>

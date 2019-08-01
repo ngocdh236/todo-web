@@ -5,7 +5,10 @@ export const initialState = {
   todos: [],
   categories: [],
   filter: Filters.SHOW_ALL,
-  categoryFilter: { fitler: Filters.SHOW_ALL, categoryId: '' },
+  categoryFilter: {
+    fitler: Filters.SHOW_ALL,
+    category: { id: -1, name: 'All' }
+  },
   dateFilter: ''
 }
 

@@ -18,7 +18,7 @@ export function useCategoryService(date, dispatch) {
           type: Types.SET_CATEGORY_FILTER,
           categoryFilter: {
             filter: Filters.SHOW_BY_CATEGORY,
-            categoryId: res.data.id
+            category: res.data
           }
         })
       })
