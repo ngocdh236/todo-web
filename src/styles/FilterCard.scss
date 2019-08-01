@@ -1,6 +1,6 @@
 @import '../App.scss';
 
-.Category {
+.FilterCard {
   @extend %y-centered;
 
   &:disabled {
@@ -24,7 +24,7 @@
 }
 
 @media only screen and (min-width: 480px) {
-  .Category {
+  .FilterCard {
     .icon {
       width: 60px;
       height: 60px;
@@ -33,7 +33,7 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .Category {
+  .FilterCard {
     width: 22%;
     height: 10vh;
     box-shadow: var(--box-shadow);
@@ -62,7 +62,7 @@
 }
 
 @media only screen and (min-width: 992px) {
-  .Category {
+  .FilterCard {
     .icon {
       margin: 0 20px;
       width: 60px;

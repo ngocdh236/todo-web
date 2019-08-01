@@ -1,39 +1,49 @@
 import '../styles/TodoList.scss'
 
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-import TodoLink from '../containers/TodoLink'
-import NewTodoLink from '../containers/NewTodoLink'
+import Todo from './Todo'
 
-class TodoList extends Component {
-  render() {
-    var todos = this.props.todos.map(todo => {
-      return <TodoLink key={todo.id} todo={todo} />
-    })
+export default function TodoList(props) {
+  const [todos, setTodos] = useState(props.todos)
 
+  useEffect(() => {
+    setTodos(props.todos)
+  }, [props.todos])
+
+  const todoItems = todos.map(todo => {
     return (
-      <div className='TodoList'>
-        {todos}
-        <NewTodoLink
-          todo={{
-            title: '',
-            categoryId:
-              this.props.categoryId && this.props.categoryId >= 0
-                ? this.props.categoryId
-                : null,
-            deadline: this.props.deadline
-          }}
-        />
-      </div>
+      <Todo
+        key={todo.id}
+        todo={todo}
+        categories={props.categories}
+        todoService={props.todoService}
+      />
     )
-  }
+  })
+
+  return (
+    <div className='TodoList'>
+      {todoItems}
+      <Todo
+        isNewTodo={true}
+        todo={{
+          title: ''
+          // categoryId:
+          //   props.categoryId && props.categoryId >= 0 ? props.categoryId : null,
+          // deadline: props.deadline
+        }}
+        todoService={props.todoService}
+        categories={props.categories}
+      />
+    </div>
+  )
 }
 
 TodoList.propTypes = {
   todos: PropTypes.array,
+  categories: PropTypes.array,
   categoryId: PropTypes.number,
   deadline: PropTypes.object
 }
-
-export default TodoList

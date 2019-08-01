@@ -1,115 +1,147 @@
 import './App.scss'
 
-import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
-import { Provider } from 'react-redux'
+import React, { useContext, useState, useEffect } from 'react'
+import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import jwt_decode from 'jwt-decode'
-import store from './store'
 
-import Nav from './containers/Nav'
-import Register from './containers/Register'
-import Login from './containers/Login'
-import MainTodo from './components/MainTodo'
-import MainCategory from './containers/MainCategory'
-import MainSchedule from './containers/MainSchedule'
-import setAuthToken from './utils/setAuthToken'
-import { setCurrentUser, logoutUser } from './actions/authActions'
-import { setLightTheme, setDarkTheme } from './actions/themeActions'
-import { getTodos } from './actions/todoActions'
-import { getCategories } from './actions/categoryActions'
+import { ThemeContext } from './contexts/ThemeContext'
+import { AuthContext } from './contexts/AuthContext'
+import { DataContext } from './contexts/DataContext'
+import TodoInfo from './components/TodoInfo'
+import Nav from './pages/Nav'
+import Register from './pages/Register'
+import Login from './pages/Login'
+import MainTodo from './pages/MainTodo'
+import MainCategory from './pages/MainCategory'
+import MainSchedule from './pages/MainSchedule'
+import { setAuthToken } from './services/customAxios'
 
-if (localStorage.token) {
-  setAuthToken(localStorage.token)
-  const decoded = jwt_decode(localStorage.token)
-  store.dispatch(setCurrentUser(decoded))
-  store.dispatch(getTodos())
-  store.dispatch(getCategories())
+export default function App() {
+  const { theme, setLightTheme, setDarkTheme } = useContext(ThemeContext)
+  const { data, todoService, categoryService } = useContext(DataContext)
+  const { auth, authService } = useContext(AuthContext)
 
-  const currentTime = Date.now() / 1000
-  if (decoded.exp < currentTime) {
-    store.dispatch(logoutUser())
-    window.location.href = '/login'
-  }
-}
+  let user
+  const token = localStorage.token
 
-switch (localStorage.getItem('theme')) {
-  case 'Dark':
-    store.dispatch(setDarkTheme())
-    break
-  default:
-    store.dispatch(setLightTheme())
-    break
-}
+  if (token) {
+    setAuthToken(token)
+    user = jwt_decode(token)
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={props =>
-      store.getState().auth.isAuthenticated ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{ pathname: '/login', state: { from: props.location } }}
-        />
-      )
+    const currentTime = Date.now() / 1000
+    if (user.exp < currentTime) {
+      authService.logout()
     }
-  />
-)
-
-class App extends Component {
-  constructor() {
-    super()
-
-    this.onClick = this.onClick.bind(this)
   }
 
-  onClick() {
-    store.getState().theme.darkMode
-      ? store.dispatch(setLightTheme())
-      : store.dispatch(setDarkTheme())
+  const [showAddNewTodo, setShowAddNewTodo] = useState(false)
+
+  const toggleAddNewTodo = () => {
+    setShowAddNewTodo(!showAddNewTodo)
   }
 
-  render() {
-    return (
-      <Provider store={store}>
-        <Router>
-          <div className='App'>
-            <Nav />
-            <div className='px-5'>
-              <Route
-                exact
-                path='/register'
-                basename='/register'
-                component={Register}
-              />
-              <Route exact path='/login' basename='/login' component={Login} />
-              <PrivateRoute exact path='/' basename='/' component={MainTodo} />
-              <PrivateRoute
-                exact
-                path='/category'
-                basename='/category'
-                component={MainCategory}
-              />
-              <PrivateRoute
-                exact
-                path='/schedule'
-                basename='/schedule'
-                component={MainSchedule}
-              />
+  useEffect(() => {
+    switch (localStorage.getItem('theme')) {
+      case 'Dark':
+        setDarkTheme()
+        break
+      default:
+        setLightTheme()
+    }
+    authService.setUser(user)
+  }, [])
 
-              <button id='button-mode' onClick={this.onClick}>
-                {store.getState().theme.darkMode ? (
-                  <label>Light</label>
-                ) : (
-                  <label>Dark</label>
-                )}
-              </button>
-            </div>
-          </div>
-        </Router>
-      </Provider>
-    )
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      todoService.getAll()
+      categoryService.getAll()
+    }
+  }, [auth.isAuthenticated])
+
+  const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route
+      {...rest}
+      render={props =>
+        auth.isAuthenticated ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{ pathname: '/login', state: { from: props.location } }}
+          />
+        )
+      }
+    />
+  )
+
+  const onClick = () => {
+    theme.darkMode ? setLightTheme() : setDarkTheme()
   }
+
+  const ButtonAddNewTodo = () => (
+    <div className='d-flex justify-content-end mr-5'>
+      <button className='button-light mt-4' onClick={toggleAddNewTodo}>
+        + New Todo
+      </button>
+    </div>
+  )
+
+  const AddNewTodoPopUp = () => (
+    <div className='NewTodoForm d-flex justify-content-center'>
+      <div className='new-todo-container' onClick={toggleAddNewTodo} />
+      <TodoInfo
+        isNewTodo={true}
+        todo={{ title: '' }}
+        todoService={todoService}
+        categories={data.categories}
+        handleCancel={toggleAddNewTodo}
+      />
+    </div>
+  )
+
+  return (
+    <BrowserRouter>
+      <div className='App'>
+        <Nav />
+        <PrivateRoute
+          exact
+          path='/(|categories|schedule)'
+          component={ButtonAddNewTodo}
+        />
+        <div className='px-5'>
+          <Route
+            exact
+            path='/register'
+            basename='/register'
+            component={Register}
+          />
+          <Route exact path='/login' basename='/login' component={Login} />
+          <PrivateRoute exact path='/' basename='/' component={MainTodo} />
+          <PrivateRoute
+            exact
+            path='/categories'
+            basename='/categories'
+            component={MainCategory}
+          />
+          <PrivateRoute
+            exact
+            path='/schedule'
+            basename='/schedule'
+            component={MainSchedule}
+          />
+
+          {showAddNewTodo && (
+            <PrivateRoute
+              exact
+              path='/(|categories|schedule)'
+              component={AddNewTodoPopUp}
+            />
+          )}
+
+          <button id='button-mode' onClick={onClick}>
+            {theme.darkMode ? <label>Light</label> : <label>Dark</label>}
+          </button>
+        </div>
+      </div>
+    </BrowserRouter>
+  )
 }
-
-export default App

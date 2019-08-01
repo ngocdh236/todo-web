@@ -1,6 +1,10 @@
-import customAxios from '../actions/customAxios'
+import axios from 'axios'
 
-const setAuthToken = token => {
+export const customAxios = axios.create({
+  baseURL: 'http://muzify.eu/api'
+})
+
+export const setAuthToken = token => {
   if (token) {
     customAxios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     customAxios.defaults.headers.common['Content-Type'] = 'application/json'
@@ -8,5 +12,3 @@ const setAuthToken = token => {
     delete customAxios.defaults.headers.common['Authorization']
   }
 }
-
-export default setAuthToken
