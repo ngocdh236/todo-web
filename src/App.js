@@ -74,7 +74,7 @@ export default function App() {
   )
 
   const onClick = () => {
-    theme.darkMode ? setLightTheme() : setDarkTheme()
+    theme.isDark ? setLightTheme() : setDarkTheme()
   }
 
   const ButtonAddNewTodo = () => (
@@ -138,7 +138,7 @@ export default function App() {
           )}
 
           <button id='button-mode' onClick={onClick}>
-            {theme.darkMode ? <label>Light</label> : <label>Dark</label>}
+            {theme.isDark ? <label>Light</label> : <label>Dark</label>}
           </button>
         </div>
       </div>

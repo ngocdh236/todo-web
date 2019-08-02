@@ -4,18 +4,18 @@ import { Types } from '../reducers/actionTypes'
 import { lightTheme, darkTheme } from '../theme'
 
 const initialState = {
-  darkMode: false
+  isDark: false
 }
 
 function reducer(state = initialState, action) {
   switch (action.type) {
     case Types.SET_DARK_THEME:
       return {
-        darkMode: true
+        isDark: true
       }
     case Types.SET_LIGHT_THEME:
       return {
-        darkMode: false
+        isDark: false
       }
     default:
       return state
