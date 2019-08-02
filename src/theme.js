@@ -1,54 +1,41 @@
-const light = {
+const colorDanger = '#dc3545'
+
+const light = Object.freeze({
+  colorButtonMode: 'black',
   bgPrimary: 'white',
   bgSecondary: 'gainsboro',
   colorPrimary: 'black',
   colorSecondary: '#7a7a7a',
   colorLight: '#f8f9fa',
-  shadowColor: '#f5f5f5'
-}
+  border: 'none',
+  boxShadow: `1px 0 5px #f5f5f5, 0 1px 5px #f5f5f5, -1px 0 5px #f5f5f5, 0 -1px 5px #f5f5f5`
+})
 
-const dark = {
+const dark = Object.freeze({
+  colorButtonMode: 'white',
   bgPrimary: '#1c1c1c',
   bgSecondary: '#3a3a3a',
   colorPrimary: 'gray',
   colorSecondary: 'gainsboro',
   colorLight: '#7a7a7a',
-  shadowColor: 'gray'
-}
+  border: '1px solid var(--background-secondary)',
+  boxShadow: 'none'
+})
 
-const colorDanger = '#dc3545'
-const shadowBlur = '5px'
+const theme = theme => ({
+  '--color-button-mode': theme.colorButtonMode,
 
-export const lightTheme = {
-  '--color-mode': 'black',
+  '--background-primary': theme.bgPrimary,
+  '--background-secondary': theme.bgSecondary,
 
-  '--background-primary': light.bgPrimary,
-  '--background-secondary': light.bgSecondary,
-
-  '--color-primary': light.colorPrimary,
-  '--color-secondary': light.colorSecondary,
-  '--color-light': light.colorLight,
+  '--color-primary': theme.colorPrimary,
+  '--color-secondary': theme.colorSecondary,
+  '--color-light': theme.colorLight,
   '--color-danger': colorDanger,
 
-  '--border': 'none',
-  '--box-shadow': `1px 0 ${shadowBlur} ${
-    light.shadowColor
-  }, 0 1px ${shadowBlur} ${light.shadowColor}, -1px 0 ${shadowBlur} ${
-    light.shadowColor
-  }, 0 -1px ${shadowBlur} ${light.shadowColor}`
-}
+  '--border': theme.border,
+  '--box-shadow': theme.boxShadow
+})
 
-export const darkTheme = {
-  '--color-mode': 'white',
-
-  '--background-primary': dark.bgPrimary,
-  '--background-secondary': dark.bgSecondary,
-
-  '--color-primary': dark.colorPrimary,
-  '--color-secondary': dark.colorSecondary,
-  '--color-light': dark.colorLight,
-  '--color-danger': colorDanger,
-
-  '--border': '1px solid var(--background-secondary)',
-  '--box-shadow': 'none'
-}
+export const lightTheme = theme(light)
+export const darkTheme = theme(dark)
