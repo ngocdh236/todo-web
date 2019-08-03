@@ -85,15 +85,18 @@ export default function App() {
     </div>
   )
 
-  const AddNewTodoPopUp = () => (
+  const AddNewTodoPopUp = props => (
     <div className='NewTodoForm d-flex justify-content-center'>
       <div className='new-todo-container' onClick={toggleAddNewTodo} />
       <TodoInfo
+        url={props.match.url}
         isNewTodo={true}
         todo={{ title: '' }}
         todoService={todoService}
         categories={data.categories}
         handleCancel={toggleAddNewTodo}
+        category={data.categoryFilter.category}
+        deadline={data.dateFilter}
       />
     </div>
   )
@@ -104,29 +107,15 @@ export default function App() {
         <Nav />
 
         <div className='px-5'>
-          <Route
-            exact
-            path='/register'
-            basename='/register'
-            component={Register}
-          />
-          <Route exact path='/login' basename='/login' component={Login} />
+          <Route exact path='/register' component={Register} />
+          <Route exact path='/login' component={Login} />
           <PrivateRoute
             path='/(|categories|schedule)'
             component={ButtonAddNewTodo}
           />
-          <PrivateRoute exact path='/' basename='/' component={MainTodo} />
-          <PrivateRoute
-            path='/categories'
-            basename='/categories'
-            component={MainCategory}
-          />
-          <PrivateRoute
-            exact
-            path='/schedule'
-            basename='/schedule'
-            component={MainSchedule}
-          />
+          <PrivateRoute exact path='/' component={MainTodo} />
+          <PrivateRoute path='/categories' component={MainCategory} />
+          <PrivateRoute exact path='/schedule' component={MainSchedule} />
 
           {showAddNewTodo && (
             <PrivateRoute

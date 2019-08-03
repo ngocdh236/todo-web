@@ -3,6 +3,7 @@ import '../styles/TodoInfo.scss'
 import React, { createRef, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import DatePicker from 'react-datepicker'
+import moment from 'moment'
 import 'react-datepicker/dist/react-datepicker.css'
 
 import { isEmpty } from '../utils/isEmpty'
@@ -10,10 +11,23 @@ import { isEmpty } from '../utils/isEmpty'
 export default function TodoInfo(props) {
   const todoTitleInput = createRef()
 
-  const [todo, setTodo] = useState(props.todo)
+  const [todo, setTodo] = useState({})
   const { isNewTodo } = props
   const [showAlert, setShowAlert] = useState(false)
   const [warning, setWarning] = useState('')
+
+  useEffect(() => {
+    switch (props.url) {
+      case '/categories':
+        setTodo({ ...todo, category: props.category })
+        break
+      case '/schedule':
+        setTodo({ ...todo, deadline: moment(props.deadline) })
+        break
+      default:
+        setTodo(props.todo)
+    }
+  }, [])
 
   useEffect(() => {
     if (isNewTodo) {

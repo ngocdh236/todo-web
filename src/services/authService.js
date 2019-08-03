@@ -13,7 +13,7 @@ export function useAuthService(auth, dispatch) {
       .then(res => {
         history.push('/login')
       })
-      .catch(err => console.log(err.response.data))
+      .catch(err => console.log(err))
   }
 
   const login = userData => {
@@ -26,7 +26,7 @@ export function useAuthService(auth, dispatch) {
         const user = jwt_decoce(accessToken)
         setUser(user)
       })
-      .catch(err => console.log(err.response.data))
+      .catch(err => console.log(err))
   }
 
   const setUser = user => {
