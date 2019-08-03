@@ -1,11 +1,13 @@
 import '../styles/FilterCard.scss'
 
 import React from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 export default function FilterCard(props) {
   const { category, icon, active, onClick } = props
-  return (
+
+  const Button = () => (
     <button className='FilterCard' disabled={active} onClick={onClick}>
       <div className='icon' style={{ background: category.gradientColor }}>
         <i
@@ -18,6 +20,19 @@ export default function FilterCard(props) {
       </div>
     </button>
   )
+
+  const FilterCard = () => {
+    if (props.isCategoryFilterCard) {
+      return (
+        <Link to={`/categories/${props.to}`}>
+          <Button />
+        </Link>
+      )
+    }
+    return <Button />
+  }
+
+  return <FilterCard />
 }
 
 FilterCard.propTypes = {

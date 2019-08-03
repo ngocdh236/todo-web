@@ -1,6 +1,7 @@
 import '../styles/MainCategory.scss'
 
 import React, { useContext, createRef, useState, useEffect } from 'react'
+import { Route } from 'react-router-dom'
 
 import FilterCard from '../components/FilterCard'
 import TodoList from '../components/TodoList'
@@ -8,7 +9,7 @@ import { DataContext } from '../contexts/DataContext'
 import { Filters } from '../utils/todoFilters'
 import { isEmpty } from '../utils/isEmpty'
 
-export default function MainCategory() {
+export default function MainCategory(props) {
   const { data, todoService, categoryService } = useContext(DataContext)
   const newCategoryInput = createRef()
 
@@ -26,15 +27,16 @@ export default function MainCategory() {
     }
   }, [showAddNewCategoryInputField])
 
+  const { category } = data.categoryFilter
+
   let todos
-  switch (data.categoryFilter.category.id) {
+  switch (category.id) {
     case -1:
       todos = data.todos
       break
     default:
       todos = data.todos.filter(
-        todo =>
-          todo.category && todo.category.id === data.categoryFilter.category.id
+        todo => todo.category && todo.category.id === category.id
       )
   }
 
@@ -74,16 +76,41 @@ export default function MainCategory() {
     })
   }
 
-  const categories = data.categories.map(category => {
+  const categories = data.categories.map(categoryItem => {
     return (
       <FilterCard
-        key={category.id}
-        category={category}
-        active={data.categoryFilter.category === category}
-        onClick={() => handleSetFilter(Filters.SHOW_BY_CATEGORY, category)}
+        key={categoryItem.id}
+        category={categoryItem}
+        active={category === categoryItem}
+        onClick={() => handleSetFilter(Filters.SHOW_BY_CATEGORY, categoryItem)}
+        to={categoryItem.id}
+        isCategoryFilterCard
       />
     )
   })
+
+  const TodoListOfCategory = () => (
+    <TodoList
+      todos={todos}
+      todoService={todoService}
+      categories={data.categories}
+      categoryId={category.id}
+    />
+  )
+
+  const FilterAllCard = () => (
+    <FilterCard
+      category={{
+        id: -1,
+        name: 'All',
+        gradientColor: 'var(--background-primary)'
+      }}
+      active={category.id === -1}
+      onClick={() => handleSetFilter(Filters.SHOW_ALL, { id: -1, name: 'All' })}
+      to=''
+      isCategoryFilterCard
+    />
+  )
 
   return (
     <div className='MainCategory'>
@@ -119,48 +146,26 @@ export default function MainCategory() {
           className='dropbtn'
           style={{ minWidth: '100px', height: '40px' }}
         >
-          {data.categoryFilter.category.name}
+          {category.name}
         </button>
         <div className='dropdown-content'>
-          <FilterCard
-            category={{
-              id: -1,
-              name: 'All',
-              gradientColor: 'var(--background-primary)'
-            }}
-            active={data.categoryFilter.category.id === -1}
-            onClick={() =>
-              handleSetFilter(Filters.SHOW_ALL, { id: -1, name: 'All' })
-            }
-          />
+          <FilterAllCard />
           {categories}
         </div>
       </div>
 
       <div className='d-flex'>
         <div className='category-list'>
-          <FilterCard
-            category={{
-              id: -1,
-              name: 'All',
-              gradientColor: 'var(--background-primary)'
-            }}
-            active={data.categoryFilter.category.id === -1}
-            onClick={() =>
-              handleSetFilter(Filters.SHOW_ALL, { id: -1, name: 'All' })
-            }
-          />
+          <FilterAllCard />
           <div
             className='horizontal-line'
             style={{ height: '30px', margin: '0 8px' }}
           />
           {categories}
         </div>
-        <TodoList
-          todos={todos}
-          todoService={todoService}
-          categories={data.categories}
-          categoryId={data.categoryFilter.category.id}
+        <Route
+          path={`${props.match.path}/${category.id > 0 ? category.id : ''}`}
+          component={TodoListOfCategory}
         />
       </div>
     </div>

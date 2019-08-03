@@ -78,7 +78,7 @@ export default function App() {
   }
 
   const ButtonAddNewTodo = () => (
-    <div className='d-flex justify-content-end mr-5'>
+    <div className='d-flex justify-content-end'>
       <button className='button-light mt-4' onClick={toggleAddNewTodo}>
         + New Todo
       </button>
@@ -102,11 +102,7 @@ export default function App() {
     <BrowserRouter>
       <div className='App'>
         <Nav />
-        <PrivateRoute
-          exact
-          path='/(|categories|schedule)'
-          component={ButtonAddNewTodo}
-        />
+
         <div className='px-5'>
           <Route
             exact
@@ -115,9 +111,12 @@ export default function App() {
             component={Register}
           />
           <Route exact path='/login' basename='/login' component={Login} />
+          <PrivateRoute
+            path='/(|categories|schedule)'
+            component={ButtonAddNewTodo}
+          />
           <PrivateRoute exact path='/' basename='/' component={MainTodo} />
           <PrivateRoute
-            exact
             path='/categories'
             basename='/categories'
             component={MainCategory}
@@ -131,7 +130,6 @@ export default function App() {
 
           {showAddNewTodo && (
             <PrivateRoute
-              exact
               path='/(|categories|schedule)'
               component={AddNewTodoPopUp}
             />

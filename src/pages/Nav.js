@@ -2,9 +2,13 @@ import React, { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
 
 import { AuthContext } from '../contexts/AuthContext'
+import { DataContext } from '../contexts/DataContext'
 
 export default function Nav() {
   const { auth, authService } = useContext(AuthContext)
+  const { data } = useContext(DataContext)
+
+  const { category } = data.categoryFilter
 
   const guestLinks = (
     <ul className='navbar-nav ml-auto'>
@@ -25,10 +29,9 @@ export default function Nav() {
     <ul className='navbar-nav ml-auto'>
       <li className='nav-item'>
         <NavLink
-          exact
           className='nav-link'
           activeClassName='a-active'
-          to='/categories'
+          to={category.id > 0 ? `/categories/${category.id}` : '/categories'}
         >
           Category
         </NavLink>
