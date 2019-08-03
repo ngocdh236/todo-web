@@ -52,7 +52,7 @@ export default function MainCategory(props) {
       setShowAlert(true)
       setWarning('Name must not be blank')
     } else {
-      categoryService.create(newCategory)
+      categoryService.create(newCategory, props.history)
       setNewCategory({})
       setShowAlert(false)
       setWarning('')

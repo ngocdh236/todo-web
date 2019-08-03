@@ -6,7 +6,7 @@ import { Filters } from '../utils/todoFilters'
 const categoryURL = '/categories'
 
 export function useCategoryService(date, dispatch) {
-  const create = category => {
+  const create = (category, history) => {
     customAxios
       .post(categoryURL, category)
       .then(res => {
@@ -21,6 +21,8 @@ export function useCategoryService(date, dispatch) {
             category: res.data
           }
         })
+        console.log(history)
+        history.push(`/categories/${res.data.id}`)
       })
       .catch(err => console.log(err))
   }
