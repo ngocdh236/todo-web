@@ -146,8 +146,8 @@ export default function MainSchedule() {
     )
   }
 
-  const today = () => {
-    setDateObject(moment())
+  const setToday = () => {
+    todoService.setDateFilter(moment())
   }
 
   const previousYear = () => {
@@ -189,7 +189,7 @@ export default function MainSchedule() {
       <div className='d-flex flex-wrap justify-content-between text-center'>
         <button
           className='button-light mb-4'
-          onClick={today}
+          onClick={setToday}
           style={{ width: '100%' }}
         >
           TODAY
