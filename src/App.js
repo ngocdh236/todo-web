@@ -95,7 +95,11 @@ export default function App() {
         todoService={todoService}
         categories={data.categories}
         handleCancel={toggleAddNewTodo}
-        category={data.categoryFilter.category}
+        category={
+          data.categoryFilter.category.id > 0
+            ? data.categoryFilter.category
+            : null
+        }
         deadline={data.dateFilter}
       />
     </div>

@@ -11,7 +11,7 @@ import { isEmpty } from '../utils/isEmpty'
 export default function TodoInfo(props) {
   const todoTitleInput = createRef()
 
-  const [todo, setTodo] = useState({})
+  const [todo, setTodo] = useState(props.todo)
   const { isNewTodo } = props
   const [showAlert, setShowAlert] = useState(false)
   const [warning, setWarning] = useState('')
@@ -25,7 +25,6 @@ export default function TodoInfo(props) {
         setTodo({ ...todo, deadline: moment(props.deadline) })
         break
       default:
-        setTodo(props.todo)
     }
   }, [])
 
