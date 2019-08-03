@@ -1,6 +1,6 @@
 import '../styles/Todo.scss'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
@@ -14,21 +14,6 @@ export default function Todo(props) {
   const [showInfo, setShowInfo] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
   const [warning, setWarning] = useState('')
-
-  useEffect(() => {
-    setTodo(props.todo)
-  }, [props.todo])
-
-  // useEffect(() => {
-  //   const categoryId = props.todo.categoryId
-  //   const deadline = props.todo.deadline
-
-  //   setTodo({
-  //     ...todo,
-  //     categoryId: categoryId >= 0 ? categoryId : null,
-  //     deadline
-  //   })
-  // }, [props.todo])
 
   const onTitleChange = e => {
     setIsUpdating(true)

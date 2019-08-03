@@ -9,7 +9,7 @@ export const initialState = {
     fitler: Filters.SHOW_ALL,
     category: { id: -1, name: 'All' }
   },
-  dateFilter: ''
+  dateFilter: {}
 }
 
 export function reducer(state = initialState, action) {

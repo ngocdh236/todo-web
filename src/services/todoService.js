@@ -50,7 +50,7 @@ export function useTodoService(state, dispatch) {
   const setDateFilter = date => {
     dispatch({
       type: Types.SET_DATE_FILTER,
-      dateFilter: { date }
+      dateFilter: date
     })
   }
 

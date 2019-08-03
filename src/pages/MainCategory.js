@@ -12,27 +12,34 @@ export default function MainCategory() {
   const { data, todoService, categoryService } = useContext(DataContext)
   const newCategoryInput = createRef()
 
-  const [todos, setTodos] = useState([])
-  const [showAddNewCategory, setShowAddNewCategory] = useState(false)
+  const [
+    showAddNewCategoryInputField,
+    setShowAddNewCategoryInputField
+  ] = useState(false)
   const [newCategory, setNewCategory] = useState({})
   const [showAlert, setShowAlert] = useState(false)
   const [warning, setWarning] = useState(false)
 
   useEffect(() => {
-    if (showAddNewCategory) {
+    if (showAddNewCategoryInputField) {
       newCategoryInput.current.focus()
     }
-  }, [showAddNewCategory])
+  }, [showAddNewCategoryInputField])
 
-  useEffect(() => {
-    const todoItems =
-      (data.categoryFilter.category.id === -1 && data.todos) ||
-      data.todos.filter(todo => todo.category === data.categoryFilter.category)
-    setTodos(todoItems)
-  }, [data.categoryFilter])
+  let todos
+  switch (data.categoryFilter.category.id) {
+    case -1:
+      todos = data.todos
+      break
+    default:
+      todos = data.todos.filter(
+        todo =>
+          todo.category && todo.category.id === data.categoryFilter.category.id
+      )
+  }
 
   const toggleAddNewCategory = () => {
-    setShowAddNewCategory(!showAddNewCategory)
+    setShowAddNewCategoryInputField(!showAddNewCategoryInputField)
     setNewCategory('')
     setShowAlert(false)
     setWarning('')
@@ -85,7 +92,7 @@ export default function MainCategory() {
           + New Category
         </button>
       </div>
-      {showAddNewCategory && (
+      {showAddNewCategoryInputField && (
         <div className='new-category'>
           <input
             className='mr-2'
@@ -153,6 +160,7 @@ export default function MainCategory() {
           todos={todos}
           todoService={todoService}
           categories={data.categories}
+          categoryId={data.categoryFilter.category.id}
         />
       </div>
     </div>

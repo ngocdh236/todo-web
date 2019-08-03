@@ -1,34 +1,28 @@
 import '../styles/MainSchedule.scss'
 
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import moment from 'moment'
 import classnames from 'classnames'
 
 import { DataContext } from '../contexts/DataContext'
 import TodoList from '../components/TodoList'
-import { isEmpty } from '../utils/isEmpty'
 
 export default function MainSchedule() {
   const { data, todoService } = useContext(DataContext)
+  const [dateObject, setDateObject] = useState(moment(data.dateFilter))
 
-  const [todos, setTodos] = useState([])
-  const [dateObject, setDateObject] = useState(moment())
-
-  useEffect(() => {
-    const todoItems = data.todos.filter(
-      todo =>
-        moment(todo.deadline)
-          .startOf('day')
-          .format() ===
-        moment(dateObject)
-          .startOf('day')
-          .format()
-    )
-    setTodos(todoItems.filter(todo => !isEmpty(todo.deadline)))
-  }, [dateObject])
+  const todos = data.todos.filter(
+    todo =>
+      moment(todo.deadline)
+        .startOf('day')
+        .format() ===
+      moment(dateObject)
+        .startOf('day')
+        .format()
+  )
 
   const setDay = day => {
-    setDateObject(moment(dateObject).set('date', day))
+    todoService.setDateFilter(moment(dateObject).set('date', day))
   }
 
   const setMonth = month => {
@@ -97,8 +91,8 @@ export default function MainSchedule() {
 
     const days = []
     for (let d = 1; d <= dateObject.daysInMonth(); d++) {
-      const dateTodos = []
-      todos.forEach((todo, i) => {
+      const numberOfTodos = []
+      data.todos.forEach((todo, i) => {
         if (
           moment(todo.deadline)
             .startOf('day')
@@ -108,7 +102,7 @@ export default function MainSchedule() {
             .startOf('day')
             .format()
         )
-          dateTodos.push(<div key={i} className='dot' />)
+          numberOfTodos.push(<div key={i} className='dot' />)
       })
 
       const chosenDay = d === Number(dateObject.format('D')) ? 'chosen-day' : ''
@@ -121,7 +115,7 @@ export default function MainSchedule() {
           }}
         >
           <label className={chosenDay}>{d}</label>
-          <div className='date-todos'>{dateTodos}</div>
+          <div className='date-todos'>{numberOfTodos}</div>
         </div>
       )
     }
@@ -229,6 +223,7 @@ export default function MainSchedule() {
             todos={todos}
             categories={data.categories}
             todoService={todoService}
+            deadline={dateObject}
           />
         </div>
       </div>

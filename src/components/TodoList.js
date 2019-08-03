@@ -29,10 +29,9 @@ export default function TodoList(props) {
       <Todo
         isNewTodo={true}
         todo={{
-          title: ''
-          // categoryId:
-          //   props.categoryId && props.categoryId >= 0 ? props.categoryId : null,
-          // deadline: props.deadline
+          title: '',
+          categoryId: props.categoryId > 0 ? props.categoryId : null,
+          deadline: props.deadline
         }}
         todoService={props.todoService}
         categories={props.categories}
