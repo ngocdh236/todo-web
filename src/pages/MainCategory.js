@@ -81,7 +81,7 @@ export default function MainCategory(props) {
       <FilterCard
         key={categoryItem.id}
         category={categoryItem}
-        active={category === categoryItem}
+        isActive={category === categoryItem}
         onClick={() => handleSetFilter(Filters.SHOW_BY_CATEGORY, categoryItem)}
         to={categoryItem.id}
         isCategoryFilterCard
@@ -105,7 +105,7 @@ export default function MainCategory(props) {
         name: 'All',
         gradientColor: 'var(--background-primary)'
       }}
-      active={category.id === -1}
+      isActive={category.id === -1}
       onClick={() => handleSetFilter(Filters.SHOW_ALL, { id: -1, name: 'All' })}
       to=''
       isCategoryFilterCard

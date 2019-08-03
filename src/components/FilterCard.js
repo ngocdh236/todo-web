@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 export default function FilterCard(props) {
-  const { category, icon, active, onClick } = props
+  const { category, icon, isActive, onClick } = props
 
   const Button = () => (
-    <button className='FilterCard' disabled={active} onClick={onClick}>
+    <button className='FilterCard' disabled={isActive} onClick={onClick}>
       <div className='icon' style={{ background: category.gradientColor }}>
         <i
           className={icon}
@@ -38,6 +38,6 @@ export default function FilterCard(props) {
 FilterCard.propTypes = {
   category: PropTypes.object.isRequired,
   icon: PropTypes.string,
-  active: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool.isRequired,
   onClick: PropTypes.func
 }

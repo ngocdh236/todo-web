@@ -37,7 +37,7 @@ export default function MainTodo(props) {
             gradientColor: 'var(--background-primary)'
           }}
           icon=''
-          active={data.filter === Filters.SHOW_ALL}
+          isActive={data.filter === Filters.SHOW_ALL}
           onClick={() => handleSetFilter(Filters.SHOW_ALL)}
         />
         <FilterCard
@@ -46,7 +46,7 @@ export default function MainTodo(props) {
             gradientColor: 'linear-gradient(to right, #a8e063, #56ab2f)'
           }}
           icon='far fa-check-circle'
-          active={data.filter === Filters.SHOW_DONE}
+          isActive={data.filter === Filters.SHOW_DONE}
           onClick={() => handleSetFilter(Filters.SHOW_DONE)}
         />
         <FilterCard
@@ -55,7 +55,7 @@ export default function MainTodo(props) {
             gradientColor: 'linear-gradient(to right, #ef473a, #cb2d3e)'
           }}
           icon='far fa-clock'
-          active={data.filter === Filters.SHOW_DUE_SOON}
+          isActive={data.filter === Filters.SHOW_DUE_SOON}
           onClick={() => handleSetFilter(Filters.SHOW_DUE_SOON)}
         />
         <FilterCard
@@ -64,7 +64,7 @@ export default function MainTodo(props) {
             gradientColor: 'linear-gradient(to right, #ffe259, #ffcc33)'
           }}
           icon='far fa-times-circle'
-          active={data.filter === Filters.SHOW_UNDONE}
+          isActive={data.filter === Filters.SHOW_UNDONE}
           onClick={() => handleSetFilter(Filters.SHOW_UNDONE)}
         />
       </div>
