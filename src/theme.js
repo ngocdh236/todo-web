@@ -22,20 +22,21 @@ const dark = Object.freeze({
   boxShadow: 'none'
 })
 
-const theme = theme => ({
-  '--color-button-mode': theme.colorButtonMode,
+const theme = theme =>
+  Object.freeze({
+    '--color-button-mode': theme.colorButtonMode,
 
-  '--background-primary': theme.bgPrimary,
-  '--background-secondary': theme.bgSecondary,
+    '--background-primary': theme.bgPrimary,
+    '--background-secondary': theme.bgSecondary,
 
-  '--color-primary': theme.colorPrimary,
-  '--color-secondary': theme.colorSecondary,
-  '--color-light': theme.colorLight,
-  '--color-danger': colorDanger,
+    '--color-primary': theme.colorPrimary,
+    '--color-secondary': theme.colorSecondary,
+    '--color-light': theme.colorLight,
+    '--color-danger': colorDanger,
 
-  '--border': theme.border,
-  '--box-shadow': theme.boxShadow
-})
+    '--border': theme.border,
+    '--box-shadow': theme.boxShadow
+  })
 
 export const lightTheme = theme(light)
 export const darkTheme = theme(dark)

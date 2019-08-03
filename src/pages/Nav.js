@@ -47,9 +47,9 @@ export default function Nav() {
         </NavLink>
       </li>
       <li className='nav-item'>
-        <label className='nav-link' onClick={authService.logout}>
+        <NavLink to='/login' className='nav-link' onClick={authService.logout}>
           Logout
-        </label>
+        </NavLink>
       </li>
     </ul>
   )
