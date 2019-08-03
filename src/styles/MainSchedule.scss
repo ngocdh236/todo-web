@@ -32,6 +32,10 @@
     font-size: 125%;
   }
 
+  .chosen-day-content {
+    background: var(--color-light);
+  }
+
   .day {
     height: 90px;
     width: 14.285%;
@@ -101,6 +105,12 @@
 
     .MonthDropdown {
       display: none;
+    }
+
+    .month {
+      &:hover {
+        color: var(--color-secondary);
+      }
     }
   }
 }

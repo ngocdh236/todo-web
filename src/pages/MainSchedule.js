@@ -105,16 +105,20 @@ export default function MainSchedule() {
           numberOfTodos.push(<div key={i} className='dot' />)
       })
 
-      const chosenDay = d === Number(dateObject.format('D')) ? 'chosen-day' : ''
+      const isChosenDay = d === Number(dateObject.format('D'))
 
       days.push(
         <div
-          className='day-content'
+          className={classnames('day-content', {
+            'chosen-day-content': isChosenDay
+          })}
           onClick={() => {
             setDay(d)
           }}
         >
-          <label className={chosenDay}>{d}</label>
+          <label className={classnames({ 'chosen-day': isChosenDay })}>
+            {d}
+          </label>
           <div className='date-todos'>{numberOfTodos}</div>
         </div>
       )
