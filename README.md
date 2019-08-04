@@ -44,7 +44,6 @@ Check it out [here](http://www.titekapps.com)
 
 ## Libraries
 * [React](https://reactjs.org)
-* [Redux](https://redux.js.org)
 * [ReactJS Datepicker](https://reactdatepicker.com)
 * [Moment](https://momentjs.com)
 ...
