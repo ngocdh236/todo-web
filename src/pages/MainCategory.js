@@ -164,7 +164,7 @@ export default function MainCategory(props) {
           {categories}
         </div>
         <Route
-          path={`${props.match.path}/${category.id > 0 ? category.id : ''}`}
+          path={category.id > 0 ? '/categories/:id' : '/categories'}
           component={TodoListOfCategory}
         />
       </div>
