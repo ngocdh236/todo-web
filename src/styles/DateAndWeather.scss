@@ -1,0 +1,40 @@
+@import '../App.scss';
+
+.DateAndWeather {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  h3 {
+    margin-bottom: 20px;
+  }
+}
+
+.rainy {
+  background: linear-gradient(to right, #66a6ff, #89f7fe);
+}
+
+.sunny {
+  background: linear-gradient(to right, #f83600, #f9d423);
+}
+
+.cloudy {
+  background: linear-gradient(to right, #d7fffe, #fffeff);
+}
+
+.snowy {
+  background-image: linear-gradient(to right, #c3cfe2, #f5f7fa);
+}
+
+.clear {
+  background-image: linear-gradient(to right, #8989ba 0%, #a7a6cb 60%);
+}
+
+@media only screen and (min-width: 768px) {
+  .DateAndWeather {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

@@ -14,6 +14,7 @@ import Login from './pages/Login'
 import MainTodo from './pages/MainTodo'
 import MainCategory from './pages/MainCategory'
 import MainSchedule from './pages/MainSchedule'
+import DateAndWeather from './components/DateAndWeather'
 import { setAuthToken } from './services/customAxios'
 
 export default function App() {
@@ -78,8 +79,8 @@ export default function App() {
   }
 
   const ButtonAddNewTodo = () => (
-    <div className='d-flex justify-content-end'>
-      <button className='button-light mt-4' onClick={toggleAddNewTodo}>
+    <div className='d-flex justify-content-end mt-3'>
+      <button className='button-light' onClick={toggleAddNewTodo}>
         + New Todo
       </button>
     </div>
@@ -109,6 +110,7 @@ export default function App() {
     <BrowserRouter>
       <div className='App'>
         <Nav />
+        <DateAndWeather />
 
         <div className='px-5'>
           <Route exact path='/register' component={Register} />
