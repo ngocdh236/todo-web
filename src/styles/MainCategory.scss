@@ -1,8 +1,6 @@
 @import '../App.scss';
 
 .MainCategory {
-  padding: 25px 0;
-
   .new-category {
     display: flex;
     input {
@@ -15,7 +13,7 @@
   }
 
   .dropdown {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 
     .FilterCard {
       .info {
@@ -34,12 +32,6 @@
 
   .TodoList {
     width: 100%;
-  }
-}
-
-@media only screen and (min-width: 480px) {
-  .MainCategory {
-    padding: 40px 0;
   }
 }
 

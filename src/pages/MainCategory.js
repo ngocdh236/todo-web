@@ -115,7 +115,7 @@ export default function MainCategory(props) {
   return (
     <div className='MainCategory'>
       <div className='d-flex justify-content-between'>
-        <button className='button-light mb-4' onClick={toggleAddNewCategory}>
+        <button className='button-light mb-2' onClick={toggleAddNewCategory}>
           + New Category
         </button>
       </div>

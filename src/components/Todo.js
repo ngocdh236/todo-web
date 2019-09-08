@@ -93,7 +93,7 @@ export default function Todo(props) {
         <div id='checkbox'>
           <button
             id='checkbox-button'
-            disabled={isEditing}
+            disabled={isEditing || isNewTodo}
             onClick={onDoneChange}
           />
           {todo.done ? checkMark : null}
@@ -122,7 +122,7 @@ export default function Todo(props) {
         ) : null}
 
         {!isNewTodo && (
-          <button onClick={handleShowInfo}>
+          <button disabled={isEditing} onClick={handleShowInfo}>
             <i className='fas fa-info-circle' />
           </button>
         )}

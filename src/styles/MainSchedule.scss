@@ -1,8 +1,6 @@
 @import '../App.scss';
 
 .MainSchedule {
-  padding: 25px 0;
-
   .year {
     width: 100%;
     display: flex;
@@ -89,8 +87,6 @@
 
 @media only screen and (min-width: 1200px) {
   .MainSchedule {
-    padding: 40px 0;
-
     .aside-list {
       width: 15%;
     }

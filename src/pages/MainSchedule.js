@@ -188,7 +188,7 @@ export default function MainSchedule() {
 
       <div className='d-flex flex-wrap justify-content-between text-center'>
         <button
-          className='button-light mb-4'
+          className='button-light mb-5'
           onClick={setToday}
           style={{ width: '100%' }}
         >
