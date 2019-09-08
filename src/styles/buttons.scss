@@ -1,0 +1,75 @@
+button {
+  color: var(--color-primary);
+  background: transparent;
+  &:focus {
+    outline: 0;
+  }
+  border: none;
+  border-radius: 1mm;
+}
+
+@mixin commonButton($background, $text, $hover, $disabled) {
+  padding: 8px;
+  background: $background;
+  color: $text;
+  &:hover {
+    background: $hover;
+  }
+  &:disabled {
+    background: $disabled;
+  }
+}
+
+.button-danger {
+  @include commonButton(
+    var(--color-danger),
+    white,
+    var(--color-secondary),
+    var(--color-secondary)
+  );
+}
+
+.button-light {
+  @include commonButton(
+    var(--background-secondary),
+    var(--color-primary),
+    var(--color-secondary),
+    var(--color-secondary)
+  );
+}
+
+.button-edit {
+  @include commonButton(
+    var(--color-edit),
+    white,
+    var(--color-secondary),
+    var(--color-secondary)
+  );
+}
+
+.button-warning {
+  @include commonButton(
+    var(--color-warning),
+    white,
+    var(--color-secondary),
+    var(--color-secondary)
+  );
+}
+
+.button-danger-secondary {
+  @include commonButton(
+    var(--color-danger-secondary),
+    white,
+    var(--color-secondary),
+    var(--color-secondary)
+  );
+}
+
+#button-mode {
+  background: var(--color-button-mode);
+  color: var(--background-primary);
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  padding: 0 5px;
+}

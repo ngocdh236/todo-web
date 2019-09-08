@@ -1,3 +1,6 @@
+@import './styles/dropdown.scss';
+@import './styles/buttons.scss';
+
 %xy-centered {
   display: flex;
   justify-content: center;
@@ -57,40 +60,6 @@ a:hover {
   color: palevioletred;
 }
 
-button {
-  color: var(--color-primary);
-  background: transparent;
-  &:focus {
-    outline: 0;
-  }
-  border: none;
-  border-radius: 1mm;
-}
-
-.button-danger {
-  background: var(--color-danger);
-  padding: 8px;
-  color: white;
-}
-
-.button-light {
-  background: var(--background-secondary);
-  padding: 8px;
-
-  &:hover {
-    background: var(--color-secondary);
-  }
-}
-
-#button-mode {
-  background: var(--color-button-mode);
-  color: var(--background-primary);
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  padding: 0 5px;
-}
-
 .Nav {
   border-bottom: 0.5px solid var(--background-secondary);
 }
@@ -111,52 +80,6 @@ button {
   height: 10px;
   border-radius: 100%;
   background: var(--background-secondary);
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-
-  .dropbtn {
-    background-color: var(--background-secondary);
-    padding: 0 8px;
-  }
-
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: var(--background-secondary);
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    min-width: 100%;
-  }
-
-  .dropdown-content button {
-    padding: 8px;
-    text-decoration: none;
-    display: block;
-    min-width: 100%;
-    text-align: start;
-    border-radius: 0;
-  }
-
-  .dropdown-content {
-    button:hover {
-      background-color: var(--color-secondary);
-    }
-  }
-
-  &:hover {
-    .dropdown-content {
-      display: block;
-    }
-  }
-
-  &:hover {
-    .dropbtn {
-      background-color: var(--color-secondary);
-    }
-  }
 }
 
 .NewTodoForm {

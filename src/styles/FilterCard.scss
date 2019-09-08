@@ -25,6 +25,13 @@
 
 @media only screen and (min-width: 480px) {
   .FilterCard {
+    &:hover {
+      background: none;
+      .icon {
+        border: 5px solid var(--color-light);
+      }
+    }
+
     .icon {
       width: 60px;
       height: 60px;
@@ -39,6 +46,10 @@
     box-shadow: var(--box-shadow);
     border-radius: 5mm;
     border: var(--border);
+
+    &:hover {
+      background: var(--background-secondary);
+    }
 
     &:disabled {
       box-shadow: none;

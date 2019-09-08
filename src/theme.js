@@ -1,4 +1,7 @@
 const colorDanger = '#dc3545'
+const colorEdit = '#17a2b8'
+const colorWarning = '#ffc107'
+const colorDangerSecondary = '#fd7e14'
 
 const light = Object.freeze({
   colorButtonMode: 'black',
@@ -33,6 +36,9 @@ const theme = theme =>
     '--color-secondary': theme.colorSecondary,
     '--color-light': theme.colorLight,
     '--color-danger': colorDanger,
+    '--color-edit': colorEdit,
+    '--color-warning': colorWarning,
+    '--color-danger-secondary': colorDangerSecondary,
 
     '--border': theme.border,
     '--box-shadow': theme.boxShadow
