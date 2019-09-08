@@ -9,7 +9,6 @@
     border-radius: 3mm;
     box-shadow: var(--box-shadow);
     border: var(--border);
-    // border-left: 25px solid var(--background-secondary);
 
     button {
       margin: 0 5px;
@@ -40,6 +39,17 @@
       -webkit-transform: rotate(45deg);
       -ms-transform: rotate(45deg);
       transform: rotate(45deg);
+    }
+  }
+
+  .selected-todo {
+    box-shadow: none;
+    background: var(--background-secondary);
+  }
+
+  .on-select-todo {
+    &:hover {
+      background: var(--background-secondary);
     }
   }
 

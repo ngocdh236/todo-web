@@ -1,19 +1,24 @@
 import '../styles/Todo.scss'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
+import classnames from 'classnames'
 
 import TodoInfo from './TodoInfo'
 import { isEmpty } from '../utils/isEmpty'
 
 export default function Todo(props) {
-  const { isNewTodo } = props
+  const { isNewTodo, isEditing } = props
   const [todo, setTodo] = useState(props.todo)
   const [isUpdating, setIsUpdating] = useState(false)
   const [showInfo, setShowInfo] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
   const [warning, setWarning] = useState('')
+
+  useEffect(() => {
+    setTodo(props.todo)
+  }, [props.todo])
 
   const onTitleChange = e => {
     setIsUpdating(true)
@@ -21,7 +26,8 @@ export default function Todo(props) {
   }
 
   const onDoneChange = () => {
-    props.todoService.update({ ...todo, done: !todo.done })
+    if (!isNewTodo && !isEditing)
+      props.todoService.update({ ...todo, done: !todo.done })
   }
 
   const handleApprove = () => {
@@ -72,16 +78,31 @@ export default function Todo(props) {
   })()
 
   return (
-    <div className='Todo'>
-      <div className='todo'>
+    <div
+      onClick={() => {
+        if (!isNewTodo && isEditing) props.handleSelectTodo(todo.id)
+      }}
+      className='Todo'
+    >
+      <div
+        className={classnames('todo', {
+          'selected-todo': todo.selected,
+          'on-select-todo': isEditing && !isNewTodo
+        })}
+      >
         <div id='checkbox'>
-          <button id='checkbox-button' onClick={onDoneChange} />
+          <button
+            id='checkbox-button'
+            disabled={isEditing}
+            onClick={onDoneChange}
+          />
           {todo.done ? checkMark : null}
         </div>
 
         <div className='d-flex flex-column mx-3' style={{ width: '100%' }}>
           <input
             type='text'
+            disabled={isEditing}
             value={todo.title}
             onChange={onTitleChange}
             onKeyDown={onEnterPressed}
@@ -127,11 +148,14 @@ export default function Todo(props) {
 
 Todo.propTypes = {
   isNewTodo: PropTypes.bool.isRequired,
+  isEditing: PropTypes.bool.isRequired,
+  handleSelectTodo: PropTypes.func,
   todo: PropTypes.object.isRequired,
   todoService: PropTypes.object.isRequired,
   categories: PropTypes.array
 }
 
 Todo.defaultProps = {
-  isNewTodo: false
+  isNewTodo: false,
+  isEditing: false
 }
