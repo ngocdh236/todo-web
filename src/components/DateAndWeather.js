@@ -1,7 +1,6 @@
 import '../styles/DateAndWeather.scss'
 
 import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
 import { fullDay, fullMonth } from '../utils/dateFormat'
@@ -83,5 +82,3 @@ export default function DateAndWeather(props) {
     </div>
   )
 }
-
-DateAndWeather.propTypes = {}
