@@ -23,3 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 /src/keys.js
+
+titekapps_com_key.txt
+titekapps.com.crt
