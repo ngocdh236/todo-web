@@ -63,22 +63,24 @@ export default function DateAndWeather(props) {
           fullMonth[today.getMonth()]
         } ${today.getFullYear()}`}
       </h3>
-      <div className='d-flex'>
-        {main === 'Rain' && <img src={iconRainy} alt='Rainy' />}
-        {main === 'Clouds' && <img src={iconCloudy} alt='Cloudy' />}
-        {main === 'Sunny' && <img src={iconSunny} alt='Sunny' />}
-        {main === 'Snow' && <img src={iconSnowy} alt='Snowy' />}
-        {main === 'Clear' && <img src={iconClear} alt='Snowy' />}
-        <div className='ml-4'>
-          <label>{capitalize(description)}</label>
-          <h2>
-            {`${parseInt(temp_min)}${String.fromCharCode(176)}C - ${parseInt(
-              temp_max
-            )}${String.fromCharCode(176)}C`}
-          </h2>
-          <label>{name}</label>
+      {!isEmpty(weather) && (
+        <div className='d-flex'>
+          {main === 'Rain' && <img src={iconRainy} alt='Rainy' />}
+          {main === 'Clouds' && <img src={iconCloudy} alt='Cloudy' />}
+          {main === 'Sunny' && <img src={iconSunny} alt='Sunny' />}
+          {main === 'Snow' && <img src={iconSnowy} alt='Snowy' />}
+          {main === 'Clear' && <img src={iconClear} alt='Snowy' />}
+          <div className='ml-4'>
+            <label>{capitalize(description)}</label>
+            <h2>
+              {`${parseInt(temp_min)}${String.fromCharCode(176)}C - ${parseInt(
+                temp_max
+              )}${String.fromCharCode(176)}C`}
+            </h2>
+            <label>{name}</label>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
