@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const customAxios = axios.create({
-  baseURL: 'http://muzify.eu/api'
+  baseURL: 'https://muzify.eu/api'
 })
 
 export const setAuthToken = token => {
