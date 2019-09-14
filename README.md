@@ -1,5 +1,6 @@
 # TODO-web
->A todo web application
+
+> A todo web application
 
 Check it out [here](http://www.titekapps.com)
 
@@ -8,60 +9,64 @@ Check it out [here](http://www.titekapps.com)
 ![](demo3.png)
 ![](demo4.png)
 ![](demo5.png)
-![](demo6.png)
-![](demo7.png)
-![](demo8.png)
 
 ## Features
+
 - Sign up, login
 - Create, edit, delete, sort todo
 - Create category
 - Create schedule
 
 ## Installation
-1. Clone project
 
-2. Make sure you have installed Node.js and npm
+1.  Clone project
 
-	* [Download Node.js](https://nodejs.org/en/download/)
+2.  Make sure you have installed Node.js and npm
 
-	* Check with commands
+    - [Download Node.js](https://nodejs.org/en/download/)
 
-		`node -v`
+    - Check with commands
 
-		`npm -v`
+          	`node -v`
 
-3. In the project directory, you can run
+          	`npm -v`
 
-	`npm install`
+3.  In the project directory, you can run
 
-	Install the dependencies in the local node_modules folder
+    `npm install`
 
-4. In the project directory, you can run
+    Install the dependencies in the local node_modules folder
 
-	`npm start`
+4.  In the project directory, you can run
 
-	Runs the app in the development mode
+    `npm start`
 
-5. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+    Runs the app in the development mode
+
+5.  Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ## Languages
-* HTML
-* SCSS
-* JSX
-* JavaScript
+
+- HTML
+- SCSS
+- JSX
+- JavaScript
 
 ## Libraries
-* [React](https://reactjs.org)
-* [ReactJS Datepicker](https://reactdatepicker.com)
-* [Moment](https://momentjs.com)
-...
+
+- [React](https://reactjs.org)
+- [ReactJS Datepicker](https://reactdatepicker.com)
+- [Moment](https://momentjs.com)
+  ...
 
 ## Frameworks
-* [Bootstrap](https://getbootstrap.com)
 
-## API Reference 
-* Backend was NOT built by me. Documentation [here](http://muzify.eu/swagger-ui.html#/)
+- [Bootstrap](https://getbootstrap.com)
+
+## API Reference
+
+- Backend was NOT built by me. Documentation [here](http://muzify.eu/swagger-ui.html#/)
 
 ## Author
-* Ngoc Doan (ngocdh236@gmail.com)
+
+- Ngoc Doan (ngocdh236@gmail.com)
