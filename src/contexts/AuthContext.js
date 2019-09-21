@@ -6,18 +6,31 @@ import { useAuthService } from '../services/authService'
 
 const initialState = {
   isAuthenticated: false,
-  user: {}
+  user: {},
+  inputErrors: [],
+  error: ''
 }
 
 function reducer(state = initialState, action) {
-  const { user } = action
-  switch (action.type) {
+  const { type, user, error } = action
+  switch (type) {
     case Types.SET_USER:
       return {
         ...state,
         isAuthenticated: !isEmpty(user),
         user
       }
+    case Types.SET_ERRORS:
+      if (error.errors) {
+        return { ...state, inputErrors: error.errors, error: '' }
+      }
+      if (error.message) {
+        return { ...state, error: error.message, inputErrors: [] }
+      }
+      return state
+
+    case Types.REMOVE_ERRORS:
+      return { ...state, inputErrors: [], error: '' }
     default:
       return state
   }

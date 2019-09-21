@@ -13,7 +13,9 @@ export function useAuthService(auth, dispatch) {
       .then(res => {
         history.push('/login')
       })
-      .catch(err => console.log(err))
+      .catch(err =>
+        dispatch({ type: Types.SET_ERRORS, error: err.response.data })
+      )
   }
 
   const login = userData => {
@@ -26,7 +28,9 @@ export function useAuthService(auth, dispatch) {
         const user = jwt_decoce(accessToken)
         setUser(user)
       })
-      .catch(err => console.log(err))
+      .catch(err =>
+        dispatch({ type: Types.SET_ERRORS, error: err.response.data })
+      )
   }
 
   const setUser = user => {
@@ -42,5 +46,11 @@ export function useAuthService(auth, dispatch) {
     window.location.href = '/login'
   }
 
-  return { register, login, setUser, logout }
+  const removeErrors = () => {
+    dispatch({
+      type: Types.REMOVE_ERRORS
+    })
+  }
+
+  return { register, login, setUser, logout, removeErrors }
 }

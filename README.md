@@ -2,7 +2,7 @@
 
 > A todo web application
 
-Check it out [here](http://www.titekapps.com)
+Check it out [here](https://www.titekapps.com)
 
 ![](demo1.png)
 ![](demo2.png)

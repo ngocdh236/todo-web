@@ -21,10 +21,6 @@ export default function Login(props) {
     password: ''
   })
 
-  const [hasError, setHasError] = useState(false)
-  const [error, setError] = useState('')
-  const [inputErrors, setInputErrors] = useState([])
-
   function onChange(e) {
     setInputValues({ ...inputValues, [e.target.name]: e.target.value })
   }
@@ -54,8 +50,10 @@ export default function Login(props) {
                 value={inputValues.usernameOrEmail}
                 onChange={onChange}
                 error={
-                  inputErrors &&
-                  inputErrors.find(error => error.field === 'usernameOrEmail')
+                  auth.inputErrors &&
+                  auth.inputErrors.find(
+                    error => error.field === 'usernameOrEmail'
+                  )
                 }
               />
 
@@ -66,22 +64,26 @@ export default function Login(props) {
                 value={inputValues.password}
                 onChange={onChange}
                 error={
-                  inputErrors &&
-                  inputErrors.find(error => error.field === 'password')
+                  auth.inputErrors &&
+                  auth.inputErrors.find(error => error.field === 'password')
                 }
               />
 
               <input type='submit' className='btn btn-lg btn-light mt-5' />
             </form>
             <br />
-            <Link className='nav-link' to='/register'>
-              Don't have an account yet? Click here
-            </Link>
+            <span onClick={() => authService.removeErrors()}>
+              <Link className='nav-link' to='/register'>
+                Already have an account? Click here
+              </Link>
+            </span>
           </div>
         </div>
         <br />
 
-        {hasError && <p className='lead text-danger text-center'>{error}</p>}
+        {auth.error && (
+          <p className='lead text-danger text-center'>{auth.error}</p>
+        )}
       </div>
     </div>
   )

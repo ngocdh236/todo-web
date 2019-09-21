@@ -5,7 +5,7 @@ import { AuthContext } from '../contexts/AuthContext'
 import InputField from '../components/InputField'
 
 export default function Register(props) {
-  const { authService } = useContext(AuthContext)
+  const { auth, authService } = useContext(AuthContext)
 
   const [inputValues, setInputValues] = useState({
     name: '',
@@ -13,10 +13,6 @@ export default function Register(props) {
     email: '',
     password: ''
   })
-
-  const [hasError, setHasError] = useState(false)
-  const [error, setError] = useState('')
-  const [inputErrors, setInputErrors] = useState([])
 
   const onChange = e => {
     setInputValues({ ...inputValues, [e.target.name]: e.target.value })
@@ -48,9 +44,8 @@ export default function Register(props) {
                 value={inputValues.name}
                 onChange={onChange}
                 error={
-                  inputErrors
-                    ? inputErrors.find(error => error.field === 'name')
-                    : null
+                  auth.inputErrors &&
+                  auth.inputErrors.find(error => error.field === 'name')
                 }
               />
 
@@ -60,9 +55,8 @@ export default function Register(props) {
                 value={inputValues.username}
                 onChange={onChange}
                 error={
-                  inputErrors
-                    ? inputErrors.find(error => error.field === 'username')
-                    : null
+                  auth.inputErrors &&
+                  auth.inputErrors.find(error => error.field === 'username')
                 }
               />
 
@@ -73,9 +67,8 @@ export default function Register(props) {
                 value={inputValues.email}
                 onChange={onChange}
                 error={
-                  inputErrors
-                    ? inputErrors.find(error => error.field === 'email')
-                    : null
+                  auth.inputErrors &&
+                  auth.inputErrors.find(error => error.field === 'email')
                 }
               />
 
@@ -86,22 +79,25 @@ export default function Register(props) {
                 value={inputValues.password}
                 onChange={onChange}
                 error={
-                  inputErrors
-                    ? inputErrors.find(error => error.field === 'password')
-                    : null
+                  auth.inputErrors &&
+                  auth.inputErrors.find(error => error.field === 'password')
                 }
               />
 
               <input type='submit' className='btn btn-lg btn-light mt-5' />
             </form>
             <br />
-            <Link className='nav-link' to='/login'>
-              Already have an account? Click here
-            </Link>
+            <span onClick={() => authService.removeErrors()}>
+              <Link className='nav-link' to='/login'>
+                Already have an account? Click here
+              </Link>
+            </span>
           </div>
         </div>
         <br />
-        {hasError && <p className='lead text-danger text-center'>{error}</p>}
+        {auth.error && (
+          <p className='lead text-danger text-center'>{auth.error}</p>
+        )}
       </div>
     </div>
   )

@@ -13,14 +13,23 @@ export default function Nav() {
   const guestLinks = (
     <ul className='navbar-nav ml-auto'>
       <li className='nav-item'>
-        <NavLink className='nav-link' activeClassName='a-active' to='/login'>
-          Login
-        </NavLink>
+        <span onClick={() => authService.removeErrors()}>
+          <NavLink className='nav-link' activeClassName='a-active' to='/login'>
+            Login
+          </NavLink>
+        </span>
       </li>
+
       <li className='nav-item'>
-        <NavLink className='nav-link' activeClassName='a-active' to='/register'>
-          Sign Up
-        </NavLink>
+        <span onClick={() => authService.removeErrors()}>
+          <NavLink
+            className='nav-link'
+            activeClassName='a-active'
+            to='/register'
+          >
+            Sign Up
+          </NavLink>
+        </span>
       </li>
     </ul>
   )
