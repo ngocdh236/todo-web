@@ -1,50 +1,53 @@
-import '../styles/DateAndWeather.scss'
+import dotenv from 'dotenv';
 
-import React, { useState, useEffect } from 'react'
-import classnames from 'classnames'
+import '../styles/DateAndWeather.scss';
 
-import { fullDay, fullMonth } from '../utils/dateFormat'
-import { openWeatherMapKey } from '../keys'
-import { isEmpty } from '../utils/isEmpty'
-import { capitalize } from '../utils/capitalize'
-import iconCloudy from '../assets/iconCloudy.svg'
-import iconRainy from '../assets/iconRainy.svg'
-import iconSunny from '../assets/iconSunny.svg'
-import iconSnowy from '../assets/iconSnowy.svg'
-import iconClear from '../assets/iconClear.svg'
+import React, { useState, useEffect } from 'react';
+import classnames from 'classnames';
+
+import { fullDay, fullMonth } from '../utils/dateFormat';
+import { isEmpty } from '../utils/isEmpty';
+import { capitalize } from '../utils/capitalize';
+import iconCloudy from '../assets/iconCloudy.svg';
+import iconRainy from '../assets/iconRainy.svg';
+import iconSunny from '../assets/iconSunny.svg';
+import iconSnowy from '../assets/iconSnowy.svg';
+import iconClear from '../assets/iconClear.svg';
+
+dotenv.config();
 
 export default function DateAndWeather(props) {
-  const today = new Date()
-  const [weather, setWeather] = useState()
+  const today = new Date();
+  const [weather, setWeather] = useState();
 
   useEffect(() => {
-    getWeatherByLocation()
-  }, [])
+    getWeatherByLocation();
+  }, []);
 
   function getWeatherByLocation() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(fetchWeather)
+      navigator.geolocation.getCurrentPosition(fetchWeather);
     } else {
-      alert('Geolocation is not supported by this browser.')
+      alert('Geolocation is not supported by this browser.');
     }
   }
 
   const fetchWeather = position => {
     fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&APPID=${openWeatherMapKey}`
+      `https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&APPID=${process.env.REACT_APP_OPEN_WEATHER_MAP_KEY}`
     )
       .then(function(resp) {
-        return resp.json()
+        return resp.json();
       })
       .then(function(data) {
-        setWeather(data)
+        setWeather(data);
       })
-      .catch(function() {})
-  }
+      .catch(function() {});
+  };
 
-  const { main, description } = isEmpty(weather) ? '' : weather.weather[0]
-  const { temp_min, temp_max } = isEmpty(weather) ? '' : weather.main
-  const { name } = isEmpty(weather) ? '' : weather
+  const { main, description } = isEmpty(weather) ? '' : weather.weather[0];
+  const { temp_min, temp_max } = isEmpty(weather) ? '' : weather.main;
+  const { name } = isEmpty(weather) ? '' : weather;
 
   return (
     <div
@@ -52,7 +55,7 @@ export default function DateAndWeather(props) {
         'DateAndWeather p-5',
         { sunny: main === 'Sunny' },
         { cloudy: main === 'Clouds' },
-        { rainy: main === 'Rain' },
+        { rainy: main === 'Rain' || 'Drizzle' },
         { snowy: main === 'Snow' },
         { clear: main === 'Clear' }
       )}
@@ -64,13 +67,14 @@ export default function DateAndWeather(props) {
         } ${today.getFullYear()}`}
       </h3>
       {!isEmpty(weather) && (
-        <div className='d-flex'>
-          {main === 'Rain' && <img src={iconRainy} alt='Rainy' />}
-          {main === 'Clouds' && <img src={iconCloudy} alt='Cloudy' />}
-          {main === 'Sunny' && <img src={iconSunny} alt='Sunny' />}
-          {main === 'Snow' && <img src={iconSnowy} alt='Snowy' />}
-          {main === 'Clear' && <img src={iconClear} alt='Snowy' />}
-          <div className='ml-4'>
+        <div className="d-flex">
+          {main === 'Rain' ||
+            ('Drizzle' && <img src={iconRainy} alt="Rainy" />)}
+          {main === 'Clouds' && <img src={iconCloudy} alt="Cloudy" />}
+          {main === 'Sunny' && <img src={iconSunny} alt="Sunny" />}
+          {main === 'Snow' && <img src={iconSnowy} alt="Snowy" />}
+          {main === 'Clear' && <img src={iconClear} alt="Snowy" />}
+          <div className="ml-4">
             <label>{capitalize(description)}</label>
             <h2>
               {`${parseInt(temp_min)}${String.fromCharCode(176)}C - ${parseInt(
@@ -82,5 +86,5 @@ export default function DateAndWeather(props) {
         </div>
       )}
     </div>
-  )
+  );
 }
