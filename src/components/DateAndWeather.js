@@ -55,7 +55,7 @@ export default function DateAndWeather(props) {
         'DateAndWeather p-5',
         { sunny: main === 'Sunny' },
         { cloudy: main === 'Clouds' },
-        { rainy: main === 'Rain' || 'Drizzle' },
+        { rainy: main === 'Rain' || main === 'Drizzle' },
         { snowy: main === 'Snow' },
         { clear: main === 'Clear' }
       )}
@@ -68,7 +68,7 @@ export default function DateAndWeather(props) {
       </h3>
       {!isEmpty(weather) && (
         <div className="d-flex">
-          {(main === 'Rain' || 'Drizzle') && (
+          {(main === 'Rain' || main === 'Drizzle') && (
             <img src={iconRainy} alt="Rainy" />
           )}
           {main === 'Clouds' && <img src={iconCloudy} alt="Cloudy" />}
