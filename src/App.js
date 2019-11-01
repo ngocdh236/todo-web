@@ -1,63 +1,70 @@
-import './App.scss'
+import './App.scss';
 
-import React, { useContext, useState, useEffect } from 'react'
-import { BrowserRouter, Route, Redirect } from 'react-router-dom'
-import jwt_decode from 'jwt-decode'
+import React, { useContext, useState, useEffect } from 'react';
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 
-import { ThemeContext } from './contexts/ThemeContext'
-import { AuthContext } from './contexts/AuthContext'
-import { DataContext } from './contexts/DataContext'
-import TodoInfo from './components/TodoInfo'
-import Nav from './pages/Nav'
-import Register from './pages/Register'
-import Login from './pages/Login'
-import MainTodo from './pages/MainTodo'
-import MainCategory from './pages/MainCategory'
-import MainSchedule from './pages/MainSchedule'
-import DateAndWeather from './components/DateAndWeather'
-import { setAuthToken } from './services/customAxios'
+import { ThemeContext } from './contexts/ThemeContext';
+import { AuthContext } from './contexts/AuthContext';
+import { DataContext } from './contexts/DataContext';
+import TodoInfo from './components/TodoInfo';
+import Nav from './pages/Nav';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import MainTodo from './pages/MainTodo';
+import MainCategory from './pages/MainCategory';
+import MainSchedule from './pages/MainSchedule';
+import DateAndWeather from './components/DateAndWeather';
+import { setAuthToken } from './services/customAxios';
 
 export default function App() {
-  const { theme, setLightTheme, setDarkTheme } = useContext(ThemeContext)
-  const { data, todoService, categoryService } = useContext(DataContext)
-  const { auth, authService } = useContext(AuthContext)
+  const { theme, setLightTheme, setDarkTheme } = useContext(ThemeContext);
+  const { data, todoService, categoryService } = useContext(DataContext);
+  const { auth, authService } = useContext(AuthContext);
 
-  let user
-  const token = localStorage.token
+  let user;
+  const token = localStorage.token;
 
   if (token) {
-    setAuthToken(token)
-    user = jwt_decode(token)
+    setAuthToken(token);
+    user = jwt_decode(token);
 
-    const currentTime = Date.now() / 1000
+    const currentTime = Date.now() / 1000;
     if (user.exp < currentTime) {
-      authService.logout()
+      authService.logout();
     }
   }
 
-  const [showAddNewTodo, setShowAddNewTodo] = useState(false)
+  const [showAddNewTodo, setShowAddNewTodo] = useState(false);
 
   const toggleAddNewTodo = () => {
-    setShowAddNewTodo(!showAddNewTodo)
-  }
+    setShowAddNewTodo(!showAddNewTodo);
+  };
 
   useEffect(() => {
     switch (localStorage.getItem('theme')) {
       case 'Dark':
-        setDarkTheme()
-        break
+        setDarkTheme();
+        break;
       default:
-        setLightTheme()
+        setLightTheme();
     }
-    authService.setUser(user)
-  }, [])
+    authService.setUser(user);
+
+    fetch(
+      'https://web-traffic-tracking.herokuapp.com/api/5dbc2b2b7c213e208d1cca68',
+      {
+        method: 'POST'
+      }
+    );
+  }, []);
 
   useEffect(() => {
     if (auth.isAuthenticated) {
-      todoService.getAll()
-      categoryService.getAll()
+      todoService.getAll();
+      categoryService.getAll();
     }
-  }, [auth.isAuthenticated])
+  }, [auth.isAuthenticated]);
 
   const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route
@@ -72,23 +79,23 @@ export default function App() {
         )
       }
     />
-  )
+  );
 
   const onClick = () => {
-    theme.isDark ? setLightTheme() : setDarkTheme()
-  }
+    theme.isDark ? setLightTheme() : setDarkTheme();
+  };
 
   const ButtonAddNewTodo = () => (
-    <div className='d-flex justify-content-end mt-3'>
-      <button className='button-light' onClick={toggleAddNewTodo}>
+    <div className="d-flex justify-content-end mt-3">
+      <button className="button-light" onClick={toggleAddNewTodo}>
         + New Todo
       </button>
     </div>
-  )
+  );
 
   const AddNewTodoPopUp = props => (
-    <div className='NewTodoForm d-flex justify-content-center'>
-      <div className='new-todo-container' onClick={toggleAddNewTodo} />
+    <div className="NewTodoForm d-flex justify-content-center">
+      <div className="new-todo-container" onClick={toggleAddNewTodo} />
       <TodoInfo
         url={props.match.url}
         isNewTodo={true}
@@ -104,37 +111,37 @@ export default function App() {
         deadline={data.dateFilter}
       />
     </div>
-  )
+  );
 
   return (
     <BrowserRouter>
-      <div className='App'>
+      <div className="App">
         <Nav />
         <DateAndWeather />
 
-        <div className='px-5'>
-          <Route exact path='/register' component={Register} />
-          <Route exact path='/login' component={Login} />
+        <div className="px-5">
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/login" component={Login} />
           <PrivateRoute
-            path='/(|categories|schedule)'
+            path="/(|categories|schedule)"
             component={ButtonAddNewTodo}
           />
-          <PrivateRoute exact path='/' component={MainTodo} />
-          <PrivateRoute path='/categories' component={MainCategory} />
-          <PrivateRoute exact path='/schedule' component={MainSchedule} />
+          <PrivateRoute exact path="/" component={MainTodo} />
+          <PrivateRoute path="/categories" component={MainCategory} />
+          <PrivateRoute exact path="/schedule" component={MainSchedule} />
 
           {showAddNewTodo && (
             <PrivateRoute
-              path='/(|categories|schedule)'
+              path="/(|categories|schedule)"
               component={AddNewTodoPopUp}
             />
           )}
 
-          <button id='button-mode' onClick={onClick}>
+          <button id="button-mode" onClick={onClick}>
             {theme.isDark ? <label>Light</label> : <label>Dark</label>}
           </button>
         </div>
       </div>
     </BrowserRouter>
-  )
+  );
 }
