@@ -51,12 +51,9 @@ export default function App() {
     }
     authService.setUser(user);
 
-    fetch(
-      'https://web-traffic-tracking.herokuapp.com/api/5dbc2b2b7c213e208d1cca68',
-      {
-        method: 'POST'
-      }
-    );
+    fetch('https://web-traffic-tracking.herokuapp.com/api/Todo', {
+      method: 'POST'
+    });
   }, []);
 
   useEffect(() => {
