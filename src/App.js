@@ -137,6 +137,7 @@ export default function App() {
           <button id="button-mode" onClick={onClick}>
             {theme.isDark ? <label>Light</label> : <label>Dark</label>}
           </button>
+          <footer style={{ height: '200px' }}></footer>
         </div>
       </div>
     </BrowserRouter>
